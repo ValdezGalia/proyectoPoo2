@@ -1,0 +1,22 @@
+[
+    {
+        "clave": "Val123",
+        "correo": "valdezgalia@gmail.com",
+        "id": "92ab87b7-2e41-4df6-b584-c3d8337a4ce6"
+    },
+    {
+        "clave": "Pru123",
+        "correo": "prueba@gmail.com",
+        "id": "98e3dff0-aaa5-4f79-a3fb-4f59f650b333"
+    },
+    {
+        "clave": "Pru123",
+        "correo": "prueba1@gmail.com",
+        "id": "102331d4-ab3d-40b7-a8d7-7bfcadb3d0e3"
+    },
+    {
+        "clave": "Pep123",
+        "correo": "pepe@gmail.com",
+        "id": "c002f434-878a-44d5-979e-daf1d9eb525b"
+    }
+]

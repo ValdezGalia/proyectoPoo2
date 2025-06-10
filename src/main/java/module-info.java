@@ -7,6 +7,9 @@ module org.example.juego {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
+    requires com.fasterxml.jackson.databind;
+    requires org.json;
+    requires net.synedra.validatorfx;
 
     opens org.example.juego to javafx.fxml;
     exports org.example.juego;

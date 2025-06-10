@@ -28,19 +28,14 @@
             <Insets />
          </opaqueInsets>
       </Label>
-      <TextField />
+      <TextField fx:id="txtFieldUsuario" />
       <Label contentDisplay="TEXT_ONLY" prefHeight="14.0" prefWidth="662.0" text="Contraseña">
          <font>
             <Font name="Corbel Bold" size="12.0" />
          </font></Label>
-      <PasswordField />
-      <Label fx:id="lblStatus" prefHeight="17.0" prefWidth="640.0" style="-fx-content-display: none;" visible="false" managed="false">
-         <styleClass>
-            <String fx:value="alert" />
-            <String fx:value="alert-danger" />
-         </styleClass>
-      </Label>
-      <Button mnemonicParsing="false" onAction="#mostrarEstado" prefHeight="25.0" prefWidth="577.0" text="Iniciar sesion">
+      <PasswordField fx:id="txtFieldClave" />
+      <Label fx:id="lblStatus" managed="false" prefHeight="17.0" prefWidth="640.0" style="-fx-content-display: none;" visible="false" />
+      <Button mnemonicParsing="false" onAction="#btnLogin" prefHeight="25.0" prefWidth="577.0" text="Iniciar sesion">
          <styleClass>
             <String fx:value="btn" />
             <String fx:value="btn-primary" />

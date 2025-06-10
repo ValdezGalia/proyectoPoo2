@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox accessibleRole="COMBO_BOX" alignment="CENTER" prefHeight="320.0" prefWidth="340.0" spacing="10.0" style="-fx-padding: 35;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.juego.controladores.LoginController">
+    <padding>
+        <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+    </padding>
+   <children>
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="567.0" text="Bienvenidos" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+         <font>
+            <Font name="Berlin Sans FB" size="12.0" />
+         </font>
+         <styleClass>
+            <String fx:value="h4" />
+            <String fx:value="text-primary" />
+         </styleClass>
+      </Label>
+      <Label contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="480.0" text="Usuario">
+         <font>
+            <Font name="Corbel Bold" size="12.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
+      <TextField />
+      <Label contentDisplay="TEXT_ONLY" prefHeight="14.0" prefWidth="662.0" text="Contraseña">
+         <font>
+            <Font name="Corbel Bold" size="12.0" />
+         </font></Label>
+      <PasswordField />
+      <Label fx:id="lblStatus" prefHeight="17.0" prefWidth="640.0" style="-fx-content-display: none;" visible="false" managed="false">
+         <styleClass>
+            <String fx:value="alert" />
+            <String fx:value="alert-danger" />
+         </styleClass>
+      </Label>
+      <Button mnemonicParsing="false" onAction="#mostrarEstado" prefHeight="25.0" prefWidth="577.0" text="Iniciar sesion">
+         <styleClass>
+            <String fx:value="btn" />
+            <String fx:value="btn-primary" />
+         </styleClass>
+      </Button>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</VBox>

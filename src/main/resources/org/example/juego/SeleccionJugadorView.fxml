@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.juego.controlador.SeleccionJugadorController">
+   <children>
+      <HBox alignment="TOP_CENTER" layoutX="18.0" layoutY="35.0" prefHeight="247.0" prefWidth="367.0">
+         <children>
+            <ListView fx:id="listaJugadoresDisponibles" prefHeight="200.0" prefWidth="160.0" />
+            <VBox alignment="CENTER" prefHeight="247.0" prefWidth="41.0">
+               <children>
+                  <Button fx:id="btnAgregar" alignment="CENTER" mnemonicParsing="false" onAction="#agregarJugadorTablero" style="-fx-background-radius: 1000;" text="▶">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="btnQuitar" disable="true" mnemonicParsing="false" onAction="#quitarJugadorTablero" style="-fx-background-radius: 1000;" text="◀" />
+               </children>
+            </VBox>
+            <ListView fx:id="listaJugadoresTablero" prefHeight="200.0" prefWidth="160.0" />
+         </children>
+      </HBox>
+      <Label layoutX="44.0" layoutY="18.0" text="Jugadores Disponibles">
+         <font>
+            <Font name="Consolas Bold" size="10.0" />
+         </font></Label>
+      <Label layoutX="238.0" layoutY="18.0" text="Jugadores en el tablero">
+         <font>
+            <Font name="Consolas Bold" size="10.0" />
+         </font></Label>
+      <VBox layoutX="-2.0" layoutY="279.0" prefHeight="116.0" prefWidth="400.0" style="-fx-padding: 15;">
+         <children>
+            <Label fx:id="lblStatus" managed="false" prefHeight="17.0" prefWidth="411.0" styleClass="alert" visible="false" />
+            <HBox alignment="BOTTOM_CENTER" prefHeight="35.0" prefWidth="400.0" style="-fx-padding: 15;">
+               <children>
+                  <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#salirJuego" text="Salir">
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-danger" />
+                     </styleClass>
+                  </Button>
+                  <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#volverPaginaAnterior" text="Volver">
+                     <HBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </HBox.margin>
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-default" />
+                     </styleClass>
+                  </Button>
+                  <Button mnemonicParsing="false" text="Jugar">
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-success" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

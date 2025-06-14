@@ -10,9 +10,10 @@ module org.example.juego {
     requires com.fasterxml.jackson.databind;
     requires org.json;
     requires net.synedra.validatorfx;
+    requires java.xml;
 
     opens org.example.juego to javafx.fxml;
     exports org.example.juego;
-    exports org.example.juego.controladores;
-    opens org.example.juego.controladores to javafx.fxml;
+    exports org.example.juego.controlador;
+    opens org.example.juego.controlador to javafx.fxml;
 }

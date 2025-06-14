@@ -1,22 +1,38 @@
 [
     {
-        "clave": "Val123",
-        "correo": "valdezgalia@gmail.com",
-        "id": "92ab87b7-2e41-4df6-b584-c3d8337a4ce6"
+        "alias": "RGBO22",
+        "correo": "valdezgalia@gmail.com"
     },
     {
-        "clave": "Pru123",
-        "correo": "prueba@gmail.com",
-        "id": "98e3dff0-aaa5-4f79-a3fb-4f59f650b333"
+        "alias": "Pru2",
+        "correo": "prueba@gmail.com"
     },
     {
-        "clave": "Pru123",
-        "correo": "prueba1@gmail.com",
-        "id": "102331d4-ab3d-40b7-a8d7-7bfcadb3d0e3"
+        "alias": "Pru1",
+        "correo": "prueba1@gmail.com"
     },
     {
-        "clave": "Pep123",
-        "correo": "pepe@gmail.com",
-        "id": "c002f434-878a-44d5-979e-daf1d9eb525b"
+        "alias": "Pep",
+        "correo": "pepe@gmail.com"
+    },
+    {
+        "alias": "JosLito",
+        "correo": "joselito@gmail.com"
+    },
+    {
+        "alias": "Redcol",
+        "correo": "rojoColado@gmail.com"
+    },
+    {
+        "alias": "AFuentes",
+        "correo": "anafuentes123@gmail.com"
+    },
+    {
+        "alias": "MataZombies",
+        "correo": "ganadorZombies@gmail.com"
+    },
+    {
+        "alias": "Fer221",
+        "correo": "fernanda@gmail.com"
     }
 ]

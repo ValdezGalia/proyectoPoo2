@@ -1,7 +1,7 @@
 package org.example.juego.db;
 
-import org.example.juego.modelos.usuario.ListaUsuario;
+import org.example.juego.modelo.ListaJugador;
 
 public interface DataBase {
-    public ListaUsuario extraerDatoUsuario();
+    public ListaJugador extraerDatoUsuario();
 }

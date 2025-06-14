@@ -1,7 +1,7 @@
 package org.example.juego.db;
 
-import org.example.juego.modelos.usuario.ListaUsuario;
-import org.example.juego.modelos.usuario.Usuario;
+import org.example.juego.modelo.ListaJugador;
+import org.example.juego.modelo.Jugador;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,8 +12,8 @@ public class ManipuladorUsuario implements DataBase{
     private final String archivo = "usuarios.json";
 
     @Override
-    public ListaUsuario extraerDatoUsuario() {
-        ListaUsuario listaUsuario = new ListaUsuario();;
+    public ListaJugador extraerDatoUsuario() {
+        ListaJugador listaJugador = new ListaJugador();
         try {
             // Obtengo el contenido del archivo en formato cadena
             String contenido = new String(Files.readAllBytes(Paths.get(archivo)));
@@ -26,15 +26,15 @@ public class ManipuladorUsuario implements DataBase{
 
                 // Extraigo los datos del usuario de forma independiente
                 String correo = objetoJSONUsuario.getString("correo");
-                String clave = objetoJSONUsuario.getString("clave");
+                String alias = objetoJSONUsuario.getString("alias");
 
                 // Lo inserto a la lista vaciá
-                listaUsuario.insertarUsuario(new Usuario(correo, clave));
+                listaJugador.insertarUsuario(new Jugador(correo, alias));
             }
         } catch (Exception e) {
-            return new ListaUsuario();
+            return new ListaJugador();
         }
 
-        return listaUsuario;
+        return listaJugador;
     }
 }

@@ -10,7 +10,7 @@
    <children>
       <HBox alignment="TOP_CENTER" layoutX="18.0" layoutY="35.0" prefHeight="247.0" prefWidth="367.0">
          <children>
-            <ListView fx:id="listaJugadoresDisponibles" prefHeight="200.0" prefWidth="160.0" />
+            <ListView fx:id="listaJugadoresDisponibles" prefHeight="200.0" prefWidth="170.0" />
             <VBox alignment="CENTER" prefHeight="247.0" prefWidth="41.0">
                <children>
                   <Button fx:id="btnAgregar" alignment="CENTER" mnemonicParsing="false" onAction="#agregarJugadorTablero" style="-fx-background-radius: 1000;" text="▶">
@@ -21,7 +21,7 @@
                   <Button fx:id="btnQuitar" disable="true" mnemonicParsing="false" onAction="#quitarJugadorTablero" style="-fx-background-radius: 1000;" text="◀" />
                </children>
             </VBox>
-            <ListView fx:id="listaJugadoresTablero" prefHeight="200.0" prefWidth="160.0" />
+            <ListView fx:id="listaJugadoresTablero" prefHeight="200.0" prefWidth="190.0" />
          </children>
       </HBox>
       <Label layoutX="44.0" layoutY="18.0" text="Jugadores Disponibles">
@@ -52,7 +52,7 @@
                         <String fx:value="btn-default" />
                      </styleClass>
                   </Button>
-                  <Button mnemonicParsing="false" text="Jugar">
+                  <Button fx:id="btnJugar" mnemonicParsing="false" text="Jugar">
                      <styleClass>
                         <String fx:value="btn" />
                         <String fx:value="btn-success" />

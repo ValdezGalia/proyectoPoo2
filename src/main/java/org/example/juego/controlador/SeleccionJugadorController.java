@@ -15,6 +15,8 @@ public class SeleccionJugadorController {
     @FXML
     private Button btnAgregar;
     @FXML
+    private Button btnJugar;
+    @FXML
     private Button btnQuitar;
     @FXML
     private Button btnVolver;
@@ -44,6 +46,7 @@ public class SeleccionJugadorController {
 
         listaJugadoresTablero.getItems().add(jugador);
         if(listaJugadoresTablero.getItems().size() > 1){
+            btnJugar.setDisable(false);
             btnQuitar.setDisable(false);
         }
 
@@ -74,7 +77,12 @@ public class SeleccionJugadorController {
         HelperLogin.mostrarStado(lblStatus, jugador + ", eliminado del tablero!", true, true, "alert-success");
         listaJugadoresTablero.getItems().remove(jugador);
 
+        if(listaJugadoresTablero.getItems().size() < 2){
+            btnJugar.setDisable(true);
+        }
+
         if(listaJugadoresTablero.getItems().isEmpty()){
+            btnJugar.setDisable(true);
             btnQuitar.setDisable(true);
             btnAgregar.setDisable(false);
             HelperLogin.mostrarStado(lblStatus, "Agrega jugadores al tablero!", true, true, "alert-warning");
@@ -91,5 +99,9 @@ public class SeleccionJugadorController {
     public void salirJuego(){
         volverPaginaAnterior();
         Platform.runLater(Platform::exit);
+    }
+
+    public Button getBtnJugar() {
+        return btnJugar;
     }
 }

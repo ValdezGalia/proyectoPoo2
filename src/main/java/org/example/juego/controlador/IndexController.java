@@ -33,6 +33,7 @@ public class IndexController {
 
         SeleccionJugadorController seleccionJugadorController = fxmlLoader.getController();
         seleccionJugadorController.ingresarJugadoresDisponibles();
+        seleccionJugadorController.getBtnJugar().setDisable(true);
 
         ventanaModal.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/icono2.png"))));
         ventanaModal.setResizable(false);

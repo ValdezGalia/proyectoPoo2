@@ -9,7 +9,6 @@ module org.example.juego {
     requires com.almasb.fxgl.all;
     requires com.fasterxml.jackson.databind;
     requires org.json;
-    requires net.synedra.validatorfx;
     requires java.xml;
 
     opens org.example.juego to javafx.fxml;

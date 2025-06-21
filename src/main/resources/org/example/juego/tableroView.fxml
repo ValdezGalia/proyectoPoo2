@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 
-<AnchorPane prefHeight="584.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.juego.TableroView">
-   <children>
-      <Circle fill="DODGERBLUE" layoutX="209.0" layoutY="292.0" radius="188.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="DODGERBLUE" layoutX="209.0" layoutY="292.0" radius="62.0" stroke="BLACK" strokeType="INSIDE" />
-      <AnchorPane layoutX="433.0" layoutY="8.0" prefHeight="568.0" prefWidth="455.0" />
-   </children>
-</AnchorPane>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="649.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" />

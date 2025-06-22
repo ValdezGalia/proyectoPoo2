@@ -84,7 +84,8 @@ public class SeleccionJugadorController {
     public void quitarJugadorTablero() {
         String jugador = listaJugadoresTablero.getSelectionModel().getSelectedItem();
         if (jugador == null) {
-            HelperLogin.mostrarStado(lblStatus, "Seleccione un jugador para quitar del tablero!", true, true, "alert-warning");
+            HelperLogin.mostrarStado(lblStatus, "Seleccione un jugador para quitar del tablero!", true, true,
+                    "alert-warning");
             return;
         }
 
@@ -126,7 +127,9 @@ public class SeleccionJugadorController {
     @FXML
     public void mostrarDialogoSecuencailes() {
         ArrayList<String> jugadores = new ArrayList<>(listaJugadoresTablero.getItems());
-        if (jugadores.isEmpty()) return;
+        if (jugadores.isEmpty())
+            return;
+
         java.util.Map<String, Integer> resultados = new java.util.HashMap<>();
         ArrayList<String> jugadoresPendientes = new ArrayList<>(jugadores);
         boolean hayRepetidos;
@@ -134,8 +137,12 @@ public class SeleccionJugadorController {
             for (String jugador : jugadoresPendientes) {
                 ButtonType lanzarButtonType = new ButtonType("Lanzar dado 🎲", ButtonBar.ButtonData.OK_DONE);
                 Dialog<ButtonType> dialog = new Dialog<>();
-                dialog.setTitle("Turno de " + jugador);
+                dialog.setTitle(""); // Sin título
                 dialog.setHeaderText("Es el turno de: " + jugador);
+                // Quitar decoración de la ventana y la X de cerrar
+                Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
+                dialogStage.initStyle(javafx.stage.StageStyle.UNDECORATED);
+
                 // Label para mostrar el resultado
                 Label lblResultado = new Label("Resultado: -");
                 lblResultado.setMinWidth(100);
@@ -155,7 +162,8 @@ public class SeleccionJugadorController {
                     if (buttonType == lanzarButtonType) {
                         resultado[0] = (int) (Math.random() * 6) + 1;
                         lblResultado.setText("Resultado: " + resultado[0]);
-                        HelperLogin.mostrarStado(lblStatus, jugador + " sacó " + resultado[0] + " en el dado", true, true, "alert-info");
+                        HelperLogin.mostrarStado(lblStatus, jugador + " sacó " + resultado[0] + " en el dado", true,
+                                true, "alert-info");
                         System.out.println("sacó " + resultado[0]);
 
                         // Guarda el resultado en el objeto Jugador
@@ -165,6 +173,7 @@ public class SeleccionJugadorController {
                                 break;
                             }
                         }
+
                         return buttonType;
                     }
                     return null;
@@ -186,42 +195,37 @@ public class SeleccionJugadorController {
                 }
             }
             if (hayRepetidos) {
-                HelperLogin.mostrarStado(lblStatus, "¡Hay repeticiones! Solo los jugadores con el mismo valor volverán a tirar.", true, true, "alert-warning");
+                HelperLogin.mostrarStado(lblStatus,
+                        "¡Hay repeticiones! Solo los jugadores con el mismo valor volverán a tirar.", true, true,
+                        "alert-warning");
             }
         } while (hayRepetidos);
         HelperLogin.mostrarStado(lblStatus, "Todos los jugadores tienen valores únicos!", true, true, "alert-success");
         turnoActual = 0;
-        // Ordenar la lista de jugadores por el número que tiraron
+        // Ordenar la lista de jugadores por el número que tiraron (de mayor a menor)
         LinkedList<Jugador> jugadoresLista = jugadoresDisponibles.getUsuarios();
         jugadoresLista.sort((j1, j2) -> {
             Integer r1 = resultados.get(j1.getCorreo());
             Integer r2 = resultados.get(j2.getCorreo());
             // Si algún jugador no está en resultados, lo ponemos al final
-            if (r1 == null) return 1;
-            if (r2 == null) return -1;
-            return r1.compareTo(r2);
+            if (r1 == null)
+                return 1;
+            if (r2 == null)
+                return -1;
+            return r2.compareTo(r1); // Cambiado para ordenar de mayor a menor
         });
     }
 
     @FXML
     public void empezarJuego(ActionEvent event) {
         ArrayList<String> jugadores = new ArrayList<>(listaJugadoresTablero.getItems());
-        LinkedList<Jugador> jugadoresTablero = jugadoresDisponibles.getUsuarios();
-        ArrayList<Jugador> aEliminar = new ArrayList<>();
 
-        for (Jugador jugadorActual : jugadoresDisponibles.getUsuarios()) {
-            if (!jugadores.contains(jugadorActual.getCorreo())) {
-                aEliminar.add(jugadorActual);
-            }
-        }
-        for (Jugador jugador : aEliminar) {
-            jugadoresDisponibles.eliminarUsuario(jugador);
-        }
+        jugadoresDisponibles.getUsuarios().removeIf(jugador -> !jugadores.contains(jugador.getCorreo()));
         mostrarDialogoSecuencailes();
+
         try {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-                    getClass().getResource("/org/example/juego/TableroView.fxml")
-            );
+                    getClass().getResource("/org/example/juego/TableroView.fxml"));
             Parent root = loader.load();
             Stage tableroStage = new Stage();
 
@@ -230,9 +234,11 @@ public class SeleccionJugadorController {
 
             TableroController tableroController = loader.getController();
             tableroController.setJugadores(jugadoresDisponibles);
+            
             tableroStage.initModality(Modality.APPLICATION_MODAL);
             tableroStage.initOwner(((Node) event.getSource()).getScene().getWindow());
             tableroStage.showAndWait();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -241,15 +247,24 @@ public class SeleccionJugadorController {
     @FXML
     public void initialize() {
         // Añadir clases BootstrapFX a los controles principales
-//        if (btnAgregar != null) btnAgregar.getStyleClass().addAll("btn", "btn-primary");
-        if (btnJugar != null) btnJugar.getStyleClass().addAll("btn", "btn-success");
-//        if (btnQuitar != null) btnQuitar.getStyleClass().addAll("btn", "btn-danger");
-        if (btnVolver != null) btnVolver.getStyleClass().addAll("btn", "btn-secondary");
-        if (btndado != null) btndado.getStyleClass().addAll("btn", "btn-warning");
-        if (lblStatus != null) lblStatus.getStyleClass().addAll("alert");
-        if (lbldatosdeljugador != null) lbldatosdeljugador.getStyleClass().addAll("lead");
-        if (lblaliasjugador != null) lblaliasjugador.getStyleClass().addAll("lead");
-        if (listaJugadoresDisponibles != null) listaJugadoresDisponibles.getStyleClass().addAll("list-group");
-        if (listaJugadoresTablero != null) listaJugadoresTablero.getStyleClass().addAll("list-group");
+        // if (btnAgregar != null) btnAgregar.getStyleClass().addAll("btn",
+        // "btn-primary");
+        if (btnJugar != null)
+            btnJugar.getStyleClass().addAll("btn", "btn-success");
+        // if (btnQuitar != null) btnQuitar.getStyleClass().addAll("btn", "btn-danger");
+        if (btnVolver != null)
+            btnVolver.getStyleClass().addAll("btn", "btn-secondary");
+        if (btndado != null)
+            btndado.getStyleClass().addAll("btn", "btn-warning");
+        if (lblStatus != null)
+            lblStatus.getStyleClass().addAll("alert");
+        if (lbldatosdeljugador != null)
+            lbldatosdeljugador.getStyleClass().addAll("lead");
+        if (lblaliasjugador != null)
+            lblaliasjugador.getStyleClass().addAll("lead");
+        if (listaJugadoresDisponibles != null)
+            listaJugadoresDisponibles.getStyleClass().addAll("list-group");
+        if (listaJugadoresTablero != null)
+            listaJugadoresTablero.getStyleClass().addAll("list-group");
     }
 }

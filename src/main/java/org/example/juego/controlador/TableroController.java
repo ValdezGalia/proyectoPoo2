@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -26,12 +27,34 @@ public class TableroController {
     @FXML
     private DadoController dadoController;
 
+    @FXML
+    private javafx.scene.control.Button btnSiguienteTurno;
+
+    @FXML
+    private ImageView imgDado;
+
+    ListaJugador jugadoresDisponibles;
+
+    private int turno = 0;
+
+    private Jugador jugadorTurno;
+
+    public void siguienteTurno() {
+        turno++;
+        if (turno > jugadoresDisponibles.getUsuarios().size() - 1) {
+            turno = 0;
+        }
+        jugadorTurno = jugadoresDisponibles.getUsuarios().get(turno);
+        // Actualizar la interfaz de usuario o realizar otras acciones necesarias
+
+    }
 
     public void setJugadores(ListaJugador jugadoresDisponibles) {
+        this.jugadoresDisponibles = jugadoresDisponibles;
         List<Jugador> jugadores = jugadoresDisponibles.getUsuarios();
-
-        // Ordenar de mayor a menor según el valor del dado
-        jugadores.sort(Comparator.comparingInt(Jugador::getUltimoResultadoDado).reversed());
+        if (jugadores.size() > 0) {
+            jugadorTurno = jugadores.get(turno);
+        }
 
         // Limpiar el VBox antes de añadir jugadores
         vboxJugadores.getChildren().clear();
@@ -42,30 +65,61 @@ public class TableroController {
             String texto = (i + 1) + ". " + jugador.getAlias() + " 🎲 " + jugador.getUltimoResultadoDado();
 
             Label label = new Label(texto);
-            label.setStyle(
-                    "-fx-font-size: 16px;" +
-                            "-fx-padding: 8px;" +
-                            "-fx-background-color: " + getColorPorPosicion(i) + ";" +
-                            "-fx-text-fill: white;" +
-                            "-fx-background-radius: 10px;" +
-                            "-fx-font-weight: bold;" +
-                            "-fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.4), 3, 0.5, 1, 1);"
-            );
+            // Si es el turno actual, poner en rojo
+            if (jugador == jugadorTurno) {
+                label.setStyle(
+                        "-fx-font-size: 16px;" +
+                                "-fx-padding: 8px;" +
+                                "-fx-background-color: #dc3545;" + // Rojo para el turno actual
+                                "-fx-text-fill: white;" +
+                                "-fx-background-radius: 10px;" +
+                                "-fx-font-weight: bold;" +
+                                "-fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.4), 3, 0.5, 1, 1);"
+                );
+            } else {
+                label.setStyle(
+                        "-fx-font-size: 16px;" +
+                                "-fx-padding: 8px;" +
+                                "-fx-background-color: " + getColorPorPosicion(i) + ";" +
+                                "-fx-text-fill: white;" +
+                                "-fx-background-radius: 10px;" +
+                                "-fx-font-weight: bold;" +
+                                "-fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.4), 3, 0.5, 1, 1);"
+                );
+            }
 
             vboxJugadores.getChildren().add(label);
         }
 
-        try{
+        try {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
                     getClass().getResource("/org/example/juego/DadoView.fxml")
             );
             Parent root = loader.load();
             dadoController = loader.getController();
 
+            // Listener para guardar el resultado del dado en el modelo Jugador
+            dadoController.setGetValorListener(valor -> {
+                if (jugadorTurno != null) {
+                    jugadorTurno.setUltimoResultadoDado(valor);
+                }
+                // Deshabilitar la imagen del dado después de tirar
+                imgDado.setDisable(true);
+                // Habilitar el botón de siguiente turno
+                btnSiguienteTurno.setDisable(false);
+            }); 
+
             // Limpiar el AnchorPane y agregar el nuevo contenido
             Dado.getChildren().clear();
             Dado.getChildren().add(root);
             dadoController.start(1);
+            // Habilitar la imagen del dado al iniciar el turno
+            imgDado = (javafx.scene.image.ImageView) root.lookup("#imgDado");
+            if (imgDado != null) {
+                imgDado.setDisable(false);
+            }
+            // Deshabilitar el botón de siguiente turno hasta que se lance el dado
+            btnSiguienteTurno.setDisable(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,5 +135,17 @@ public class TableroController {
             default -> "#6c757d"; // Gris para ;;;los demás
         };
 
+    }
+
+    @FXML
+    private void onSiguienteTurno() {
+        siguienteTurno();
+        setJugadores(jugadoresDisponibles);
+        // Habilitar la imagen del dado al pasar de turno
+        if (imgDado != null) {
+            imgDado.setDisable(false);
+        }
+        // Deshabilitar el botón de siguiente turno hasta que se lance el dado
+        btnSiguienteTurno.setDisable(true);
     }
 }

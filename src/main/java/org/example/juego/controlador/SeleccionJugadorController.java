@@ -1,11 +1,16 @@
 package org.example.juego.controlador;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.juego.db.ManipuladorUsuario;
 import org.example.juego.helpers.HelperLogin;
@@ -149,16 +154,6 @@ public class SeleccionJugadorController {
 
                 dialog.getDialogPane().setContent(vbox);
                 dialog.getDialogPane().getButtonTypes().add(lanzarButtonType);
-//                try {
-//                    javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-//                            getClass().getResource("/org/example/juego/DadoView.fxml")
-//                    );
-//                    AnchorPane subVista = loader.load();
-//                    dialog.getDialogPane().setContent(subVista);
-//                }catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-
                     final int[] resultado = new int[1];
                 dialog.setResultConverter(buttonType -> {
                     if (buttonType == lanzarButtonType) {
@@ -214,7 +209,7 @@ public class SeleccionJugadorController {
     }
 
     @FXML
-    public void empezarJuego() {
+    public void empezarJuego(ActionEvent event) {
         ArrayList<String> jugadores = new ArrayList<>(listaJugadoresTablero.getItems());
         LinkedList<Jugador> jugadoresTablero = jugadoresDisponibles.getUsuarios();
         ArrayList<Jugador> aEliminar = new ArrayList<>();
@@ -235,13 +230,17 @@ public class SeleccionJugadorController {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
                     getClass().getResource("/org/example/juego/TableroView.fxml")
             );
-            AnchorPane root = loader.load();
+            Parent root = loader.load();
+            Stage tableroStage = new Stage();
+
+            tableroStage.setTitle("Tablero Trivia");
+            tableroStage.setScene(new Scene(root));
 
             TableroController tableroController = loader.getController();
             tableroController.setJugadores(jugadoresDisponibles);
-
-            Stage stage = (Stage) btnJugar.getScene().getWindow();
-            stage.getScene().setRoot(root);
+            tableroStage.initModality(Modality.APPLICATION_MODAL);
+            tableroStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+            tableroStage.showAndWait();
 
         } catch (Exception e) {
             e.printStackTrace();

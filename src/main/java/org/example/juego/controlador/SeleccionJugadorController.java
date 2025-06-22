@@ -7,7 +7,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -128,7 +127,6 @@ public class SeleccionJugadorController {
     public void mostrarDialogoSecuencailes() {
         ArrayList<String> jugadores = new ArrayList<>(listaJugadoresTablero.getItems());
         if (jugadores.isEmpty()) return;
-
         java.util.Map<String, Integer> resultados = new java.util.HashMap<>();
         ArrayList<String> jugadoresPendientes = new ArrayList<>(jugadores);
         boolean hayRepetidos;
@@ -138,8 +136,6 @@ public class SeleccionJugadorController {
                 Dialog<ButtonType> dialog = new Dialog<>();
                 dialog.setTitle("Turno de " + jugador);
                 dialog.setHeaderText("Es el turno de: " + jugador);
-
-
                 // Label para mostrar el resultado
                 Label lblResultado = new Label("Resultado: -");
                 lblResultado.setMinWidth(100);
@@ -154,7 +150,7 @@ public class SeleccionJugadorController {
 
                 dialog.getDialogPane().setContent(vbox);
                 dialog.getDialogPane().getButtonTypes().add(lanzarButtonType);
-                    final int[] resultado = new int[1];
+                final int[] resultado = new int[1];
                 dialog.setResultConverter(buttonType -> {
                     if (buttonType == lanzarButtonType) {
                         resultado[0] = (int) (Math.random() * 6) + 1;
@@ -169,7 +165,6 @@ public class SeleccionJugadorController {
                                 break;
                             }
                         }
-
                         return buttonType;
                     }
                     return null;
@@ -219,13 +214,10 @@ public class SeleccionJugadorController {
                 aEliminar.add(jugadorActual);
             }
         }
-
         for (Jugador jugador : aEliminar) {
             jugadoresDisponibles.eliminarUsuario(jugador);
         }
-
         mostrarDialogoSecuencailes();
-
         try {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
                     getClass().getResource("/org/example/juego/TableroView.fxml")
@@ -241,7 +233,6 @@ public class SeleccionJugadorController {
             tableroStage.initModality(Modality.APPLICATION_MODAL);
             tableroStage.initOwner(((Node) event.getSource()).getScene().getWindow());
             tableroStage.showAndWait();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

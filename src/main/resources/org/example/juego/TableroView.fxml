@@ -12,14 +12,12 @@
 
       <!-- Área del tablero -->
       <Pane fx:id="tableroArea" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: #e0e0e0; -fx-border-color: black;">
-      </Pane>
+         <children>
+            <AnchorPane fx:id="Dado" layoutX="507.0" layoutY="396.0" prefHeight="86.0" prefWidth="88.0" />
+         </children></Pane>
 
       <!-- Área de jugadores -->
-      <VBox fx:id="vboxJugadores"
-             prefHeight="600.0"
-             prefWidth="200.0"
-             spacing="10"
-             style="-fx-padding: 10; -fx-background-color: #f8f9fa; -fx-border-color: black;">
+      <VBox fx:id="vboxJugadores" prefHeight="600.0" prefWidth="200.0" spacing="10" style="-fx-padding: 10; -fx-background-color: #f8f9fa; -fx-border-color: black;">
       <Label style="-fx-font-size: 16; -fx-font-weight: bold;" text="Jugadores" />
    </VBox>
 

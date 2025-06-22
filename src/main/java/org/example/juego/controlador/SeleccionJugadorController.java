@@ -164,7 +164,7 @@ public class SeleccionJugadorController {
                         lblResultado.setText("Resultado: " + resultado[0]);
                         HelperLogin.mostrarStado(lblStatus, jugador + " sacó " + resultado[0] + " en el dado", true,
                                 true, "alert-info");
-                        System.out.println("sacó " + resultado[0]);
+                        System.out.println("el jugador " + jugador+ " sacó " + resultado[0]);
 
                         // Guarda el resultado en el objeto Jugador
                         for (Jugador j : jugadoresDisponibles.getUsuarios()) {

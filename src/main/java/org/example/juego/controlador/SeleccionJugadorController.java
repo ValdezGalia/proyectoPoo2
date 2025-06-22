@@ -3,6 +3,7 @@ package org.example.juego.controlador;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -133,6 +134,7 @@ public class SeleccionJugadorController {
                 dialog.setTitle("Turno de " + jugador);
                 dialog.setHeaderText("Es el turno de: " + jugador);
 
+
                 // Label para mostrar el resultado
                 Label lblResultado = new Label("Resultado: -");
                 lblResultado.setMinWidth(100);
@@ -147,19 +149,36 @@ public class SeleccionJugadorController {
 
                 dialog.getDialogPane().setContent(vbox);
                 dialog.getDialogPane().getButtonTypes().add(lanzarButtonType);
+//                try {
+//                    javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+//                            getClass().getResource("/org/example/juego/DadoView.fxml")
+//                    );
+//                    AnchorPane subVista = loader.load();
+//                    dialog.getDialogPane().setContent(subVista);
+//                }catch (Exception e) {
+//                    e.printStackTrace();
+//                }
 
-                final int[] resultado = new int[1];
+                    final int[] resultado = new int[1];
                 dialog.setResultConverter(buttonType -> {
                     if (buttonType == lanzarButtonType) {
                         resultado[0] = (int) (Math.random() * 6) + 1;
                         lblResultado.setText("Resultado: " + resultado[0]);
                         HelperLogin.mostrarStado(lblStatus, jugador + " sacó " + resultado[0] + " en el dado", true, true, "alert-info");
                         System.out.println("sacó " + resultado[0]);
+
+                        // Guarda el resultado en el objeto Jugador
+                        for (Jugador j : jugadoresDisponibles.getUsuarios()) {
+                            if (j.getCorreo().equals(jugador)) {
+                                j.setUltimoResultadoDado(resultado[0]);
+                                break;
+                            }
+                        }
+
                         return buttonType;
                     }
                     return null;
                 });
-
                 dialog.showAndWait();
                 resultados.put(jugador, resultado[0]);
             }
@@ -182,13 +201,24 @@ public class SeleccionJugadorController {
         } while (hayRepetidos);
         HelperLogin.mostrarStado(lblStatus, "Todos los jugadores tienen valores únicos!", true, true, "alert-success");
         turnoActual = 0;
+        // Ordenar la lista de jugadores por el número que tiraron
+        LinkedList<Jugador> jugadoresLista = jugadoresDisponibles.getUsuarios();
+        jugadoresLista.sort((j1, j2) -> {
+            Integer r1 = resultados.get(j1.getCorreo());
+            Integer r2 = resultados.get(j2.getCorreo());
+            // Si algún jugador no está en resultados, lo ponemos al final
+            if (r1 == null) return 1;
+            if (r2 == null) return -1;
+            return r1.compareTo(r2);
+        });
     }
 
     @FXML
     public void empezarJuego() {
         ArrayList<String> jugadores = new ArrayList<>(listaJugadoresTablero.getItems());
-        LinkedList<Jugador> JugadoresTablero = jugadoresDisponibles.getUsuarios();
+        LinkedList<Jugador> jugadoresTablero = jugadoresDisponibles.getUsuarios();
         ArrayList<Jugador> aEliminar = new ArrayList<>();
+
         for (Jugador jugadorActual : jugadoresDisponibles.getUsuarios()) {
             if (!jugadores.contains(jugadorActual.getCorreo())) {
                 aEliminar.add(jugadorActual);
@@ -198,7 +228,38 @@ public class SeleccionJugadorController {
         for (Jugador jugador : aEliminar) {
             jugadoresDisponibles.eliminarUsuario(jugador);
         }
+
         mostrarDialogoSecuencailes();
+
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                    getClass().getResource("/org/example/juego/TableroView.fxml")
+            );
+            AnchorPane root = loader.load();
+
+            TableroController tableroController = loader.getController();
+            tableroController.setJugadores(jugadoresDisponibles);
+
+            Stage stage = (Stage) btnJugar.getScene().getWindow();
+            stage.getScene().setRoot(root);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    @FXML
+    public void initialize() {
+        // Añadir clases BootstrapFX a los controles principales
+//        if (btnAgregar != null) btnAgregar.getStyleClass().addAll("btn", "btn-primary");
+        if (btnJugar != null) btnJugar.getStyleClass().addAll("btn", "btn-success");
+//        if (btnQuitar != null) btnQuitar.getStyleClass().addAll("btn", "btn-danger");
+        if (btnVolver != null) btnVolver.getStyleClass().addAll("btn", "btn-secondary");
+        if (btndado != null) btndado.getStyleClass().addAll("btn", "btn-warning");
+        if (lblStatus != null) lblStatus.getStyleClass().addAll("alert");
+        if (lbldatosdeljugador != null) lbldatosdeljugador.getStyleClass().addAll("lead");
+        if (lblaliasjugador != null) lblaliasjugador.getStyleClass().addAll("lead");
+        if (listaJugadoresDisponibles != null) listaJugadoresDisponibles.getStyleClass().addAll("list-group");
+        if (listaJugadoresTablero != null) listaJugadoresTablero.getStyleClass().addAll("list-group");
+    }
 }

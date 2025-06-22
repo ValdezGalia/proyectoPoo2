@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="120.0" prefWidth="120.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.juego.controlador.DadoController">
+   <children>
+      <ImageView fx:id="imgDado" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#clickDado" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

@@ -1,19 +1,14 @@
 package org.example.juego.controlador;
 
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.example.juego.modelo.Jugador;
 import org.example.juego.modelo.ListaJugador;
 
-import java.util.Comparator;
 import java.util.List;
 
 public class TableroController {
@@ -52,7 +47,7 @@ public class TableroController {
     public void setJugadores(ListaJugador jugadoresDisponibles) {
         this.jugadoresDisponibles = jugadoresDisponibles;
         List<Jugador> jugadores = jugadoresDisponibles.getUsuarios();
-        if (jugadores.size() > 0) {
+        if (!jugadores.isEmpty()) {
             jugadorTurno = jugadores.get(turno);
         }
 

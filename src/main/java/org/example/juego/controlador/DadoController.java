@@ -2,17 +2,13 @@ package org.example.juego.controlador;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-import java.io.File;
-import java.lang.reflect.Field;
 import java.util.Objects;
 import java.util.Random;
-import java.util.TreeMap;
 
 public class DadoController {
     private int valor;

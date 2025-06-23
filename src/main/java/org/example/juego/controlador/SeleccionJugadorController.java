@@ -3,18 +3,30 @@ package org.example.juego.controlador;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.example.juego.JuegoApplication;
 import org.example.juego.db.ManipuladorUsuario;
 import org.example.juego.helpers.HelperLogin;
 import org.example.juego.modelo.ListaJugador;
 import org.example.juego.modelo.Jugador;
+import org.kordamp.bootstrapfx.BootstrapFX;
+
+import java.io.IOException;
+import java.util.Objects;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -47,8 +59,8 @@ public class SeleccionJugadorController {
     public void ingresarJugadoresDisponibles() {
         ManipuladorUsuario manipulador = new ManipuladorUsuario();
         jugadoresDisponibles = manipulador.extraerDatoUsuario();
-        for (Jugador jugadorDisponible : jugadoresDisponibles.getUsuarios()) {
-            listaJugadoresDisponibles.getItems().add(jugadorDisponible.getCorreo());
+        for(Jugador jugadorDisponible : jugadoresDisponibles.getUsuarios()){
+            listaJugadoresDisponibles.getItems().add(jugadorDisponible.getAlias());
         }
     }
 
@@ -105,6 +117,24 @@ public class SeleccionJugadorController {
             HelperLogin.mostrarStado(lblStatus, "Agrega jugadores al tablero!", true, true, "alert-warning");
         }
     }
+
+/*     @FXML
+    public void comenzarJuego(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(JuegoApplication.class.getResource("tableroView.fxml"));
+        Parent root = fxmlLoader.load();
+        Stage tableroJuego = new Stage();
+
+        tableroJuego.setTitle("Jugadores");
+        tableroJuego.setScene(new Scene(root));
+
+        root.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+
+        tableroJuego.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/icono2.png"))));
+        tableroJuego.setResizable(false);
+        tableroJuego.initModality(Modality.APPLICATION_MODAL);
+        tableroJuego.initOwner(((Node) event.getSource()).getScene().getWindow());
+        tableroJuego.showAndWait();
+    } */
 
     @FXML
     public void volverPaginaAnterior() {
@@ -168,7 +198,7 @@ public class SeleccionJugadorController {
 
                         // Guarda el resultado en el objeto Jugador
                         for (Jugador j : jugadoresDisponibles.getUsuarios()) {
-                            if (j.getCorreo().equals(jugador)) {
+                            if (j.getAlias().equals(jugador)) {
                                 j.setUltimoResultadoDado(resultado[0]);
                                 break;
                             }
@@ -220,7 +250,7 @@ public class SeleccionJugadorController {
     public void empezarJuego(ActionEvent event) {
         ArrayList<String> jugadores = new ArrayList<>(listaJugadoresTablero.getItems());
 
-        jugadoresDisponibles.getUsuarios().removeIf(jugador -> !jugadores.contains(jugador.getCorreo()));
+        jugadoresDisponibles.getUsuarios().removeIf(jugador -> !jugadores.contains(jugador.getAlias()));
         mostrarDialogoSecuencailes();
 
         try {

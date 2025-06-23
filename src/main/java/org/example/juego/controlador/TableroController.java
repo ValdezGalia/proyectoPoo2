@@ -60,12 +60,12 @@ public class TableroController {
             String texto = (i + 1) + ". " + jugador.getAlias() + " 🎲 " + jugador.getUltimoResultadoDado();
 
             Label label = new Label(texto);
-            // Si es el turno actual, poner en rojo
+            // Si es el turno actual, poner en verde
             if (jugador == jugadorTurno) {
                 label.setStyle(
                         "-fx-font-size: 16px;" +
                                 "-fx-padding: 8px;" +
-                                "-fx-background-color: #dc3545;" + // Rojo para el turno actual
+                                "-fx-background-color: #28a745;" + // Verde para el turno actual
                                 "-fx-text-fill: white;" +
                                 "-fx-background-radius: 10px;" +
                                 "-fx-font-weight: bold;" +
@@ -75,14 +75,12 @@ public class TableroController {
                 label.setStyle(
                         "-fx-font-size: 16px;" +
                                 "-fx-padding: 8px;" +
-                                "-fx-background-color: " + getColorPorPosicion(i) + ";" +
+                                "-fx-background-color: #6c757d;" + // Gris para los demás
                                 "-fx-text-fill: white;" +
                                 "-fx-background-radius: 10px;" +
-                                "-fx-font-weight: bold;" +
-                                "-fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.4), 3, 0.5, 1, 1);"
+                                "-fx-font-weight: bold;"
                 );
             }
-
             vboxJugadores.getChildren().add(label);
         }
 

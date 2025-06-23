@@ -222,16 +222,7 @@ public class SeleccionJugadorController {
         turnoActual = 0;
         // Ordenar la lista de jugadores por el número que tiraron (de mayor a menor)
         LinkedList<Jugador> jugadoresLista = jugadoresDisponibles.getUsuarios();
-        jugadoresLista.sort((j1, j2) -> {
-            Integer r1 = resultados.get(j1.getCorreo());
-            Integer r2 = resultados.get(j2.getCorreo());
-            // Si algún jugador no está en resultados, lo ponemos al final
-            if (r1 == null)
-                return 1;
-            if (r2 == null)
-                return -1;
-            return r2.compareTo(r1); // Cambiado para ordenar de mayor a menor
-        });
+        jugadoresLista.sort((j1, j2) -> Integer.compare(j2.getUltimoResultadoDado(), j1.getUltimoResultadoDado()));
     }
 
     @FXML

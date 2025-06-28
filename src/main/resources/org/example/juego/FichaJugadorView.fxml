@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Arc?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<AnchorPane fx:id="rootPane"
+            xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.juego.controlador.FichaJugadorController"
-            prefHeight="400.0" prefWidth="600.0">
-
+            prefHeight="350.0" prefWidth="600.0">
+    <children>
+        <Group fx:id="group">
+            <children>
+                <Arc fx:id="arc1" startAngle="0" length="60" type="ROUND" fill="#b0b0b0"/>
+                <Arc fx:id="arc2" startAngle="60" length="60" type="ROUND" fill="#bfa580"/>
+                <Arc fx:id="arc3" startAngle="120" length="60" type="ROUND" fill="#bfcf80"/>
+                <Arc fx:id="arc4" startAngle="180" length="60" type="ROUND" fill="#80bfa5"/>
+                <Arc fx:id="arc5" startAngle="240" length="60" type="ROUND" fill="#80a5bf"/>
+                <Arc fx:id="arc6" startAngle="300" length="60" type="ROUND" fill="#a580bf"/>
+            </children>
+        </Group>
+        <!-- <Button text="Resaltar Aleatorio" onAction="#onResaltarAleatorio" layoutX="230.0" layoutY="300.0" /> -->
+    </children>
 </AnchorPane>

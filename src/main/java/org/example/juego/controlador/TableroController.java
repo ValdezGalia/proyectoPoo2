@@ -2,9 +2,11 @@ package org.example.juego.controlador;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.juego.modelo.Jugador;
 import org.example.juego.modelo.ListaJugador;
@@ -58,6 +60,7 @@ public class TableroController {
         for (int i = 0; i < jugadores.size(); i++) {
             Jugador jugador = jugadores.get(i);
             String texto = (i + 1) + ". " + jugador.getAlias() + " 🎲 " + jugador.getUltimoResultadoDado();
+            String infoTexto = "Información del jugador: Categoría respondida";
 
             Label label = new Label(texto);
             // Si es el turno actual, poner en verde
@@ -81,7 +84,33 @@ public class TableroController {
                                 "-fx-font-weight: bold;"
                 );
             }
-            vboxJugadores.getChildren().add(label);
+            Button btnExpand = new Button("▶");
+            btnExpand.setStyle("-fx-background-color: transparent; -fx-font-size: 16px; -fx-text-fill: #333; -fx-padding: 0 6 0 0;");
+            btnExpand.setMinWidth(24);
+            btnExpand.setPrefWidth(24);
+            btnExpand.setMaxWidth(24);
+            btnExpand.setFocusTraversable(false);
+
+            VBox infoBox = new VBox();
+            infoBox.setStyle("-fx-background-color: #f1f1f1; -fx-padding: 8px 16px; -fx-background-radius: 0 0 10px 10px;");
+            infoBox.setVisible(false);
+            infoBox.setManaged(false);
+            Label infoLabel = new Label(infoTexto);
+            infoBox.getChildren().add(infoLabel);
+
+            btnExpand.setOnAction(e -> {
+                boolean expanded = infoBox.isVisible();
+                infoBox.setVisible(!expanded);
+                infoBox.setManaged(!expanded);
+                btnExpand.setText(expanded ? "▶" : "▼");
+            });
+
+            HBox jugadorHBox = new HBox(btnExpand, label);
+            jugadorHBox.setSpacing(4);
+            jugadorHBox.setStyle("-fx-alignment: center-left; -fx-padding: 0 0 0 0;");
+
+            VBox jugadorVBox = new VBox(jugadorHBox, infoBox);
+            vboxJugadores.getChildren().add(jugadorVBox);
         }
 
         try {
@@ -100,7 +129,7 @@ public class TableroController {
                 imgDado.setDisable(true);
                 // Habilitar el botón de siguiente turno
                 btnSiguienteTurno.setDisable(false);
-            }); 
+            });
 
             // Limpiar el AnchorPane y agregar el nuevo contenido
             Dado.getChildren().clear();

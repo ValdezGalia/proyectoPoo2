@@ -234,7 +234,7 @@ public class SeleccionJugadorController {
 
         try {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-                    getClass().getResource("/org/example/juego/tableroView.fxml"));
+                    getClass().getResource("/org/example/juego/TableroView.fxml"));
             Parent root = loader.load();
             Stage tableroStage = new Stage();
 

@@ -120,7 +120,7 @@ public class TurnoController {
                 }
             });
 
-            List<Jugador> rankingFinal = new ArrayList<>(ordenFinal);
+            LinkedList<Jugador> rankingFinal = new LinkedList<>(ordenFinal);
 
             for (Jugador j : todosLosJugadores) {
                 if (!rankingFinal.contains(j)) {
@@ -132,7 +132,7 @@ public class TurnoController {
         }
     }
 
-    public void tableroConJugadoresOrdenados(List<Jugador> jugadoresOrdenados, Node nodoCualquieraDelModalActual) {
+    public void tableroConJugadoresOrdenados(LinkedList<Jugador> jugadoresOrdenados, Node nodoCualquieraDelModalActual) {
         try {
             // Cerramos el modal actual usando el nodo que pertenece a esa ventana
             Stage ventanaActual = (Stage) nodoCualquieraDelModalActual.getScene().getWindow();

@@ -52,7 +52,7 @@
                         <String fx:value="btn-default" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="btnJugar" mnemonicParsing="false" onAction="#empezarJuego" text="Jugar">
+                  <Button fx:id="btnJugar" mnemonicParsing="false" onAction="#comenzarJuego" text="Jugar">
                      <styleClass>
                         <String fx:value="btn" />
                         <String fx:value="btn-success" />

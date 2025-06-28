@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import org.example.juego.modelo.Jugador;
 import org.example.juego.modelo.ListaJugador;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class TableroController {
@@ -113,7 +114,7 @@ public class TableroController {
             vboxJugadores.getChildren().add(jugadorVBox);
         }
 
-        try {
+ /*       try {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
                     getClass().getResource("/org/example/juego/DadoView.fxml")
             );
@@ -144,7 +145,7 @@ public class TableroController {
             btnSiguienteTurno.setDisable(true);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 
@@ -169,5 +170,9 @@ public class TableroController {
         }
         // Deshabilitar el botón de siguiente turno hasta que se lance el dado
         btnSiguienteTurno.setDisable(true);
+    }
+
+    public void setJugadoresOrdenados(LinkedList<Jugador> setJugadoresOrdenados) {
+        this.setJugadores(new ListaJugador(setJugadoresOrdenados));
     }
 }

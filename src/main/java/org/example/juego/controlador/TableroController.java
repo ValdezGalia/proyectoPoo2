@@ -59,7 +59,7 @@ public class TableroController {
         // Mostrar cada jugador con estilo
         for (int i = 0; i < jugadores.size(); i++) {
             Jugador jugador = jugadores.get(i);
-            String texto = (i + 1) + ". " + jugador.getAlias() + " 🎲 " + jugador.getUltimoResultadoDado();
+            String texto = (i + 1) + ". " + jugador.getAlias() + " 🎲 " + jugador.getResultadoDado();
             String infoTexto = "Información del jugador: Categoría respondida";
 
             Label label = new Label(texto);
@@ -123,7 +123,7 @@ public class TableroController {
             // Listener para guardar el resultado del dado en el modelo Jugador
             dadoController.setGetValorListener(valor -> {
                 if (jugadorTurno != null) {
-                    jugadorTurno.setUltimoResultadoDado(valor);
+                    jugadorTurno.setResultadoDado(valor);
                 }
                 // Deshabilitar la imagen del dado después de tirar
                 imgDado.setDisable(true);

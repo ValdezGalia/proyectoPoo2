@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox id="modal-panel" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="565.0" style="-fx-padding: 35; -fx-background-color: white; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.juego.controlador.TurnoController">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <ImageView fx:id="imgAvatar" fitHeight="101.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="lblJugadorAlias" prefHeight="17.0" prefWidth="134.0" style="-fx-background-radius: 20; -fx-border-radius: 20;">
+               <styleClass>
+                  <String fx:value="alert" />
+                  <String fx:value="alert-info" />
+               </styleClass>
+            </Label>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" prefHeight="105.0" prefWidth="235.0">
+         <children>
+            <Button id="btnLanzarDado" fx:id="btnLanzarDado" defaultButton="true" mnemonicParsing="false" onAction="#lanzarDado" style="-fx-background-color: #ade8f4; -fx-border-color: #0096c7; -fx-text-fill: black; -fx-background-radius: 20; -fx-border-radius: 20; -fx-cursor: hand;" text="Presione enter para lanzar dado">
+               <VBox.margin>
+                  <Insets bottom="25.0" />
+               </VBox.margin>
+            </Button>
+            <Label fx:id="lblInfo" alignment="CENTER" contentDisplay="CENTER" managed="false" maxHeight="32.0" maxWidth="200.0" prefHeight="32.0" prefWidth="200.0" style="-fx-border-radius: 20; -fx-background-radius: 20;" styleClass="alert" textOverrun="CENTER_ELLIPSIS" visible="false" />
+         </children>
+         <HBox.margin>
+            <Insets left="25.0" right="25.0" />
+         </HBox.margin>
+      </VBox>
+      <AnchorPane fx:id="ctdDado" prefHeight="100.0" prefWidth="100.0">
+         <padding>
+            <Insets left="25.0" />
+         </padding></AnchorPane>
+   </children>
+   <padding>
+      <Insets bottom="20.0" top="20.0" />
+   </padding>
+</HBox>

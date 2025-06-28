@@ -10,20 +10,24 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.example.juego.JuegoApplication;
 import org.example.juego.db.ManipuladorUsuario;
-import org.example.juego.helpers.HelperLogin;
+import static org.example.juego.helpers.HelperLogin.mostrarStado;
 import org.example.juego.modelo.ListaJugador;
 import org.example.juego.modelo.Jugador;
 import org.kordamp.bootstrapfx.BootstrapFX;
-
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class SeleccionJugadorController {
+    private final ListaJugador jugadoresDisponiblesJson = new ManipuladorUsuario().extraerDatoUsuario();
+
     @FXML
     private Button btnAgregar;
     @FXML
@@ -39,11 +43,10 @@ public class SeleccionJugadorController {
     @FXML
     private ListView<String> listaJugadoresTablero;
 
+
     @FXML
     public void ingresarJugadoresDisponibles(){
-        ManipuladorUsuario manipulador = new ManipuladorUsuario();
-        ListaJugador jugadoresDisponibles = manipulador.extraerDatoUsuario();
-        for(Jugador jugadorDisponible : jugadoresDisponibles.getUsuarios()){
+        for(Jugador jugadorDisponible : jugadoresDisponiblesJson.getUsuarios()){
             listaJugadoresDisponibles.getItems().add(jugadorDisponible.getAlias());
         }
     }
@@ -52,7 +55,7 @@ public class SeleccionJugadorController {
     public void agregarJugadorTablero(){
         String jugador = listaJugadoresDisponibles.getSelectionModel().getSelectedItem();
         if(jugador == null){
-            HelperLogin.mostrarStado(lblStatus, "Seleccione un jugador para agragar!", true, true, "alert-warning");
+            mostrarStado(lblStatus, "Seleccione un jugador para agragar!", true, true, "alert-warning");
             return;
         }
 
@@ -64,12 +67,12 @@ public class SeleccionJugadorController {
 
         listaJugadoresDisponibles.getItems().remove(jugador);
         if (listaJugadoresTablero.getItems().size() == 6) {
-            HelperLogin.mostrarStado(lblStatus, "Jugadores completos para jugar!", true, true, "alert-success");
+            mostrarStado(lblStatus, "Jugadores completos para jugar!", true, true, "alert-success");
             btnAgregar.setDisable(true);
             return;
         }
 
-        HelperLogin.mostrarStado(lblStatus, jugador + ", agregado al tablero!", true, true, "alert-success");
+        mostrarStado(lblStatus, jugador + ", agregado al tablero!", true, true, "alert-success");
 
         if(listaJugadoresDisponibles.getItems().isEmpty()){
             btnAgregar.setDisable(true);
@@ -80,13 +83,13 @@ public class SeleccionJugadorController {
     public void quitarJugadorTablero(){
         String jugador = listaJugadoresTablero.getSelectionModel().getSelectedItem();
         if(jugador == null){
-            HelperLogin.mostrarStado(lblStatus, "Seleccione un jugador para quitar del tablero!", true, true, "alert-warning");
+            mostrarStado(lblStatus, "Seleccione un jugador para quitar del tablero!", true, true, "alert-warning");
             return;
         }
 
         btnAgregar.setDisable(false);
         listaJugadoresDisponibles.getItems().add(jugador);
-        HelperLogin.mostrarStado(lblStatus, jugador + ", eliminado del tablero!", true, true, "alert-success");
+        mostrarStado(lblStatus, jugador + ", eliminado del tablero!", true, true, "alert-success");
         listaJugadoresTablero.getItems().remove(jugador);
 
         if(listaJugadoresTablero.getItems().size() < 2){
@@ -97,27 +100,80 @@ public class SeleccionJugadorController {
             btnJugar.setDisable(true);
             btnQuitar.setDisable(true);
             btnAgregar.setDisable(false);
-            HelperLogin.mostrarStado(lblStatus, "Agrega jugadores al tablero!", true, true, "alert-warning");
+            mostrarStado(lblStatus, "Agrega jugadores al tablero!", true, true, "alert-warning");
         }
     }
 
     @FXML
     public void comenzarJuego(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(JuegoApplication.class.getResource("tableroView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(JuegoApplication.class.getResource("TurnoView.fxml"));
         Parent root = fxmlLoader.load();
-        Stage tableroJuego = new Stage();
 
-        tableroJuego.setTitle("Jugadores");
-        tableroJuego.setScene(new Scene(root));
+        // Aplicar estilo redondeado y sombra
+        root.setStyle(
+                "-fx-background-color: white;" +
+                        "-fx-background-radius: 20;" +
+                        "-fx-border-radius: 20;" +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 5);" +
+                        "-fx-padding: 10;"
+        );
 
+        // Cargar estilos adicionales
         root.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+        root.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/estilos.css")).toExternalForm());
 
-        tableroJuego.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/icono2.png"))));
-        tableroJuego.setResizable(false);
-        tableroJuego.initModality(Modality.APPLICATION_MODAL);
-        tableroJuego.initOwner(((Node) event.getSource()).getScene().getWindow());
-        tableroJuego.showAndWait();
+        // Usar escena y stage transparentes
+        Scene scene = new Scene(root);
+        scene.setFill(Color.TRANSPARENT); // ¡IMPORTANTE!
+
+        Stage turnoAsignado = new Stage();
+        turnoAsignado.initStyle(StageStyle.TRANSPARENT); // ¡CLAVE para transparencia real!
+        turnoAsignado.initModality(Modality.APPLICATION_MODAL);
+        turnoAsignado.setScene(scene);
+
+        // Configurar controlador
+        TurnoController turnoController = fxmlLoader.getController();
+        List<Jugador> listaJugadorTablero = new ArrayList<>();
+        for (Jugador jugador : jugadoresDisponiblesJson.getUsuarios()) {
+            if (listaJugadoresTablero.getItems().contains(jugador.getAlias())) {
+                listaJugadorTablero.add(jugador);
+            }
+        }
+
+        turnoController.setJugadoresTablero(listaJugadorTablero);
+        turnoController.iniciarRonda(listaJugadorTablero);
+
+        turnoAsignado.initOwner(((Node) event.getSource()).getScene().getWindow());
+        turnoAsignado.showAndWait();
     }
+//    public void comenzarJuego(ActionEvent event) throws IOException {
+//        FXMLLoader fxmlLoader = new FXMLLoader(JuegoApplication.class.getResource("TurnoView.fxml"));
+//        Parent root = fxmlLoader.load();
+//
+//        root.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+//        root.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/estilos.css")).toExternalForm());
+//        TurnoController turnoController = fxmlLoader.getController();
+//
+//        List<Jugador> listaJugadorTablero = new ArrayList<>();
+//
+//        for(Jugador jugador : jugadoresDisponiblesJson.getUsuarios()){
+//            if(listaJugadoresTablero.getItems().contains(jugador.getAlias())){
+//                listaJugadorTablero.add(jugador);
+//            }
+//        }
+//        Stage turnoAsignado = new Stage();
+//        turnoAsignado.setScene(new Scene(root));
+//
+//        root.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20;");
+//        turnoAsignado.initModality(Modality.APPLICATION_MODAL);
+//        turnoAsignado.initStyle(StageStyle.UNDECORATED);
+//
+//        turnoController.setJugadoresTablero(listaJugadorTablero);
+//        turnoController.iniciarRonda(listaJugadorTablero);
+//
+//        turnoAsignado.initOwner(((Node) event.getSource()).getScene().getWindow());
+//        turnoAsignado.showAndWait();
+//    }
 
     @FXML
     public void volverPaginaAnterior() {

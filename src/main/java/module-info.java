@@ -8,9 +8,8 @@ module org.example.juego {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
     requires com.fasterxml.jackson.databind;
-    requires org.json;
-    requires net.synedra.validatorfx;
     requires java.xml;
+    requires org.json;
 
     opens org.example.juego to javafx.fxml;
     exports org.example.juego;

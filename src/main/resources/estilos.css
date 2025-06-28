@@ -1,0 +1,19 @@
+#modal-panel{
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 12, 0.5, 0, 4);
+}
+#btnLanzarDado{
+    -fx-background-color: #0072ff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+#btnLanzarDado:hover {
+    -fx-background-color: derive(#0072ff, -20%);
+}

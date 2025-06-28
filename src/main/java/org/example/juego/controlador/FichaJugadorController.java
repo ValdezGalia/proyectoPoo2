@@ -31,13 +31,13 @@ public class FichaJugadorController {
     private final Color[] mutedColors = {
             Color.web("#b0b0b0"),
             Color.web("#bfa580"),
-            Color.web("#bfcf80"),
-            Color.web("#80bfa5"),
             Color.web("#80a5bf"),
+            Color.web("#80bfa5"),
+            Color.web("#bfcf80"),
             Color.web("#a580bf")
     };
     private final Color[] highlightColors = {
-            Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.PURPLE
+            Color.RED, Color.ORANGE, Color.BLUE, Color.GREEN, Color.YELLOW, Color.PURPLE
     };
 
     public void initialize() {

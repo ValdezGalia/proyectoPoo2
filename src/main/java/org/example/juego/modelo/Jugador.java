@@ -8,6 +8,7 @@ public class Jugador {
     public Jugador(String correo, String alias) {
         this.correo = correo;
         this.alias = alias;
+        this.resultadoDado = 0; // Inicializamos en 0
     }
 
     public String getCorreo() {

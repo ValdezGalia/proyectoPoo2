@@ -34,6 +34,5 @@ public class HelperLogin {
         fadeOut.setFromValue(0.0);
         fadeOut.setToValue(1.0);
         fadeOut.play();
-
     }
 }

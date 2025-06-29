@@ -16,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.juego.helpers.HelperLogin;
 import org.example.juego.modelo.Jugador;
+import org.example.juego.modelo.ListaJugador;
 
 import java.io.IOException;
 import java.util.*;
@@ -65,16 +66,18 @@ public class TurnoController {
 
         // igual que antes, lanzas el dado y en el callback:
         dadoController.clickDado(valor -> Platform.runLater(() -> {
-            Jugador j = rondaActual.get(indiceJugador);
-            j.setResultadoDado(valor);
-            System.out.println(j.getAlias() + " sacó: " + valor);
-            HelperLogin.mostrarStado(lblInfo, j.getAlias() + " saco: " + j.getResultadoDado(), true, true, "alert-success");
-            indiceJugador++;
             if (indiceJugador < rondaActual.size()) {
-                renderJugador();
-            } else {
-                btnLanzarDado.setDisable(true);
-                manejarFinDeRonda();
+                Jugador j = rondaActual.get(indiceJugador);
+                j.setResultadoDado(valor);
+                System.out.println(j.getAlias() + " sacó: " + valor);
+                HelperLogin.mostrarStado(lblInfo, j.getAlias() + " saco: " + j.getResultadoDado(), true, true, "alert-success");
+                indiceJugador++;
+                if (indiceJugador < rondaActual.size()) {
+                    renderJugador();
+                } else {
+                    btnLanzarDado.setDisable(true);
+                    manejarFinDeRonda();
+                }
             }
         }));
     }
@@ -120,37 +123,38 @@ public class TurnoController {
                 }
             });
 
-            List<Jugador> rankingFinal = new ArrayList<>(ordenFinal);
+            LinkedList<Jugador> rankingFinal = new LinkedList<>(ordenFinal);
 
             for (Jugador j : todosLosJugadores) {
                 if (!rankingFinal.contains(j)) {
                     rankingFinal.add(j);
                 }
             }
-
             tableroConJugadoresOrdenados(rankingFinal, ctdDado);
         }
     }
 
-    public void tableroConJugadoresOrdenados(List<Jugador> jugadoresOrdenados, Node nodoCualquieraDelModalActual) {
+    public void tableroConJugadoresOrdenados(LinkedList<Jugador> jugadoresOrdenados, Node nodoCualquieraDelModalActual) {
         try {
             // Cerramos el modal actual usando el nodo que pertenece a esa ventana
             Stage ventanaActual = (Stage) nodoCualquieraDelModalActual.getScene().getWindow();
             ventanaActual.close();
 
             // Cargamos la nueva vista
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/tableroView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/TableroView.fxml"));
             Parent root = loader.load();
 
             // Pasamos la lista al nuevo controlador
             TableroController ctrl = loader.getController();
-            ctrl.setJugadoresOrdenados(jugadoresOrdenados);
-
+            ListaJugador listaJugador = new ListaJugador(jugadoresOrdenados);
+            ctrl.setJugadores(listaJugador);
             // Abrimos el nuevo tablero en un modal nuevo
             Stage nuevoStage = new Stage();
             nuevoStage.setScene(new Scene(root));
             nuevoStage.initModality(Modality.APPLICATION_MODAL);
-            nuevoStage.showAndWait();
+            nuevoStage.setMaximized(true);
+            nuevoStage.show();
+
 
         } catch (IOException e) {
             e.printStackTrace();

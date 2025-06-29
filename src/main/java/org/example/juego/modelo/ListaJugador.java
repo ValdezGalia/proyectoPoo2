@@ -31,4 +31,8 @@ public class ListaJugador {
     public void insertarUsuario(Jugador jugador){
         this.jugador.add(jugador);
     }
+
+    public void eliminarUsuario(Jugador jugador){
+        this.jugador.remove(jugador);
+    }
 }

@@ -29,12 +29,12 @@ public class FichaJugadorController {
     private final Random random = new Random();
     private Arc[] arcs;
     private final Color[] mutedColors = {
-            Color.web("#b0b0b0"),
-            Color.web("#bfa580"),
-            Color.web("#80a5bf"),
-            Color.web("#80bfa5"),
-            Color.web("#bfcf80"),
-            Color.web("#a580bf")
+            Color.web("#ffffff"),
+            Color.web("#ffffff"),
+            Color.web("#ffffff"),
+            Color.web("#ffffff"),
+            Color.web("#ffffff"),
+            Color.web("#ffffff")
     };
     private final Color[] highlightColors = {
             Color.RED, Color.ORANGE, Color.BLUE, Color.GREEN, Color.YELLOW, Color.PURPLE

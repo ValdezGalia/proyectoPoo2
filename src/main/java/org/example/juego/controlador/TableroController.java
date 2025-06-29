@@ -1,10 +1,12 @@
 package org.example.juego.controlador;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -26,9 +28,6 @@ public class TableroController {
 
     @FXML
     private DadoController dadoController;
-
-    @FXML
-    private javafx.scene.control.Button btnSiguienteTurno;
 
     @FXML
     private ImageView imgDado;
@@ -177,6 +176,29 @@ public class TableroController {
 
     @FXML
     public void initialize() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/DadoView.fxml"));
+            Parent dadoRoot = loader.load();
+            DadoController dadoController = loader.getController();
+            // Elimina cualquier dado anterior
+            Dado.getChildren().clear();
+            Dado.getChildren().add(dadoRoot);
+            dadoController.start(1);
+            // Asigna el evento de click al dado para animar y avanzar turno
+            ImageView imgDado = (ImageView) dadoRoot.lookup("#imgDado");
+            if (imgDado != null) {
+                imgDado.setOnMouseClicked(e -> {
+                    imgDado.setDisable(true); // Evita doble click
+                    dadoController.clickDado(valor -> {
+                        // Aquí puedes guardar el valor si lo necesitas
+                        onSiguienteTurno();
+                        imgDado.setDisable(false); // Permite lanzar de nuevo en el siguiente turno
+                    });
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (jugadoresPendientes != null) {
             setJugadoresOrdenados(jugadoresPendientes);
             jugadoresPendientes = null;

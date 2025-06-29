@@ -146,7 +146,7 @@ public class TableroController {
             casillaprueba.setStyle("-fx-border-color: red; -fx-border-width: 3;");
             int filas = casillaprueba.getRowCount();
             int columnas = casillaprueba.getColumnCount();
-            for (int row = 0; row < filas; row++) {
+            for (int row = 0; row < filas; row++) { //se puede reemplazar con un for atraves de los jugadores para llenar tantas fichas como jugadores haya.
                 for (int col = 0; col < columnas; col++) {
                     try {
                         FXMLLoader fichaLoader = new FXMLLoader(getClass().getResource("/org/example/juego/FichaJugadorView.fxml"));

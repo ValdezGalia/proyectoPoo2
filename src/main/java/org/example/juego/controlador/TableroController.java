@@ -3,8 +3,10 @@ package org.example.juego.controlador;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -57,96 +59,33 @@ public class TableroController {
         // Limpiar el VBox antes de añadir jugadores
         vboxJugadores.getChildren().clear();
 
-        // Mostrar cada jugador con estilo
+        // Crear un Accordion para los jugadores
+        Accordion accordion = new Accordion();
         for (int i = 0; i < jugadores.size(); i++) {
             Jugador jugador = jugadores.get(i);
             String texto = (i + 1) + ". " + jugador.getAlias() + " 🎲 " + jugador.getResultadoDado();
             String infoTexto = "Información del jugador: Categoría respondida";
-            Label label = new Label(texto);
-            // Si es el turno actual, poner en verde
-            if (jugador == jugadorTurno) {
-                label.setStyle(
-                        "-fx-font-size: 16px;" +
-                                "-fx-padding: 8px;" +
-                                "-fx-background-color: #28a745;" + // Verde para el turno actual
-                                "-fx-text-fill: white;" +
-                                "-fx-background-radius: 10px;" +
-                                "-fx-font-weight: bold;" +
-                                "-fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.4), 3, 0.5, 1, 1);"
-                );
-            } else {
-                label.setStyle(
-                        "-fx-font-size: 16px;" +
-                                "-fx-padding: 8px;" +
-                                "-fx-background-color: #6c757d;" + // Gris para los demás
-                                "-fx-text-fill: white;" +
-                                "-fx-background-radius: 10px;" +
-                                "-fx-font-weight: bold;"
-                );
-            }
-            Button btnExpand = new Button("▶");
-            btnExpand.setStyle("-fx-background-color: transparent; -fx-font-size: 16px; -fx-text-fill: #333; -fx-padding: 0 6 0 0;");
-            btnExpand.setMinWidth(24);
-            btnExpand.setPrefWidth(24);
-            btnExpand.setMaxWidth(24);
-            btnExpand.setFocusTraversable(false);
-
-            VBox infoBox = new VBox();
-            infoBox.setStyle("-fx-background-color: #f1f1f1; -fx-padding: 8px 16px; -fx-background-radius: 0 0 10px 10px;");
-            infoBox.setVisible(false);
-            infoBox.setManaged(false);
             Label infoLabel = new Label(infoTexto);
-            infoBox.getChildren().add(infoLabel);
-
-            btnExpand.setOnAction(e -> {
-                boolean expanded = infoBox.isVisible();
-                infoBox.setVisible(!expanded);
-                infoBox.setManaged(!expanded);
-                btnExpand.setText(expanded ? "▶" : "▼");
-            });
-
-            HBox jugadorHBox = new HBox(btnExpand, label);
-            jugadorHBox.setSpacing(4);
-            jugadorHBox.setStyle("-fx-alignment: center-left; -fx-padding: 0 0 0 0;");
-
-            VBox jugadorVBox = new VBox(jugadorHBox, infoBox);
-            vboxJugadores.getChildren().add(jugadorVBox);
-        }
-
-        /*
-        try {
-            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-                    getClass().getResource("/org/example/juego/DadoView.fxml")
-            );
-            Parent root = loader.load();
-            dadoController = loader.getController();
-
-            // Listener para guardar el resultado del dado en el modelo Jugador
-            dadoController.setGetValorListener(valor -> {
-                if (jugadorTurno != null) {
-                    jugadorTurno.setResultadoDado(valor);
-                }
-                // Deshabilitar la imagen del dado después de tirar
-                imgDado.setDisable(true);
-                // Habilitar el botón de siguiente turno
-                btnSiguienteTurno.setDisable(false);
-            });
-
-            // Limpiar el AnchorPane y agregar el nuevo contenido
-            Dado.getChildren().clear();
-            Dado.getChildren().add(root);
-            dadoController.start(1);
-            // Habilitar la imagen del dado al iniciar el turno
-            imgDado = (javafx.scene.image.ImageView) root.lookup("#imgDado");
-            if (imgDado != null) {
-                imgDado.setDisable(false);
+            VBox infoBox = new VBox(infoLabel);
+            infoBox.setStyle("-fx-background-color: #f1f1f1; -fx-padding: 8px 16px; -fx-background-radius: 0 0 10px 10px;");
+            TitledPane pane = new TitledPane(texto, infoBox);
+            // Si es el turno actual, poner en verde el TitledPane completo
+            if (jugador == jugadorTurno) {
+                pane.setStyle("-fx-background-color: #28a745; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-text-fill: #145a23;");
+                // El gráfico será el nombre en verde oscuro y la flecha
+                Label turnoLabel = new Label(jugador.getAlias() + " ⬅ TURNO");
+                turnoLabel.setStyle("-fx-text-fill: #145a23; -fx-font-weight: bold; -fx-font-size: 16px;");
+                pane.setText((i + 1) + ". 🎲 " + jugador.getResultadoDado());
+                pane.setGraphic(turnoLabel);
+                pane.setContentDisplay(javafx.scene.control.ContentDisplay.TOP);
+            } else {
+                pane.setStyle("");
+                pane.setText(texto);
+                pane.setGraphic(null);
             }
-            // Deshabilitar el botón de siguiente turno hasta que se lance el dado
-            btnSiguienteTurno.setDisable(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
+            accordion.getPanes().add(pane);
+        }
+        vboxJugadores.getChildren().add(accordion);
     }
 
     // Estilo distinto para los primeros 3 puestos

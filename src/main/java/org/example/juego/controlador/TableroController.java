@@ -7,10 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import org.example.juego.modelo.Jugador;
 import org.example.juego.modelo.ListaJugador;
 
@@ -20,6 +17,7 @@ import java.util.List;
 public class TableroController {
     @FXML
     public Pane tableroArea;
+    public GridPane casillaprueba;
     @FXML
     private VBox vboxJugadores;
 
@@ -203,6 +201,24 @@ public class TableroController {
             setJugadoresOrdenados(jugadoresPendientes);
             jugadoresPendientes = null;
         }
+        // Inyectar una ficha en cada celda del GridPane casilla
+
+        if (casillaprueba != null) {
+            casillaprueba.setStyle("-fx-border-color: red; -fx-border-width: 3;");
+            int filas = casillaprueba.getRowCount();
+            int columnas = casillaprueba.getColumnCount();
+            for (int row = 0; row < filas; row++) {
+                for (int col = 0; col < columnas; col++) {
+                    try {
+                        FXMLLoader fichaLoader = new FXMLLoader(getClass().getResource("/org/example/juego/FichaJugadorView.fxml"));
+                        Parent ficha = fichaLoader.load();
+                        casillaprueba.add(ficha, col, row);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     public void setJugadoresOrdenados(LinkedList<Jugador> setJugadoresOrdenados) {
@@ -214,5 +230,6 @@ public class TableroController {
         System.out.println("setJugadoresOrdenados: " + setJugadoresOrdenados);
         jugadoresDisponibles = new ListaJugador(setJugadoresOrdenados);
         this.setJugadores(jugadoresDisponibles);
+
     }
 }

@@ -66,16 +66,18 @@ public class TurnoController {
 
         // igual que antes, lanzas el dado y en el callback:
         dadoController.clickDado(valor -> Platform.runLater(() -> {
-            Jugador j = rondaActual.get(indiceJugador);
-            j.setResultadoDado(valor);
-            System.out.println(j.getAlias() + " sacó: " + valor);
-            HelperLogin.mostrarStado(lblInfo, j.getAlias() + " saco: " + j.getResultadoDado(), true, true, "alert-success");
-            indiceJugador++;
             if (indiceJugador < rondaActual.size()) {
-                renderJugador();
-            } else {
-                btnLanzarDado.setDisable(true);
-                manejarFinDeRonda();
+                Jugador j = rondaActual.get(indiceJugador);
+                j.setResultadoDado(valor);
+                System.out.println(j.getAlias() + " sacó: " + valor);
+                HelperLogin.mostrarStado(lblInfo, j.getAlias() + " saco: " + j.getResultadoDado(), true, true, "alert-success");
+                indiceJugador++;
+                if (indiceJugador < rondaActual.size()) {
+                    renderJugador();
+                } else {
+                    btnLanzarDado.setDisable(true);
+                    manejarFinDeRonda();
+                }
             }
         }));
     }

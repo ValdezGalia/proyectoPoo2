@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.example.juego.modelo.Jugador;
 import org.example.juego.modelo.ListaJugador;
@@ -15,7 +16,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class TableroController {
-
+    @FXML
+    public Pane tableroArea;
     @FXML
     private VBox vboxJugadores;
 
@@ -37,6 +39,8 @@ public class TableroController {
 
     private Jugador jugadorTurno;
 
+    private LinkedList<Jugador> jugadoresPendientes = null;
+
     public void siguienteTurno() {
         turno++;
         if (turno > jugadoresDisponibles.getUsuarios().size() - 1) {
@@ -53,7 +57,6 @@ public class TableroController {
         if (!jugadores.isEmpty()) {
             jugadorTurno = jugadores.get(turno);
         }
-
         // Limpiar el VBox antes de añadir jugadores
         vboxJugadores.getChildren().clear();
 
@@ -62,7 +65,6 @@ public class TableroController {
             Jugador jugador = jugadores.get(i);
             String texto = (i + 1) + ". " + jugador.getAlias() + " 🎲 " + jugador.getResultadoDado();
             String infoTexto = "Información del jugador: Categoría respondida";
-
             Label label = new Label(texto);
             // Si es el turno actual, poner en verde
             if (jugador == jugadorTurno) {
@@ -114,7 +116,8 @@ public class TableroController {
             vboxJugadores.getChildren().add(jugadorVBox);
         }
 
- /*       try {
+        /*
+        try {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
                     getClass().getResource("/org/example/juego/DadoView.fxml")
             );
@@ -155,7 +158,7 @@ public class TableroController {
             case 0 -> "#28a745"; // Verde - 1er lugar
             case 1 -> "#007bff"; // Azul - 2do lugar
             case 2 -> "#ffc107"; // Amarillo - 3er lugar
-            default -> "#6c757d"; // Gris para ;;;los demás
+            default -> "#6c757d"; // Gris para los demás
         };
 
     }
@@ -165,14 +168,29 @@ public class TableroController {
         siguienteTurno();
         setJugadores(jugadoresDisponibles);
         // Habilitar la imagen del dado al pasar de turno
-        if (imgDado != null) {
-            imgDado.setDisable(false);
-        }
+//        if (imgDado != null) {
+//            imgDado.setDisable(false);
+//        }
         // Deshabilitar el botón de siguiente turno hasta que se lance el dado
-        btnSiguienteTurno.setDisable(true);
+//        btnSiguienteTurno.setDisable(true);
+    }
+
+    @FXML
+    public void initialize() {
+        if (jugadoresPendientes != null) {
+            setJugadoresOrdenados(jugadoresPendientes);
+            jugadoresPendientes = null;
+        }
     }
 
     public void setJugadoresOrdenados(LinkedList<Jugador> setJugadoresOrdenados) {
-        this.setJugadores(new ListaJugador(setJugadoresOrdenados));
+        if (vboxJugadores == null) {
+            // FXML aún no inyectado, guardar para después
+            jugadoresPendientes = setJugadoresOrdenados;
+            return;
+        }
+        System.out.println("setJugadoresOrdenados: " + setJugadoresOrdenados);
+        jugadoresDisponibles = new ListaJugador(setJugadoresOrdenados);
+        this.setJugadores(jugadoresDisponibles);
     }
 }

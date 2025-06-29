@@ -5,8 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane fx:id="root" prefHeight="25.0" prefWidth="0.0" xmlns="http://javafx.com/javafx/22.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.juego.controlador.DadoController">
-   <ImageView fx:id="imgDado" fitHeight="88.0" fitWidth="73.0" onMouseClicked="#clickDado" pickOnBounds="true" preserveRatio="true">
-      <image>
+   <ImageView fx:id="imgDado" fitHeight="88.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@../../../../../../../../cara1.png" />
-      </image></ImageView>
+   </ImageView>
 </AnchorPane>

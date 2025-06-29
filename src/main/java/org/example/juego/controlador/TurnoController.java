@@ -16,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.juego.helpers.HelperLogin;
 import org.example.juego.modelo.Jugador;
+import org.example.juego.modelo.ListaJugador;
 
 import java.io.IOException;
 import java.util.*;
@@ -127,7 +128,6 @@ public class TurnoController {
                     rankingFinal.add(j);
                 }
             }
-
             tableroConJugadoresOrdenados(rankingFinal, ctdDado);
         }
     }
@@ -139,18 +139,20 @@ public class TurnoController {
             ventanaActual.close();
 
             // Cargamos la nueva vista
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/tableroView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/TableroView.fxml"));
             Parent root = loader.load();
 
             // Pasamos la lista al nuevo controlador
             TableroController ctrl = loader.getController();
-            ctrl.setJugadoresOrdenados(jugadoresOrdenados);
-
+            ListaJugador listaJugador = new ListaJugador(jugadoresOrdenados);
+            ctrl.setJugadores(listaJugador);
             // Abrimos el nuevo tablero en un modal nuevo
             Stage nuevoStage = new Stage();
             nuevoStage.setScene(new Scene(root));
             nuevoStage.initModality(Modality.APPLICATION_MODAL);
-            nuevoStage.showAndWait();
+            nuevoStage.setMaximized(true);
+            nuevoStage.show();
+
 
         } catch (IOException e) {
             e.printStackTrace();

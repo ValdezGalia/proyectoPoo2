@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import org.example.juego.modelo.Jugador;
 import org.example.juego.modelo.ListaJugador;
 
@@ -73,6 +74,21 @@ public class TableroController {
      * Lista de jugadores pendientes de acción (si aplica).
      */
     private LinkedList<Jugador> jugadoresPendientes = null;
+
+    /**
+     * Stage principal donde se muestra el tablero.
+     */
+    private Stage stage;
+
+    /**
+     * Permite inyectar el Stage principal para poder modificar el título de la ventana.
+     *
+     * @param stage Stage principal donde se muestra el tablero.
+     */
+    public void setStage(Stage stage) {
+        this.stage = stage;
+        this.stage.setTitle("Tablero Trivia UCAB");
+    }
 
     /**
      * Avanza al siguiente turno y actualiza el jugador en turno.
@@ -163,6 +179,9 @@ public class TableroController {
      */
     @FXML
     public void initialize() {
+        if (stage != null) {
+            stage.setTitle("Tablero Trivia UCAB");
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/DadoView.fxml"));
             Parent dadoRoot = loader.load();
@@ -223,4 +242,3 @@ public class TableroController {
         }
     }
 }
-

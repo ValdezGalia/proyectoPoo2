@@ -183,6 +183,10 @@ public class TurnoController {
             nuevoStage.setScene(new Scene(root));
             nuevoStage.initModality(Modality.APPLICATION_MODAL);
             nuevoStage.setMaximized(true);
+            // Establecer el título de la ventana del tablero
+            nuevoStage.setTitle("Tablero Trivia UCAB");
+            // Inyectar el stage al controlador para futuras referencias
+            ctrl.setStage(nuevoStage);
             nuevoStage.show();
 
 

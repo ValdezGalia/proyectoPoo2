@@ -16,10 +16,24 @@ import org.kordamp.bootstrapfx.BootstrapFX;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Controlador principal de la ventana de inicio del juego.
+ * Permite abrir la ventana de selección de jugadores y cerrar la aplicación.
+ */
 public class IndexController {
+    /**
+     * Botón para salir de la aplicación.
+     */
     @FXML
     private Button btnSalir;
 
+    /**
+     * Abre una ventana modal para seleccionar los jugadores.
+     * Deshabilita el botón de jugar hasta que se ingresen los jugadores.
+     *
+     * @param event Evento de acción que dispara la apertura de la ventana.
+     * @throws IOException Si ocurre un error al cargar la vista FXML.
+     */
     @FXML
     public void seleccionJugadores(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(JuegoApplication.class.getResource("SeleccionJugadorView.fxml"));
@@ -42,6 +56,9 @@ public class IndexController {
         ventanaModal.showAndWait();
     }
 
+    /**
+     * Cierra la ventana principal de la aplicación.
+     */
     @FXML
     public void cerrarVentana() {
         Stage stage = (Stage) btnSalir.getScene().getWindow();

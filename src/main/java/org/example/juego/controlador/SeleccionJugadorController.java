@@ -25,33 +25,53 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Controlador para la selección de jugadores antes de iniciar el juego.
+ * Permite agregar y quitar jugadores al tablero, iniciar el juego y gestionar la interfaz de selección.
+ */
 public class SeleccionJugadorController {
+    /**
+     * Lista de jugadores disponibles obtenidos desde la base de datos (JSON).
+     */
     private final ListaJugador jugadoresDisponiblesJson = new ManipuladorUsuario().extraerDatoUsuario();
 
+    /** Botón para agregar un jugador al tablero. */
     @FXML
     private Button btnAgregar;
+    /** Botón para iniciar el juego. */
     @FXML
     private Button btnJugar;
+    /** Botón para quitar un jugador del tablero. */
     @FXML
     private Button btnQuitar;
+    /** Botón para volver a la pantalla anterior. */
     @FXML
     private Button btnVolver;
+    /** Etiqueta para mostrar mensajes de estado. */
     @FXML
     private Label lblStatus;
+    /** Lista visual de jugadores disponibles. */
     @FXML
     private ListView<String> listaJugadoresDisponibles;
+    /** Lista visual de jugadores seleccionados para el tablero. */
     @FXML
     private ListView<String> listaJugadoresTablero;
+    /** Etiqueta para mostrar datos del jugador. */
     @FXML
     private Label lbldatosdeljugador;
+    /** Etiqueta para mostrar el alias del jugador. */
     @FXML
     private Label lblaliasjugador;
+    /** Botón para lanzar el dado (si aplica). */
     @FXML
     private Button btndado;
 
+    /** Lista de jugadores disponibles en memoria. */
     private ListaJugador jugadoresDisponibles;
 
-
+    /**
+     * Carga los jugadores disponibles en la lista visual desde la base de datos.
+     */
     @FXML
     public void ingresarJugadoresDisponibles(){
         for(Jugador jugadorDisponible : jugadoresDisponiblesJson.getUsuarios()){
@@ -59,6 +79,10 @@ public class SeleccionJugadorController {
         }
     }
 
+    /**
+     * Agrega el jugador seleccionado a la lista del tablero y actualiza la interfaz.
+     * Muestra mensajes de estado y habilita/deshabilita botones según corresponda.
+     */
     @FXML
     public void agregarJugadorTablero() {
         String jugador = listaJugadoresDisponibles.getSelectionModel().getSelectedItem();
@@ -87,6 +111,10 @@ public class SeleccionJugadorController {
         }
     }
 
+    /**
+     * Quita el jugador seleccionado del tablero y lo devuelve a la lista de disponibles.
+     * Actualiza la interfaz y muestra mensajes de estado.
+     */
     @FXML
     public void quitarJugadorTablero() {
         String jugador = listaJugadoresTablero.getSelectionModel().getSelectedItem();
@@ -112,6 +140,12 @@ public class SeleccionJugadorController {
         }
     }
 
+    /**
+     * Inicia el juego abriendo la ventana de turnos y pasando los jugadores seleccionados.
+     *
+     * @param event Evento de acción que dispara el inicio del juego.
+     * @throws IOException Si ocurre un error al cargar la vista FXML.
+     */
     @FXML
     public void comenzarJuego(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(JuegoApplication.class.getResource("TurnoView.fxml"));
@@ -154,185 +188,31 @@ public class SeleccionJugadorController {
         turnoAsignado.initOwner(((Node) event.getSource()).getScene().getWindow());
         turnoAsignado.showAndWait();
     }
-//    public void comenzarJuego(ActionEvent event) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(JuegoApplication.class.getResource("TurnoView.fxml"));
-//        Parent root = fxmlLoader.load();
-//
-//        root.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
-//        root.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/estilos.css")).toExternalForm());
-//        TurnoController turnoController = fxmlLoader.getController();
-//
-//        List<Jugador> listaJugadorTablero = new ArrayList<>();
-//
-//        for(Jugador jugador : jugadoresDisponiblesJson.getUsuarios()){
-//            if(listaJugadoresTablero.getItems().contains(jugador.getAlias())){
-//                listaJugadorTablero.add(jugador);
-//            }
-//        }
-//        Stage turnoAsignado = new Stage();
-//        turnoAsignado.setScene(new Scene(root));
-//
-//        root.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20;");
-//        turnoAsignado.initModality(Modality.APPLICATION_MODAL);
-//        turnoAsignado.initStyle(StageStyle.UNDECORATED);
-//
-//        turnoController.setJugadoresTablero(listaJugadorTablero);
-//        turnoController.iniciarRonda(listaJugadorTablero);
-//
-//        turnoAsignado.initOwner(((Node) event.getSource()).getScene().getWindow());
-//        turnoAsignado.showAndWait();
-//    }
 
+    /**
+     * Cierra la ventana actual y vuelve a la pantalla anterior.
+     */
     @FXML
     public void volverPaginaAnterior() {
         Stage stage = (Stage) btnVolver.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Sale completamente del juego cerrando la aplicación.
+     */
     @FXML
     public void salirJuego() {
         volverPaginaAnterior();
         Platform.runLater(Platform::exit);
     }
 
+    /**
+     * Devuelve el botón para iniciar el juego (útil para pruebas o acceso externo).
+     * @return Botón btnJugar
+     */
     public Button getBtnJugar() {
         return btnJugar;
     }
 
-    /* int turnoActual = 0;
-
-    @FXML
-    public void mostrarDialogoSecuencailes() {
-        ArrayList<String> jugadores = new ArrayList<>(listaJugadoresTablero.getItems());
-        if (jugadores.isEmpty())
-            return;
-
-        java.util.Map<String, Integer> resultados = new java.util.HashMap<>();
-        ArrayList<String> jugadoresPendientes = new ArrayList<>(jugadores);
-        boolean hayRepetidos;
-        do {
-            for (String jugador : jugadoresPendientes) {
-                ButtonType lanzarButtonType = new ButtonType("Lanzar dado 🎲", ButtonBar.ButtonData.OK_DONE);
-                Dialog<ButtonType> dialog = new Dialog<>();
-                dialog.setTitle(""); // Sin título
-                dialog.setHeaderText("Es el turno de: " + jugador);
-                // Quitar decoración de la ventana y la X de cerrar
-                Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
-                dialogStage.initStyle(javafx.stage.StageStyle.UNDECORATED);
-
-                // Label para mostrar el resultado
-                Label lblResultado = new Label("Resultado: -");
-                lblResultado.setMinWidth(100);
-
-                // Contenido horizontal: resultado a la izquierda, texto al centro
-                VBox vbox = new VBox();
-                vbox.setSpacing(10);
-                HBox hbox = new HBox();
-                hbox.setSpacing(10);
-                hbox.getChildren().addAll(lblResultado, new Label("Presiona el botón para lanzar el dado."));
-                vbox.getChildren().add(hbox);
-
-                dialog.getDialogPane().setContent(vbox);
-                dialog.getDialogPane().getButtonTypes().add(lanzarButtonType);
-                final int[] resultado = new int[1];
-                dialog.setResultConverter(buttonType -> {
-                    if (buttonType == lanzarButtonType) {
-                        resultado[0] = (int) (Math.random() * 6) + 1;
-                        lblResultado.setText("Resultado: " + resultado[0]);
-                        HelperLogin.mostrarStado(lblStatus, jugador + " sacó " + resultado[0] + " en el dado", true,
-                                true, "alert-info");
-                        System.out.println("el jugador " + jugador+ " sacó " + resultado[0]);
-
-                        // Guarda el resultado en el objeto Jugador
-                        for (Jugador j : jugadoresDisponibles.getUsuarios()) {
-                            if (j.getAlias().equals(jugador)) {
-                                j.setResultadoDado(resultado[0]);
-                                break;
-                            }
-                        }
-
-                        return buttonType;
-                    }
-                    return null;
-                });
-                dialog.showAndWait();
-                resultados.put(jugador, resultado[0]);
-            }
-            // Verificar repeticiones
-            java.util.Map<Integer, java.util.List<String>> valores = new java.util.HashMap<>();
-            for (var entry : resultados.entrySet()) {
-                valores.computeIfAbsent(entry.getValue(), k -> new java.util.ArrayList<>()).add(entry.getKey());
-            }
-            jugadoresPendientes.clear();
-            hayRepetidos = false;
-            for (var entry : valores.entrySet()) {
-                if (entry.getValue().size() > 1) {
-                    hayRepetidos = true;
-                    jugadoresPendientes.addAll(entry.getValue());
-                }
-            }
-            if (hayRepetidos) {
-                HelperLogin.mostrarStado(lblStatus,
-                        "¡Hay repeticiones! Solo los jugadores con el mismo valor volverán a tirar.", true, true,
-                        "alert-warning");
-            }
-        } while (hayRepetidos);
-        HelperLogin.mostrarStado(lblStatus, "Todos los jugadores tienen valores únicos!", true, true, "alert-success");
-        turnoActual = 0;
-        // Ordenar la lista de jugadores por el número que tiraron (de mayor a menor)
-        LinkedList<Jugador> jugadoresLista = jugadoresDisponibles.getUsuarios();
-        jugadoresLista.sort((j1, j2) -> Integer.compare(j2.getResultadoDado(), j1.getResultadoDado()));
-    }
-
-    @FXML
-    public void empezarJuego(ActionEvent event) {
-        ArrayList<String> jugadores = new ArrayList<>(listaJugadoresTablero.getItems());
-
-        jugadoresDisponibles.getUsuarios().removeIf(jugador -> !jugadores.contains(jugador.getAlias()));
-        mostrarDialogoSecuencailes();
-
-        try {
-            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-                    getClass().getResource("/org/example/juego/TableroView.fxml"));
-            Parent root = loader.load();
-            Stage tableroStage = new Stage();
-
-            tableroStage.setTitle("Tablero Trivia");
-            tableroStage.setScene(new Scene(root));
-
-            TableroController tableroController = loader.getController();
-            tableroController.setJugadores(jugadoresDisponibles);
-            
-            tableroStage.initModality(Modality.APPLICATION_MODAL);
-            tableroStage.initOwner(((Node) event.getSource()).getScene().getWindow());
-            tableroStage.showAndWait();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void initialize() {
-        // Añadir clases BootstrapFX a los controles principales
-        // if (btnAgregar != null) btnAgregar.getStyleClass().addAll("btn",
-        // "btn-primary");
-        if (btnJugar != null)
-            btnJugar.getStyleClass().addAll("btn", "btn-success");
-        // if (btnQuitar != null) btnQuitar.getStyleClass().addAll("btn", "btn-danger");
-        if (btnVolver != null)
-            btnVolver.getStyleClass().addAll("btn", "btn-secondary");
-        if (btndado != null)
-            btndado.getStyleClass().addAll("btn", "btn-warning");
-        if (lblStatus != null)
-            lblStatus.getStyleClass().addAll("alert");
-        if (lbldatosdeljugador != null)
-            lbldatosdeljugador.getStyleClass().addAll("lead");
-        if (lblaliasjugador != null)
-            lblaliasjugador.getStyleClass().addAll("lead");
-        if (listaJugadoresDisponibles != null)
-            listaJugadoresDisponibles.getStyleClass().addAll("list-group");
-        if (listaJugadoresTablero != null)
-            listaJugadoresTablero.getStyleClass().addAll("list-group");
-    } */
 }

@@ -4,11 +4,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import org.example.juego.modelo.Jugador;
 import org.example.juego.modelo.ListaJugador;
@@ -16,40 +14,82 @@ import org.example.juego.modelo.ListaJugador;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Controlador del tablero principal del juego.
+ * Gestiona la visualización de los jugadores, turnos y fichas en el tablero.
+ */
 public class TableroController {
+    /**
+     * Área principal del tablero donde se muestran las fichas y el estado del juego.
+     */
     @FXML
     public Pane tableroArea;
+
+    /**
+     * GridPane de prueba para colocar fichas de jugadores.
+     */
     public GridPane casillaprueba;
+
+    /**
+     * Contenedor vertical para mostrar la lista de jugadores y sus turnos.
+     */
     @FXML
     private VBox vboxJugadores;
 
+    /**
+     * Panel anclado para mostrar el dado.
+     */
     @FXML
     private AnchorPane Dado;
 
+    /**
+     * Controlador del dado asociado a la vista del dado.
+     */
     @FXML
     private DadoController dadoController;
 
+    /**
+     * Imagen del dado en la interfaz.
+     */
     @FXML
     private ImageView imgDado;
 
-    ListaJugador jugadoresDisponibles;
+    /**
+     * Lista de jugadores disponibles en el tablero.
+     */
+    private ListaJugador jugadoresDisponibles;
 
+    /**
+     * Índice del turno actual.
+     */
     private int turno = 0;
 
+    /**
+     * Jugador que tiene el turno actual.
+     */
     private Jugador jugadorTurno;
 
+    /**
+     * Lista de jugadores pendientes de acción (si aplica).
+     */
     private LinkedList<Jugador> jugadoresPendientes = null;
 
+    /**
+     * Avanza al siguiente turno y actualiza el jugador en turno.
+     */
     public void siguienteTurno() {
         turno++;
         if (turno > jugadoresDisponibles.getUsuarios().size() - 1) {
             turno = 0;
         }
         jugadorTurno = jugadoresDisponibles.getUsuarios().get(turno);
-        // Actualizar la interfaz de usuario o realizar otras acciones necesarias
-
     }
 
+    /**
+     * Establece la lista de jugadores y actualiza la visualización en el tablero.
+     *
+     * @param jugadoresDisponibles Lista de jugadores a mostrar.
+     */
     public void setJugadores(ListaJugador jugadoresDisponibles) {
         this.jugadoresDisponibles = jugadoresDisponibles;
         List<Jugador> jugadores = jugadoresDisponibles.getUsuarios();
@@ -88,29 +128,39 @@ public class TableroController {
         vboxJugadores.getChildren().add(accordion);
     }
 
-    // Estilo distinto para los primeros 3 puestos
+    /**
+     * Devuelve el color correspondiente según la posición del jugador.
+     *
+     * @param posicion Posición en el ranking.
+     * @return Color en formato hexadecimal.
+     */
     private String getColorPorPosicion(int posicion) {
         return switch (posicion) {
-            case 0 -> "#28a745"; // Verde - 1er lugar
-            case 1 -> "#007bff"; // Azul - 2do lugar
-            case 2 -> "#ffc107"; // Amarillo - 3er lugar
-            default -> "#6c757d"; // Gris para los demás
+            case 0 -> "#28a745";
+            case 1 -> "#007bff";
+            case 2 -> "#ffc107";
+            default -> "#6c757d";
         };
 
     }
 
+    /**
+     * Avanza al siguiente turno y actualiza la visualización de jugadores.
+     */
     @FXML
     private void onSiguienteTurno() {
         siguienteTurno();
         setJugadores(jugadoresDisponibles);
-        // Habilitar la imagen del dado al pasar de turno
-//        if (imgDado != null) {
-//            imgDado.setDisable(false);
-//        }
-        // Deshabilitar el botón de siguiente turno hasta que se lance el dado
-//        btnSiguienteTurno.setDisable(true);
     }
 
+    /**
+     * Inicializa el tablero de juego, cargando la vista del dado, configurando eventos y generando las fichas de los jugadores.
+     * <p>
+     * - Carga la vista del dado y la inserta en el panel correspondiente.
+     * - Asigna el evento de click al dado para animar y avanzar el turno.
+     * - Si hay jugadores pendientes, los ordena y actualiza la visualización.
+     * - Genera fichas en el GridPane de prueba para cada celda.
+     */
     @FXML
     public void initialize() {
         try {
@@ -141,12 +191,11 @@ public class TableroController {
             jugadoresPendientes = null;
         }
         // Inyectar una ficha en cada celda del GridPane casilla
-
         if (casillaprueba != null) {
             casillaprueba.setStyle("-fx-border-color: red; -fx-border-width: 3;");
             int filas = casillaprueba.getRowCount();
             int columnas = casillaprueba.getColumnCount();
-            for (int row = 0; row < filas; row++) { //se puede reemplazar con un for atraves de los jugadores para llenar tantas fichas como jugadores haya.
+            for (int row = 0; row < filas; row++) { // Se puede reemplazar con un for a través de los jugadores para llenar tantas fichas como jugadores haya.
                 for (int col = 0; col < columnas; col++) {
                     try {
                         FXMLLoader fichaLoader = new FXMLLoader(getClass().getResource("/org/example/juego/FichaJugadorView.fxml"));
@@ -160,15 +209,18 @@ public class TableroController {
         }
     }
 
+    /**
+     * Establece la lista de jugadores ordenados y actualiza la visualización si corresponde.
+     *
+     * @param setJugadoresOrdenados Lista enlazada de jugadores ordenados.
+     */
     public void setJugadoresOrdenados(LinkedList<Jugador> setJugadoresOrdenados) {
         if (vboxJugadores == null) {
-            // FXML aún no inyectado, guardar para después
-            jugadoresPendientes = setJugadoresOrdenados;
-            return;
-        }
-        System.out.println("setJugadoresOrdenados: " + setJugadoresOrdenados);
-        jugadoresDisponibles = new ListaJugador(setJugadoresOrdenados);
-        this.setJugadores(jugadoresDisponibles);
+            System.out.println("setJugadoresOrdenados: " + setJugadoresOrdenados);
+            jugadoresDisponibles = new ListaJugador(setJugadoresOrdenados);
+            this.setJugadores(jugadoresDisponibles);
 
+        }
     }
 }
+

@@ -8,9 +8,19 @@ import org.json.JSONObject;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * Clase que implementa la interfaz DataBase para manipular usuarios almacenados en un archivo JSON.
+ * Permite extraer los datos de los usuarios y convertirlos en una lista de Jugador.
+ */
 public class ManipuladorUsuario implements DataBase{
     private final String archivo = "usuarios.json";
 
+    /**
+     * Extrae los datos de los usuarios desde el archivo JSON y los convierte en una ListaJugador.
+     * Si ocurre un error al leer o procesar el archivo, retorna una lista vacía.
+     *
+     * @return ListaJugador con los usuarios extraídos del archivo JSON.
+     */
     @Override
     public ListaJugador extraerDatoUsuario() {
         ListaJugador listaJugador = new ListaJugador();

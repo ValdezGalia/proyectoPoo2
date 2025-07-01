@@ -8,6 +8,10 @@ import java.util.Random;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Group;
 
+/**
+ * Controlador para la ficha de jugador.
+ * Gestiona la visualización y resaltado de los sectores de la ficha.
+ */
 public class FichaJugadorController {
     @FXML
     private Arc arc1;
@@ -40,6 +44,9 @@ public class FichaJugadorController {
             Color.RED, Color.ORANGE, Color.BLUE, Color.GREEN, Color.YELLOW, Color.PURPLE
     };
 
+    /**
+     * Inicializa la ficha, ajustando el radio y centrado de los arcos.
+     */
     public void initialize() {
         arcs = new Arc[]{arc1, arc2, arc3, arc4, arc5, arc6};
         // Ajustar el radio de los arcos al 40% del lado menor del AnchorPane
@@ -48,6 +55,9 @@ public class FichaJugadorController {
         ajustarRadioYCentrar();
     }
 
+    /**
+     * Ajusta el radio de los arcos y centra el grupo en el AnchorPane.
+     */
     private void ajustarRadioYCentrar() {
         double w = rootPane.getWidth();
         double h = rootPane.getHeight();
@@ -70,18 +80,22 @@ public class FichaJugadorController {
     }
 
     /**
-     * Resalta el sector indicado (1 a 6) con un color vivo y apaga los demÃ¡s.
+     * Resalta el sector indicado (1 a 6) con un color vivo y apaga los demás.
      * @param numero Sector a resaltar (1 a 6)
      */
     public void resaltarSector(int numero) {
-        // for (int i = 0; i < arcs.length; i++) {
-        //     arcs[i].setFill(mutedColors[i]);
-        // }
+        for (int i = 0; i < arcs.length; i++) {
+            arcs[i].setFill(mutedColors[i]);
+        }
         if (numero >= 1 && numero <= 6) {
             arcs[numero - 1].setFill(highlightColors[numero - 1]);
         }
     }
 
+    /**
+     * Resalta aleatoriamente un sector de la ficha.
+     * @param event Evento de acción.
+     */
     @FXML
     private void onResaltarAleatorio(ActionEvent event) {
         int sector = 1 + random.nextInt(6);

@@ -7,20 +7,9 @@ import javafx.util.Duration;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Clase de utilidad para mostrar mensajes de estado en la interfaz de login.
- * Permite mostrar mensajes con diferentes estilos de alerta y animación fade in.
- */
+
 public class HelperLogin {
-    /**
-     * Muestra un mensaje de estado en un Label con estilos de alerta y animación.
-     *
-     * @param lblStatus   Label donde se mostrará el mensaje.
-     * @param msg         Mensaje a mostrar.
-     * @param visible     Indica si el Label debe ser visible.
-     * @param managed     Indica si el Label debe ser gestionado por el layout.
-     * @param tipoAlerta  Tipo de alerta ("alert-danger", "alert-success", "alert-warning", "alert-info").
-     */
+
     public static void mostrarStado(Label lblStatus, String msg, boolean visible, boolean managed, String tipoAlerta){
         // Clases alert posibles
         List<String> alertClasses = Arrays.asList("alert-danger", "alert-success", "alert-warning", "alert-info");

@@ -15,84 +15,41 @@ import org.example.juego.modelo.ListaJugador;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Controlador del tablero principal del juego.
- * Gestiona la visualización de los jugadores, turnos y fichas en el tablero.
- */
+
 public class TableroController {
-    /**
-     * Área principal del tablero donde se muestran las fichas y el estado del juego.
-     */
+
     @FXML
     public Pane tableroArea;
 
-    /**
-     * GridPane de prueba para colocar fichas de jugadores.
-     */
     public GridPane casillaprueba;
-
-    /**
-     * Contenedor vertical para mostrar la lista de jugadores y sus turnos.
-     */
     @FXML
     private VBox vboxJugadores;
 
-    /**
-     * Panel anclado para mostrar el dado.
-     */
     @FXML
     private AnchorPane Dado;
 
-    /**
-     * Controlador del dado asociado a la vista del dado.
-     */
     @FXML
     private DadoController dadoController;
 
-    /**
-     * Imagen del dado en la interfaz.
-     */
     @FXML
     private ImageView imgDado;
 
-    /**
-     * Lista de jugadores disponibles en el tablero.
-     */
     private ListaJugador jugadoresDisponibles;
 
-    /**
-     * Índice del turno actual.
-     */
     private int turno = 0;
 
-    /**
-     * Jugador que tiene el turno actual.
-     */
     private Jugador jugadorTurno;
 
-    /**
-     * Lista de jugadores pendientes de acción (si aplica).
-     */
     private LinkedList<Jugador> jugadoresPendientes = null;
 
-    /**
-     * Stage principal donde se muestra el tablero.
-     */
     private Stage stage;
 
-    /**
-     * Permite inyectar el Stage principal para poder modificar el título de la ventana.
-     *
-     * @param stage Stage principal donde se muestra el tablero.
-     */
     public void setStage(Stage stage) {
         this.stage = stage;
         this.stage.setTitle("Tablero Trivia UCAB");
     }
 
-    /**
-     * Avanza al siguiente turno y actualiza el jugador en turno.
-     */
+
     public void siguienteTurno() {
         turno++;
         if (turno > jugadoresDisponibles.getUsuarios().size() - 1) {
@@ -101,11 +58,7 @@ public class TableroController {
         jugadorTurno = jugadoresDisponibles.getUsuarios().get(turno);
     }
 
-    /**
-     * Establece la lista de jugadores y actualiza la visualización en el tablero.
-     *
-     * @param jugadoresDisponibles Lista de jugadores a mostrar.
-     */
+
     public void setJugadores(ListaJugador jugadoresDisponibles) {
         this.jugadoresDisponibles = jugadoresDisponibles;
         List<Jugador> jugadores = jugadoresDisponibles.getUsuarios();
@@ -144,12 +97,7 @@ public class TableroController {
         vboxJugadores.getChildren().add(accordion);
     }
 
-    /**
-     * Devuelve el color correspondiente según la posición del jugador.
-     *
-     * @param posicion Posición en el ranking.
-     * @return Color en formato hexadecimal.
-     */
+
     private String getColorPorPosicion(int posicion) {
         return switch (posicion) {
             case 0 -> "#28a745";
@@ -160,23 +108,15 @@ public class TableroController {
 
     }
 
-    /**
-     * Avanza al siguiente turno y actualiza la visualización de jugadores.
-     */
+
     @FXML
     private void onSiguienteTurno() {
         siguienteTurno();
         setJugadores(jugadoresDisponibles);
     }
 
-    /**
-     * Inicializa el tablero de juego, cargando la vista del dado, configurando eventos y generando las fichas de los jugadores.
-     * <p>
-     * - Carga la vista del dado y la inserta en el panel correspondiente.
-     * - Asigna el evento de click al dado para animar y avanzar el turno.
-     * - Si hay jugadores pendientes, los ordena y actualiza la visualización.
-     * - Genera fichas en el GridPane de prueba para cada celda.
-     */
+
+
     @FXML
     public void initialize() {
         if (stage != null) {
@@ -210,6 +150,14 @@ public class TableroController {
             jugadoresPendientes = null;
         }
         // Inyectar una ficha en cada celda del GridPane casilla
+        inyectarFichasEnCasillaPrueba();
+    }
+
+    /**
+     * Inyecta una ficha en cada celda del GridPane casilla de prueba.
+     * Si el GridPane existe, recorre todas las filas y columnas, cargando la vista de ficha en cada celda.
+     */
+    private void inyectarFichasEnCasillaPrueba() {
         if (casillaprueba != null) {
             casillaprueba.setStyle("-fx-border-color: red; -fx-border-width: 3;");
             int filas = casillaprueba.getRowCount();
@@ -229,8 +177,7 @@ public class TableroController {
     }
 
     /**
-     * Establece la lista de jugadores ordenados y actualiza la visualización si corresponde.
-     *
+     * Establece la lista de jugadores ordenados y la asigna al tablero si corresponde.
      * @param setJugadoresOrdenados Lista enlazada de jugadores ordenados.
      */
     public void setJugadoresOrdenados(LinkedList<Jugador> setJugadoresOrdenados) {

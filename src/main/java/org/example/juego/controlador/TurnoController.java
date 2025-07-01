@@ -22,41 +22,38 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Controlador encargado de gestionar la ronda de lanzamientos de dado y el orden de los jugadores.
- * Permite manejar empates, mostrar el jugador en turno y pasar el ranking final al tablero.
- */
 public class TurnoController {
-    /** Contenedor del dado en la interfaz. */
+
     @FXML
     private AnchorPane ctdDado;
-    /** Muestra el alias del jugador en turno. */
+
     @FXML
     private Label lblJugadorAlias;
-    /** Imagen de avatar del jugador en turno. */
+
     @FXML
     private ImageView imgAvatar;
-    /** Botón para lanzar el dado. */
+
     @FXML
     private Button btnLanzarDado;
-    /** Etiqueta para mostrar información y mensajes. */
+
     @FXML
     private Label lblInfo;
-    /** Lista de jugadores que participan en el tablero. */
+
     private List<Jugador> jugadoresTablero;
-    /** Índice del jugador en turno dentro de la ronda. */
+
     private static int indiceJugador = 0;
-    /** Controlador del dado para animar y obtener el valor. */
+
     private DadoController dadoController;
-    /** Jugadores que participan en la ronda actual. */
+
     private List<Jugador> rondaActual;
-    /** Lista final ordenada de jugadores según el resultado del dado. */
+
     private final List<Jugador> ordenFinal = new ArrayList<>();
-    /** Todos los jugadores originales del tablero. */
+
     private List<Jugador> todosLosJugadores = new ArrayList<>();
 
     /**
-     * Inicia una nueva ronda de lanzamientos con la lista de jugadores indicada.
+     * Inicia una nueva ronda con la lista de jugadores proporcionada.
+     * Habilita el botón para lanzar el dado y renderiza el jugador actual.
      * @param jugadores Lista de jugadores que participan en la ronda.
      */
     public void iniciarRonda(List<Jugador> jugadores) {
@@ -68,8 +65,9 @@ public class TurnoController {
     }
 
     /**
-     * Lanza el dado para el jugador en turno y gestiona el avance de la ronda.
-     * Si todos han lanzado, maneja el final de la ronda (empates o ranking).
+     * Lanza el dado para el jugador en turno.
+     * Si es el primer lanzamiento de la ronda, se inicia la ronda con todos los jugadores.
+     * Almacena el resultado del dado en el jugador correspondiente y maneja el fin de la ronda si es necesario.
      */
     @FXML
     public void lanzarDado() {
@@ -104,9 +102,6 @@ public class TurnoController {
         }));
     }
 
-    /**
-     * Maneja el final de la ronda: resuelve empates o genera el ranking final.
-     */
     private void manejarFinDeRonda() {
         // Agrupar jugadores por puntuación
         Map<Integer, List<Jugador>> agrupados = rondaActual.stream()
@@ -159,11 +154,6 @@ public class TurnoController {
         }
     }
 
-    /**
-     * Cierra la ventana actual y abre el tablero con los jugadores ordenados por el resultado del dado.
-     * @param jugadoresOrdenados Lista enlazada de jugadores ordenados.
-     * @param nodoCualquieraDelModalActual Nodo de la ventana actual para cerrarla.
-     */
     public void tableroConJugadoresOrdenados(LinkedList<Jugador> jugadoresOrdenados, Node nodoCualquieraDelModalActual) {
         try {
             // Cerramos el modal actual usando el nodo que pertenece a esa ventana
@@ -196,8 +186,8 @@ public class TurnoController {
     }
 
     /**
-     * Muestra en la interfaz el jugador que debe lanzar el dado, su avatar y alias.
-     * Si es el primer jugador de la ronda, prepara el dado.
+     * Renderiza el jugador en turno actualizando su avatar y alias en la interfaz.
+     * Si es el primer jugador, también se encarga de renderizar el dado.
      */
     public void renderJugador() {
         if (rondaActual == null || rondaActual.isEmpty()) {
@@ -229,7 +219,8 @@ public class TurnoController {
     }
 
     /**
-     * Carga y muestra la vista del dado para el turno actual.
+     * Renderiza el dado en la interfaz cargando la vista correspondiente y habilita la interacción.
+     * Si la imagen del dado existe, la habilita para el turno actual.
      */
     private void renderDado(){
         try {
@@ -253,12 +244,9 @@ public class TurnoController {
         }
     }
 
-    /*
-    *   GETTERS AND SETTERS
-    * */
     /**
-     * Establece la lista de jugadores del tablero y comienza la ronda de lanzamientos.
-     * @param jugadoresTablero Lista de jugadores que participarán en la ronda.
+     * Establece la lista de jugadores en el tablero y comienza la ronda con una copia defensiva.
+     * @param jugadoresTablero Lista de jugadores que estarán en el tablero.
      */
     public void setJugadoresTablero(List<Jugador> jugadoresTablero) {
         this.jugadoresTablero = jugadoresTablero;

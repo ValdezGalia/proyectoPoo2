@@ -25,53 +25,45 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Controlador para la selección de jugadores antes de iniciar el juego.
- * Permite agregar y quitar jugadores al tablero, iniciar el juego y gestionar la interfaz de selección.
- */
 public class SeleccionJugadorController {
-    /**
-     * Lista de jugadores disponibles obtenidos desde la base de datos (JSON).
-     */
+
     private final ListaJugador jugadoresDisponiblesJson = new ManipuladorUsuario().extraerDatoUsuario();
 
-    /** Botón para agregar un jugador al tablero. */
+
     @FXML
     private Button btnAgregar;
-    /** Botón para iniciar el juego. */
+
     @FXML
     private Button btnJugar;
-    /** Botón para quitar un jugador del tablero. */
+
     @FXML
     private Button btnQuitar;
-    /** Botón para volver a la pantalla anterior. */
+
     @FXML
     private Button btnVolver;
-    /** Etiqueta para mostrar mensajes de estado. */
+
     @FXML
     private Label lblStatus;
-    /** Lista visual de jugadores disponibles. */
+
     @FXML
     private ListView<String> listaJugadoresDisponibles;
-    /** Lista visual de jugadores seleccionados para el tablero. */
+
     @FXML
     private ListView<String> listaJugadoresTablero;
-    /** Etiqueta para mostrar datos del jugador. */
+
     @FXML
     private Label lbldatosdeljugador;
-    /** Etiqueta para mostrar el alias del jugador. */
+
     @FXML
     private Label lblaliasjugador;
-    /** Botón para lanzar el dado (si aplica). */
+
     @FXML
     private Button btndado;
 
-    /** Lista de jugadores disponibles en memoria. */
+
     private ListaJugador jugadoresDisponibles;
 
-    /**
-     * Carga los jugadores disponibles en la lista visual desde la base de datos.
-     */
+
     @FXML
     public void ingresarJugadoresDisponibles(){
         for(Jugador jugadorDisponible : jugadoresDisponiblesJson.getUsuarios()){
@@ -79,10 +71,7 @@ public class SeleccionJugadorController {
         }
     }
 
-    /**
-     * Agrega el jugador seleccionado a la lista del tablero y actualiza la interfaz.
-     * Muestra mensajes de estado y habilita/deshabilita botones según corresponda.
-     */
+
     @FXML
     public void agregarJugadorTablero() {
         String jugador = listaJugadoresDisponibles.getSelectionModel().getSelectedItem();
@@ -112,8 +101,8 @@ public class SeleccionJugadorController {
     }
 
     /**
-     * Quita el jugador seleccionado del tablero y lo devuelve a la lista de disponibles.
-     * Actualiza la interfaz y muestra mensajes de estado.
+     * Quita un jugador del tablero y lo devuelve a la lista de jugadores disponibles.
+     * Actualiza los botones y muestra mensajes de estado según la cantidad de jugadores en el tablero.
      */
     @FXML
     public void quitarJugadorTablero() {
@@ -140,12 +129,7 @@ public class SeleccionJugadorController {
         }
     }
 
-    /**
-     * Inicia el juego abriendo la ventana de turnos y pasando los jugadores seleccionados.
-     *
-     * @param event Evento de acción que dispara el inicio del juego.
-     * @throws IOException Si ocurre un error al cargar la vista FXML.
-     */
+
     @FXML
     public void comenzarJuego(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(JuegoApplication.class.getResource("TurnoView.fxml"));
@@ -189,28 +173,21 @@ public class SeleccionJugadorController {
         turnoAsignado.showAndWait();
     }
 
-    /**
-     * Cierra la ventana actual y vuelve a la pantalla anterior.
-     */
+
     @FXML
     public void volverPaginaAnterior() {
         Stage stage = (Stage) btnVolver.getScene().getWindow();
         stage.close();
     }
 
-    /**
-     * Sale completamente del juego cerrando la aplicación.
-     */
+
     @FXML
     public void salirJuego() {
         volverPaginaAnterior();
         Platform.runLater(Platform::exit);
     }
 
-    /**
-     * Devuelve el botón para iniciar el juego (útil para pruebas o acceso externo).
-     * @return Botón btnJugar
-     */
+
     public Button getBtnJugar() {
         return btnJugar;
     }

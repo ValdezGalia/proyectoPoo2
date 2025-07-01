@@ -8,10 +8,7 @@ import java.util.Random;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Group;
 
-/**
- * Controlador para la ficha de jugador.
- * Gestiona la visualización y resaltado de los sectores de la ficha.
- */
+
 public class FichaJugadorController {
     @FXML
     private Arc arc1;
@@ -44,9 +41,7 @@ public class FichaJugadorController {
             Color.RED, Color.ORANGE, Color.BLUE, Color.GREEN, Color.YELLOW, Color.PURPLE
     };
 
-    /**
-     * Inicializa la ficha, ajustando el radio y centrado de los arcos.
-     */
+
     public void initialize() {
         arcs = new Arc[]{arc1, arc2, arc3, arc4, arc5, arc6};
         // Ajustar el radio de los arcos al 40% del lado menor del AnchorPane
@@ -56,7 +51,8 @@ public class FichaJugadorController {
     }
 
     /**
-     * Ajusta el radio de los arcos y centra el grupo en el AnchorPane.
+     * Ajusta el radio de los arcos y centra el grupo dentro del panel raíz.
+     * Calcula el radio en función del tamaño del panel y centra los elementos gráficos.
      */
     private void ajustarRadioYCentrar() {
         double w = rootPane.getWidth();
@@ -80,8 +76,9 @@ public class FichaJugadorController {
     }
 
     /**
-     * Resalta el sector indicado (1 a 6) con un color vivo y apaga los demás.
-     * @param numero Sector a resaltar (1 a 6)
+     * Resalta el sector especificado cambiando su color.
+     * Restaura los colores atenuados y resalta el sector indicado si está en el rango 1-6.
+     * @param numero Número del sector a resaltar (1-6)
      */
     public void resaltarSector(int numero) {
         for (int i = 0; i < arcs.length; i++) {
@@ -93,8 +90,9 @@ public class FichaJugadorController {
     }
 
     /**
-     * Resalta aleatoriamente un sector de la ficha.
-     * @param event Evento de acción.
+     * Evento de interfaz para resaltar un sector aleatorio.
+     * Selecciona un sector al azar y lo resalta.
+     * @param event Evento de acción recibido desde la interfaz.
      */
     @FXML
     private void onResaltarAleatorio(ActionEvent event) {

@@ -26,22 +26,42 @@ import java.util.List;
 import java.util.Objects;
 
 public class SeleccionJugadorController {
+
     private final ListaJugador jugadoresDisponiblesJson = new ManipuladorUsuario().extraerDatoUsuario();
+
 
     @FXML
     private Button btnAgregar;
+
     @FXML
     private Button btnJugar;
+
     @FXML
     private Button btnQuitar;
+
     @FXML
     private Button btnVolver;
+
     @FXML
     private Label lblStatus;
+
     @FXML
     private ListView<String> listaJugadoresDisponibles;
+
     @FXML
     private ListView<String> listaJugadoresTablero;
+
+    @FXML
+    private Label lbldatosdeljugador;
+
+    @FXML
+    private Label lblaliasjugador;
+
+    @FXML
+    private Button btndado;
+
+
+    private ListaJugador jugadoresDisponibles;
 
 
     @FXML
@@ -51,8 +71,9 @@ public class SeleccionJugadorController {
         }
     }
 
+
     @FXML
-    public void agregarJugadorTablero(){
+    public void agregarJugadorTablero() {
         String jugador = listaJugadoresDisponibles.getSelectionModel().getSelectedItem();
         if(jugador == null){
             mostrarStado(lblStatus, "Seleccione un jugador para agragar!", true, true, "alert-warning");
@@ -60,7 +81,7 @@ public class SeleccionJugadorController {
         }
 
         listaJugadoresTablero.getItems().add(jugador);
-        if(listaJugadoresTablero.getItems().size() > 1){
+        if (listaJugadoresTablero.getItems().size() > 1) {
             btnJugar.setDisable(false);
             btnQuitar.setDisable(false);
         }
@@ -74,13 +95,17 @@ public class SeleccionJugadorController {
 
         mostrarStado(lblStatus, jugador + ", agregado al tablero!", true, true, "alert-success");
 
-        if(listaJugadoresDisponibles.getItems().isEmpty()){
+        if (listaJugadoresDisponibles.getItems().isEmpty()) {
             btnAgregar.setDisable(true);
         }
     }
 
+    /**
+     * Quita un jugador del tablero y lo devuelve a la lista de jugadores disponibles.
+     * Actualiza los botones y muestra mensajes de estado según la cantidad de jugadores en el tablero.
+     */
     @FXML
-    public void quitarJugadorTablero(){
+    public void quitarJugadorTablero() {
         String jugador = listaJugadoresTablero.getSelectionModel().getSelectedItem();
         if(jugador == null){
             mostrarStado(lblStatus, "Seleccione un jugador para quitar del tablero!", true, true, "alert-warning");
@@ -92,17 +117,18 @@ public class SeleccionJugadorController {
         mostrarStado(lblStatus, jugador + ", eliminado del tablero!", true, true, "alert-success");
         listaJugadoresTablero.getItems().remove(jugador);
 
-        if(listaJugadoresTablero.getItems().size() < 2){
+        if (listaJugadoresTablero.getItems().size() < 2) {
             btnJugar.setDisable(true);
         }
 
-        if(listaJugadoresTablero.getItems().isEmpty()){
+        if (listaJugadoresTablero.getItems().isEmpty()) {
             btnJugar.setDisable(true);
             btnQuitar.setDisable(true);
             btnAgregar.setDisable(false);
             mostrarStado(lblStatus, "Agrega jugadores al tablero!", true, true, "alert-warning");
         }
     }
+
 
     @FXML
     public void comenzarJuego(ActionEvent event) throws IOException {
@@ -146,34 +172,7 @@ public class SeleccionJugadorController {
         turnoAsignado.initOwner(((Node) event.getSource()).getScene().getWindow());
         turnoAsignado.showAndWait();
     }
-//    public void comenzarJuego(ActionEvent event) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(JuegoApplication.class.getResource("TurnoView.fxml"));
-//        Parent root = fxmlLoader.load();
-//
-//        root.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
-//        root.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/estilos.css")).toExternalForm());
-//        TurnoController turnoController = fxmlLoader.getController();
-//
-//        List<Jugador> listaJugadorTablero = new ArrayList<>();
-//
-//        for(Jugador jugador : jugadoresDisponiblesJson.getUsuarios()){
-//            if(listaJugadoresTablero.getItems().contains(jugador.getAlias())){
-//                listaJugadorTablero.add(jugador);
-//            }
-//        }
-//        Stage turnoAsignado = new Stage();
-//        turnoAsignado.setScene(new Scene(root));
-//
-//        root.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20;");
-//        turnoAsignado.initModality(Modality.APPLICATION_MODAL);
-//        turnoAsignado.initStyle(StageStyle.UNDECORATED);
-//
-//        turnoController.setJugadoresTablero(listaJugadorTablero);
-//        turnoController.iniciarRonda(listaJugadorTablero);
-//
-//        turnoAsignado.initOwner(((Node) event.getSource()).getScene().getWindow());
-//        turnoAsignado.showAndWait();
-//    }
+
 
     @FXML
     public void volverPaginaAnterior() {
@@ -181,13 +180,16 @@ public class SeleccionJugadorController {
         stage.close();
     }
 
+
     @FXML
-    public void salirJuego(){
+    public void salirJuego() {
         volverPaginaAnterior();
         Platform.runLater(Platform::exit);
     }
 
+
     public Button getBtnJugar() {
         return btnJugar;
     }
+
 }

@@ -16,30 +16,46 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.juego.helpers.HelperLogin;
 import org.example.juego.modelo.Jugador;
+import org.example.juego.modelo.ListaJugador;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class TurnoController {
+
     @FXML
     private AnchorPane ctdDado;
+
     @FXML
     private Label lblJugadorAlias;
+
     @FXML
     private ImageView imgAvatar;
+
     @FXML
     private Button btnLanzarDado;
+
     @FXML
     private Label lblInfo;
+
     private List<Jugador> jugadoresTablero;
+
     private static int indiceJugador = 0;
+
     private DadoController dadoController;
+
     private List<Jugador> rondaActual;
+
     private final List<Jugador> ordenFinal = new ArrayList<>();
+
     private List<Jugador> todosLosJugadores = new ArrayList<>();
 
-
+    /**
+     * Inicia una nueva ronda con la lista de jugadores proporcionada.
+     * Habilita el botón para lanzar el dado y renderiza el jugador actual.
+     * @param jugadores Lista de jugadores que participan en la ronda.
+     */
     public void iniciarRonda(List<Jugador> jugadores) {
         this.jugadoresTablero = jugadores;
         this.rondaActual = new ArrayList<>(jugadores);
@@ -48,6 +64,11 @@ public class TurnoController {
         renderJugador();  // prepara UI para el primer de esta ronda
     }
 
+    /**
+     * Lanza el dado para el jugador en turno.
+     * Si es el primer lanzamiento de la ronda, se inicia la ronda con todos los jugadores.
+     * Almacena el resultado del dado en el jugador correspondiente y maneja el fin de la ronda si es necesario.
+     */
     @FXML
     public void lanzarDado() {
 
@@ -65,16 +86,18 @@ public class TurnoController {
 
         // igual que antes, lanzas el dado y en el callback:
         dadoController.clickDado(valor -> Platform.runLater(() -> {
-            Jugador j = rondaActual.get(indiceJugador);
-            j.setResultadoDado(valor);
-            System.out.println(j.getAlias() + " sacó: " + valor);
-            HelperLogin.mostrarStado(lblInfo, j.getAlias() + " saco: " + j.getResultadoDado(), true, true, "alert-success");
-            indiceJugador++;
             if (indiceJugador < rondaActual.size()) {
-                renderJugador();
-            } else {
-                btnLanzarDado.setDisable(true);
-                manejarFinDeRonda();
+                Jugador j = rondaActual.get(indiceJugador);
+                j.setResultadoDado(valor);
+                System.out.println(j.getAlias() + " sacó: " + valor);
+                HelperLogin.mostrarStado(lblInfo, j.getAlias() + " saco: " + j.getResultadoDado(), true, true, "alert-success");
+                indiceJugador++;
+                if (indiceJugador < rondaActual.size()) {
+                    renderJugador();
+                } else {
+                    btnLanzarDado.setDisable(true);
+                    manejarFinDeRonda();
+                }
             }
         }));
     }
@@ -120,43 +143,52 @@ public class TurnoController {
                 }
             });
 
-            List<Jugador> rankingFinal = new ArrayList<>(ordenFinal);
+            LinkedList<Jugador> rankingFinal = new LinkedList<>(ordenFinal);
 
             for (Jugador j : todosLosJugadores) {
                 if (!rankingFinal.contains(j)) {
                     rankingFinal.add(j);
                 }
             }
-
             tableroConJugadoresOrdenados(rankingFinal, ctdDado);
         }
     }
 
-    public void tableroConJugadoresOrdenados(List<Jugador> jugadoresOrdenados, Node nodoCualquieraDelModalActual) {
+    public void tableroConJugadoresOrdenados(LinkedList<Jugador> jugadoresOrdenados, Node nodoCualquieraDelModalActual) {
         try {
             // Cerramos el modal actual usando el nodo que pertenece a esa ventana
             Stage ventanaActual = (Stage) nodoCualquieraDelModalActual.getScene().getWindow();
             ventanaActual.close();
 
             // Cargamos la nueva vista
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/tableroView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/TableroView.fxml"));
             Parent root = loader.load();
 
             // Pasamos la lista al nuevo controlador
             TableroController ctrl = loader.getController();
-            ctrl.setJugadoresOrdenados(jugadoresOrdenados);
-
+            ListaJugador listaJugador = new ListaJugador(jugadoresOrdenados);
+            ctrl.setJugadores(listaJugador);
             // Abrimos el nuevo tablero en un modal nuevo
             Stage nuevoStage = new Stage();
             nuevoStage.setScene(new Scene(root));
             nuevoStage.initModality(Modality.APPLICATION_MODAL);
-            nuevoStage.showAndWait();
+            nuevoStage.setMaximized(true);
+            // Establecer el título de la ventana del tablero
+            nuevoStage.setTitle("Tablero Trivia UCAB");
+            // Inyectar el stage al controlador para futuras referencias
+            ctrl.setStage(nuevoStage);
+            nuevoStage.show();
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Renderiza el jugador en turno actualizando su avatar y alias en la interfaz.
+     * Si es el primer jugador, también se encarga de renderizar el dado.
+     */
     public void renderJugador() {
         if (rondaActual == null || rondaActual.isEmpty()) {
             return;
@@ -186,6 +218,10 @@ public class TurnoController {
         }
     }
 
+    /**
+     * Renderiza el dado en la interfaz cargando la vista correspondiente y habilita la interacción.
+     * Si la imagen del dado existe, la habilita para el turno actual.
+     */
     private void renderDado(){
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -208,9 +244,10 @@ public class TurnoController {
         }
     }
 
-    /*
-    *   GETTERS AND SETTERS
-    * */
+    /**
+     * Establece la lista de jugadores en el tablero y comienza la ronda con una copia defensiva.
+     * @param jugadoresTablero Lista de jugadores que estarán en el tablero.
+     */
     public void setJugadoresTablero(List<Jugador> jugadoresTablero) {
         this.jugadoresTablero = jugadoresTablero;
         this.todosLosJugadores = new ArrayList<>(jugadoresTablero);

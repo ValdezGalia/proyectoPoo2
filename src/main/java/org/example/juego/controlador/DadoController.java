@@ -1,4 +1,3 @@
-
 package org.example.juego.controlador;
 
 import javafx.animation.KeyFrame;
@@ -12,23 +11,29 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.function.Consumer;
 
+
 public class DadoController {
+
     private int valor;
+
 
     @FXML
     private ImageView imgDado;
-    Random random = new Random();
+
+    private final Random random = new Random();
+
 
     /**
-     * Anima el dado y, cuando termine, invoca onResult con el valor final (1–6).
+     * Maneja el evento de clic sobre el dado, mostrando una animación y devolviendo el resultado final.
+     * @param onResult Callback que recibe el valor final del dado tras la animación.
      */
     public void clickDado(Consumer<Integer> onResult) {
-        // 1. Pinta la cara inicial
+        // Pinta la cara inicial
         imgDado.setImage(new Image(Objects.requireNonNull(
                 getClass().getResource("/img/cara1.png")
         ).toExternalForm()));
 
-        // 2. Crea animación
+        // Crea animación
         Timeline timeline = new Timeline();
         for (int i = 0; i < 10; i++) {
             int delay = i * 100;
@@ -40,7 +45,7 @@ public class DadoController {
             }));
         }
 
-        // 3. Al finalizar, calcula el resultado y lo pasa al callback
+        // Al finalizar, calcula el resultado y lo pasa al callback
         timeline.setOnFinished(e -> {
             int resultadoFinal = random.nextInt(6) + 1;
             imgDado.setImage(new Image(Objects.requireNonNull(
@@ -52,6 +57,12 @@ public class DadoController {
 
         timeline.play();
     }
+
+
+    public int getValor() {
+        return valor;
+    }
+
 
     @FXML
     public void start(int valor){

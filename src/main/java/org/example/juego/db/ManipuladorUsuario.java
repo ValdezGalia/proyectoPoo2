@@ -11,6 +11,11 @@ import java.nio.file.Paths;
 public class ManipuladorUsuario implements DataBase{
     private final String archivo = "usuarios.json";
 
+    /**
+     * Extrae los datos de los usuarios desde el archivo JSON y los convierte en una lista de jugadores.
+     * Si ocurre un error, retorna una lista vacía.
+     * @return ListaJugador con los usuarios extraídos del archivo.
+     */
     @Override
     public ListaJugador extraerDatoUsuario() {
         ListaJugador listaJugador = new ListaJugador();

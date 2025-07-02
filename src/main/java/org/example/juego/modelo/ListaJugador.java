@@ -3,11 +3,13 @@ package org.example.juego.modelo;
 import java.util.LinkedList;
 
 public class ListaJugador {
+
     private LinkedList<Jugador> jugador;
 
     public ListaJugador(LinkedList<Jugador> jugador) {
         this.jugador = jugador;
     }
+
 
     public ListaJugador() { this.jugador = new LinkedList<>(); }
 
@@ -30,5 +32,9 @@ public class ListaJugador {
 
     public void insertarUsuario(Jugador jugador){
         this.jugador.add(jugador);
+    }
+
+    public void eliminarUsuario(Jugador jugador){
+        this.jugador.remove(jugador);
     }
 }

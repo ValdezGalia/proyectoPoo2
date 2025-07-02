@@ -7,7 +7,9 @@ import javafx.util.Duration;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class HelperLogin {
+
     public static void mostrarStado(Label lblStatus, String msg, boolean visible, boolean managed, String tipoAlerta){
         // Clases alert posibles
         List<String> alertClasses = Arrays.asList("alert-danger", "alert-success", "alert-warning", "alert-info");
@@ -34,6 +36,5 @@ public class HelperLogin {
         fadeOut.setFromValue(0.0);
         fadeOut.setToValue(1.0);
         fadeOut.play();
-
     }
 }

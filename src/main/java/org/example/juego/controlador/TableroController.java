@@ -90,7 +90,23 @@ public class TableroController {
             Label tituloLabel = new Label("Categorías respondidas:");
             infoBox.getChildren().add(tituloLabel);
             for (Categoria categoria : jugador.getCategorias().keySet()) {
-                String catTexto = categoria + ": " + jugador.getAciertosEnCategorias(categoria);
+                String nombreCategoria;
+                switch (categoria.name()) {
+                    case "CIENCIAYNATURALEZA":
+                        nombreCategoria = "Ciencia y Naturaleza";
+                        break;
+                    case "ARTEYLITERATURA":
+                        nombreCategoria = "Arte y Literatura";
+                        break;
+                    case "DEPORTESYPASATIEMPOS":
+                        nombreCategoria = "Deportes y Pasatiempos";
+                        break;
+                    default:
+                        // Solo la primera letra en mayúscula, el resto en minúscula
+                        String raw = categoria.name().toLowerCase();
+                        nombreCategoria = raw.substring(0, 1).toUpperCase() + raw.substring(1);
+                }
+                String catTexto = nombreCategoria + ": " + jugador.getAciertosEnCategorias(categoria);
                 Label catLabel = new Label(catTexto);
                 infoBox.getChildren().add(catLabel);
             }

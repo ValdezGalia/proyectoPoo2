@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/2.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.juego.controlador.TableroController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.juego.controlador.TableroController">
    <HBox prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <AnchorPane HBox.hgrow="ALWAYS">
          <children>
@@ -34,10 +34,12 @@
             </GridPane>
          </children>
       </AnchorPane>
-
-      <!-- Área de jugadores -->
-      <VBox fx:id="vboxJugadores" prefHeight="600.0" prefWidth="200.0" spacing="10" style="-fx-padding: 10; -fx-background-color: #f8f9fa; -fx-border-color: black;">
-      <Label style="-fx-font-size: 16; -fx-font-weight: bold;" text="Jugadores" />
-   </VBox>
+      <AnchorPane prefHeight="626.0" prefWidth="199.0" style="-fx-padding: 10; -fx-background-color: #f8f9fa; -fx-border-color: black;">
+         <children>
+            <!-- Área de jugadores -->
+            <VBox fx:id="vboxJugadores" prefHeight="556.0" prefWidth="199.0" spacing="10" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" />
+            <Label alignment="CENTER" layoutX="63.0" layoutY="2.0" style="-fx-font-size: 16; -fx-font-weight: bold;" text="Jugadores" />
+         </children>
+      </AnchorPane>
    </HBox>
 </AnchorPane>

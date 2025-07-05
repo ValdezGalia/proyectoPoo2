@@ -7,13 +7,18 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import org.example.juego.modelo.Categoria;
 import org.example.juego.modelo.Jugador;
 import org.example.juego.modelo.ListaJugador;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 
 public class TableroController {
@@ -44,6 +49,8 @@ public class TableroController {
 
     private Stage stage;
 
+    private Set<Categoria> categorias;
+
     public void setStage(Stage stage) {
         this.stage = stage;
         this.stage.setTitle("Tablero Trivia UCAB");
@@ -70,12 +77,23 @@ public class TableroController {
 
         // Crear un Accordion para los jugadores
         Accordion accordion = new Accordion();
+        TitledPane paneTurnoActual = null;
         for (int i = 0; i < jugadores.size(); i++) {
             Jugador jugador = jugadores.get(i);
+            if (jugador.getCategorias() == null) {
+                jugador.ponerCategorias();
+            }
             String texto = (i + 1) + ". " + jugador.getAlias() + " 🎲 " + jugador.getResultadoDado();
-            String infoTexto = "Información del jugador: Categoría respondida";
-            Label infoLabel = new Label(infoTexto);
-            VBox infoBox = new VBox(infoLabel);
+
+            // Crear VBox con título y categorías/aciertos
+            VBox infoBox = new VBox();
+            Label tituloLabel = new Label("Categorías respondidas:");
+            infoBox.getChildren().add(tituloLabel);
+            for (Categoria categoria : jugador.getCategorias().keySet()) {
+                String catTexto = categoria + ": " + jugador.getAciertosEnCategorias(categoria);
+                Label catLabel = new Label(catTexto);
+                infoBox.getChildren().add(catLabel);
+            }
             infoBox.setStyle("-fx-background-color: #f1f1f1; -fx-padding: 8px 16px; -fx-background-radius: 0 0 10px 10px;");
             TitledPane pane = new TitledPane(texto, infoBox);
             // Si es el turno actual, poner en verde el TitledPane completo
@@ -87,10 +105,13 @@ public class TableroController {
                 pane.setText((i + 1) + ". 🎲 " + jugador.getResultadoDado());
                 pane.setGraphic(turnoLabel);
                 pane.setContentDisplay(javafx.scene.control.ContentDisplay.TOP);
+                paneTurnoActual = pane;
+                pane.setDisable(false); // Habilitar solo el del turno
             } else {
                 pane.setStyle("");
                 pane.setText(texto);
                 pane.setGraphic(null);
+                pane.setDisable(true); // Deshabilitar los otros
             }
             accordion.getPanes().add(pane);
         }
@@ -116,7 +137,6 @@ public class TableroController {
     }
 
 
-
     @FXML
     public void initialize() {
         if (stage != null) {
@@ -125,7 +145,7 @@ public class TableroController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/DadoView.fxml"));
             Parent dadoRoot = loader.load();
-            DadoController dadoController = loader.getController();
+            dadoController = loader.getController();
             // Elimina cualquier dado anterior
             Dado.getChildren().clear();
             Dado.getChildren().add(dadoRoot);
@@ -149,6 +169,7 @@ public class TableroController {
             setJugadoresOrdenados(jugadoresPendientes);
             jugadoresPendientes = null;
         }
+
         // Inyectar una ficha en cada celda del GridPane casilla
         inyectarFichasEnCasillaPrueba();
     }
@@ -178,6 +199,7 @@ public class TableroController {
 
     /**
      * Establece la lista de jugadores ordenados y la asigna al tablero si corresponde.
+     *
      * @param setJugadoresOrdenados Lista enlazada de jugadores ordenados.
      */
     public void setJugadoresOrdenados(LinkedList<Jugador> setJugadoresOrdenados) {
@@ -187,5 +209,20 @@ public class TableroController {
             this.setJugadores(jugadoresDisponibles);
 
         }
+    }
+
+    @FXML
+    public void lanzarDado(KeyEvent keyEvent) {
+        System.out.println("lanzarDado: ");
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            System.out.println("lanzarDado: ES ENTER " + keyEvent);
+            dadoController.clickDado(valor -> {
+            // Aquí puedes manejar el valor del dado lanzado
+            System.out.println("Valor del dado: " + valor);
+            // Avanzar al siguiente turno después de lanzar el dado
+            onSiguienteTurno();
+            });
+        }
+
     }
 }

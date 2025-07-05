@@ -28,6 +28,7 @@ public class DadoController {
      * @param onResult Callback que recibe el valor final del dado tras la animación.
      */
     public void clickDado(Consumer<Integer> onResult) {
+        System.out.println("clickDado: " + onResult);
         // Pinta la cara inicial
         imgDado.setImage(new Image(Objects.requireNonNull(
                 getClass().getResource("/img/cara1.png")

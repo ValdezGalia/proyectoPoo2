@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -178,8 +179,6 @@ public class TurnoController {
             // Inyectar el stage al controlador para futuras referencias
             ctrl.setStage(nuevoStage);
             nuevoStage.show();
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }

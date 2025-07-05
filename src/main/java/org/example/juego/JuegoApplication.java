@@ -28,6 +28,7 @@ public class JuegoApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(JuegoApplication.class.getResource("IndexView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 360, 375);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/estilos.css")).toExternalForm());
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/icono2.png"))));
         stage.setTitle("Login");
         stage.setResizable(false);

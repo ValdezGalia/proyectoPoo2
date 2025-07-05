@@ -35,29 +35,11 @@
       <VBox layoutX="-2.0" layoutY="279.0" prefHeight="116.0" prefWidth="400.0" style="-fx-padding: 15;">
          <children>
             <Label fx:id="lblStatus" managed="false" prefHeight="17.0" prefWidth="411.0" styleClass="alert" visible="false" />
-            <HBox alignment="BOTTOM_CENTER" prefHeight="35.0" prefWidth="400.0" style="-fx-padding: 15;">
+            <HBox alignment="BOTTOM_CENTER" prefHeight="35.0" prefWidth="400.0" style="-fx-padding: 15;" spacing="20.0">
                <children>
-                  <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#salirJuego" text="Salir">
-                     <styleClass>
-                        <String fx:value="btn" />
-                        <String fx:value="btn-danger" />
-                     </styleClass>
-                  </Button>
-                  <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#volverPaginaAnterior" text="Volver">
-                     <HBox.margin>
-                        <Insets left="15.0" right="15.0" />
-                     </HBox.margin>
-                     <styleClass>
-                        <String fx:value="btn" />
-                        <String fx:value="btn-default" />
-                     </styleClass>
-                  </Button>
-                  <Button fx:id="btnJugar" mnemonicParsing="false" onAction="#comenzarJuego" text="Jugar">
-                     <styleClass>
-                        <String fx:value="btn" />
-                        <String fx:value="btn-success" />
-                     </styleClass>
-                  </Button>
+                  <Button fx:id="btnSalir" id="btnSalir" mnemonicParsing="false" onAction="#salirJuego" text="Salir" alignment="CENTER" prefWidth="120" minHeight="35" maxHeight="35" style="-fx-background-color: #ef5350; -fx-text-fill: white; -fx-font-size: 18px; -fx-background-radius: 30px; -fx-font-family: 'Segoe UI', Arial, sans-serif; -fx-font-weight: 500; -fx-effect: dropshadow(gaussian, #ffcdd2, 6, 0.1, 0, 2); -fx-cursor: hand; -fx-padding: 6 0 6 0; -fx-border-width: 0; -fx-border-color: transparent;" />
+                  <Button fx:id="btnVolver" id="btnVolver" mnemonicParsing="false" onAction="#volverPaginaAnterior" text="Volver" alignment="CENTER" prefWidth="120" minHeight="35" maxHeight="35" style="-fx-background-color: #e0e0e0; -fx-text-fill: #222; -fx-font-size: 18px; -fx-background-radius: 30px; -fx-font-family: 'Segoe UI', Arial, sans-serif; -fx-font-weight: 500; -fx-effect: dropshadow(gaussian, #bdbdbd, 6, 0.1, 0, 2); -fx-cursor: hand; -fx-padding: 6 0 6 0; -fx-border-width: 0; -fx-border-color: transparent;" />
+                  <Button fx:id="btnJugar" id="btnJugar" mnemonicParsing="false" onAction="#comenzarJuego" text="Jugar" alignment="CENTER" prefWidth="120" minHeight="35" maxHeight="35" style="-fx-background-color: #7fffa1; -fx-text-fill: #222; -fx-font-size: 18px; -fx-background-radius: 30px; -fx-font-family: 'Segoe UI', Arial, sans-serif; -fx-font-weight: 500; -fx-effect: dropshadow(gaussian, #b3e5fc, 6, 0.1, 0, 2); -fx-cursor: hand; -fx-padding: 6 0 6 0; -fx-border-width: 0; -fx-border-color: transparent;" />
                </children>
             </HBox>
          </children>

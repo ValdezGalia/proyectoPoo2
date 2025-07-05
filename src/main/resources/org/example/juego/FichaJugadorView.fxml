@@ -9,16 +9,22 @@
             xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.juego.controlador.FichaJugadorController"
-            prefHeight="350.0" prefWidth="600.0">
+            prefHeight="120.0" prefWidth="120.0" style="-fx-background-color: #dbeefd;">
     <children>
         <Group fx:id="group">
             <children>
-                <Arc fx:id="arc1" startAngle="0" length="60" type="ROUND"   fill="#ffffff" stroke="red" strokeWidth="2"/>
-                <Arc fx:id="arc2" startAngle="60" length="60" type="ROUND"  fill="#ffffff" stroke="orange" strokeWidth="2"/>
-                <Arc fx:id="arc3" startAngle="120" length="60" type="ROUND" fill="#ffffff" stroke="blue" strokeWidth="2"/>
-                <Arc fx:id="arc4" startAngle="180" length="60" type="ROUND" fill="#ffffff" stroke="green" strokeWidth="2"/>
-                <Arc fx:id="arc5" startAngle="240" length="60" type="ROUND" fill="#ffffff" stroke="yellow" strokeWidth="2"/>
-                <Arc fx:id="arc6" startAngle="300" length="60" type="ROUND" fill="#ffffff" stroke="purple" strokeWidth="2"/>
+                <Arc fx:id="arc1" startAngle="0" length="60" type="ROUND" fill="#4db6ff" stroke="#23264c" strokeWidth="5"
+                     centerX="60" centerY="60" radiusX="52" radiusY="52" />
+                <Arc fx:id="arc2" startAngle="60" length="60" type="ROUND" fill="#ff5ebc" stroke="#23264c" strokeWidth="5"
+                     centerX="60" centerY="60" radiusX="52" radiusY="52" />
+                <Arc fx:id="arc3" startAngle="120" length="60" type="ROUND" fill="#a07cff" stroke="#23264c" strokeWidth="5"
+                     centerX="60" centerY="60" radiusX="52" radiusY="52" />
+                <Arc fx:id="arc4" startAngle="180" length="60" type="ROUND" fill="#ffe066" stroke="#23264c" strokeWidth="5"
+                     centerX="60" centerY="60" radiusX="52" radiusY="52" />
+                <Arc fx:id="arc5" startAngle="240" length="60" type="ROUND" fill="#7be495" stroke="#23264c" strokeWidth="5"
+                     centerX="60" centerY="60" radiusX="52" radiusY="52" />
+                <Arc fx:id="arc6" startAngle="300" length="60" type="ROUND" fill="#ffb347" stroke="#23264c" strokeWidth="5"
+                     centerX="60" centerY="60" radiusX="52" radiusY="52" />
             </children>
         </Group>
         <!-- <Button text="Resaltar Aleatorio" onAction="#onResaltarAleatorio" layoutX="230.0" layoutY="300.0" /> -->

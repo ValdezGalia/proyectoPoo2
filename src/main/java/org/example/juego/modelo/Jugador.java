@@ -60,10 +60,11 @@ public class Jugador {
     }
 
 
-
+    //cada jugador tiene un mapa de categorías y sus respectivos aciertos
     public Map<Categoria, Integer> getCategorias() {
         return this.categorias;
     }
+
     public void ponerCategorias() {
         this.categorias= new EnumMap<>(Categoria.class);
         // Inicializar todas las categorías con valor 0

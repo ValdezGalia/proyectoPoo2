@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class ManipuladorUsuario implements DataBase{
+public class ManipuladorUsuario implements IDataBase {
     private final String archivo = "usuarios.json";
 
     /**

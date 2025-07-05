@@ -59,4 +59,23 @@ public class IndexController {
         Stage stage = (Stage) btnSalir.getScene().getWindow();
         stage.close();
     }
+
+    /**
+     * Abre la ventana modal para mostrar las estadísticas del juego.
+     * Carga la vista correspondiente y configura la ventana modal.
+     * @param event Evento de acción recibido desde la interfaz.
+     * @throws IOException Si ocurre un error al cargar el archivo FXML.
+     */
+    @FXML
+    public void abrirEstadistica(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(JuegoApplication.class.getResource("EstadisticaView.fxml"));
+        Parent root = fxmlLoader.load();
+        Stage ventanaModal = new Stage();
+        ventanaModal.setTitle("Estadísticas");
+        Scene scene = new Scene(root);
+        ventanaModal.setScene(scene);
+        ventanaModal.setMaximized(true); // Abrir en pantalla grande
+        ventanaModal.initModality(Modality.APPLICATION_MODAL);
+        ventanaModal.showAndWait();
+    }
 }

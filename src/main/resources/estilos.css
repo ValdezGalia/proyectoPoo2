@@ -17,3 +17,129 @@
 #btnLanzarDado:hover {
     -fx-background-color: derive(#0072ff, -20%);
 }
+
+.root {
+    -fx-background-color: linear-gradient(to bottom, #f8fafc 80%, #e3e8ee 100%);
+}
+
+.titulo-bienvenida {
+    -fx-text-fill: #2196f3;
+    -fx-font-size: 36px;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-padding: 0 0 10 0;
+    -fx-effect: dropshadow(gaussian, #b3e5fc, 8, 0.2, 0, 2);
+}
+
+.image-view {
+    -fx-effect: dropshadow(gaussian, #90caf9, 16, 0.2, 0, 2);
+    -fx-padding: 0 0 20 0;
+}
+
+.btn-nueva-partida {
+    -fx-background-color: #e0e0e0 !important;
+    -fx-text-fill: #222 !important;
+    -fx-font-size: 22px;
+    -fx-background-radius: 30px;
+    -fx-border-radius: 30px;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-font-weight: 500;
+    -fx-effect: dropshadow(gaussian, #bdbdbd, 6, 0.1, 0, 2);
+    -fx-cursor: hand;
+    -fx-padding: 10 0 10 0;
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-margin: 10 0 0 0;
+}
+
+.btn-nueva-partida:hover {
+    -fx-background-color: #d6d6d6 !important;
+}
+
+.btn-estadistica {
+    -fx-background-color: #81d4fa !important;
+    -fx-text-fill: #222 !important;
+    -fx-font-size: 22px;
+    -fx-background-radius: 30px;
+    -fx-border-radius: 30px;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-font-weight: 500;
+    -fx-effect: dropshadow(gaussian, #b3e5fc, 6, 0.1, 0, 2);
+    -fx-cursor: hand;
+    -fx-padding: 10 0 10 0;
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-margin: 10 0 0 0;
+}
+
+.btn-estadistica:hover {
+    -fx-background-color: #4fc3f7 !important;
+}
+
+.btn-salir {
+    -fx-background-color: #ef5350 !important;
+    -fx-text-fill: #fff !important;
+    -fx-font-size: 22px;
+    -fx-background-radius: 30px;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-font-weight: 500;
+    -fx-effect: dropshadow(gaussian, #ffcdd2, 6, 0.1, 0, 2);
+    -fx-cursor: hand;
+    -fx-padding: 10 0 10 0;
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-min-width: 120px;
+    -fx-min-height: 45px;
+    -fx-max-height: 45px;
+    -fx-pref-width: 180px;
+    -fx-margin: 10 0 0 0;
+}
+
+.btn-salir:hover {
+    -fx-background-color: #e53935 !important;
+}
+
+.btn-principal {
+    -fx-background-color: linear-gradient(to right, #4e8cff, #2b5876);
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-background-radius: 20;
+    -fx-padding: 8 30 8 30;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, #b3e5fc, 6, 0.1, 0, 2);
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-margin: 10 0 0 0;
+    -fx-alignment: center;
+    /* Forzar prioridad sobre estilos heredados */
+    -fx-background-insets: 0 !important;
+    -fx-background-repeat: no-repeat;
+}
+
+.btn-principal:hover {
+    -fx-background-color: linear-gradient(to right, #2b5876, #4e8cff);
+}
+#btnSalir, #btnVolver, #btnJugar {
+    -fx-background-color: linear-gradient(to right, #4e8cff, #2b5876) !important;
+    -fx-text-fill: white !important;
+    -fx-font-size: 18px;
+    -fx-background-radius: 20;
+    -fx-padding: 8 30 8 30;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, #b3e5fc, 6, 0.1, 0, 2);
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-margin: 10 0 0 0;
+    -fx-alignment: center;
+    -fx-background-insets: 0 !important;
+    -fx-background-repeat: no-repeat;
+}
+
+#btnSalir:hover, #btnVolver:hover, #btnJugar:hover {
+    -fx-background-color: linear-gradient(to right, #2b5876, #4e8cff) !important;
+}

@@ -30,27 +30,9 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </ImageView>
-      <Button fx:id="btnNuevaPartida" mnemonicParsing="false" onAction="#seleccionJugadores" prefHeight="43.0" prefWidth="270.0" text="Nueva partida">
-         <styleClass>
-            <String fx:value="btn" />
-            <String fx:value="btn-default" />
-         </styleClass></Button>
-    <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="270.0" text="Cargar partida">
-         <styleClass>
-            <String fx:value="btn" />
-            <String fx:value="btn-primary" />
-         </styleClass></Button>
-      <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="270.0" text="Estadisticas">
-         <styleClass>
-            <String fx:value="btn" />
-            <String fx:value="btn-info" />
-         </styleClass>
-      </Button>
-      <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#cerrarVentana" prefHeight="43.0" prefWidth="270.0" text="Salir">
-         <styleClass>
-            <String fx:value="btn" />
-            <String fx:value="btn-danger" />
-         </styleClass></Button>
+      <Button fx:id="btnNuevaPartida" mnemonicParsing="false" onAction="#seleccionJugadores" prefHeight="43.0" prefWidth="270.0" text="Nueva partida" styleClass="btn-principal" alignment="CENTER" />
+      <Button fx:id="btnEstadistica" mnemonicParsing="false" onAction="#abrirEstadistica" prefHeight="43.0" prefWidth="270.0" text="Estadística" styleClass="btn-principal" alignment="CENTER" />
+      <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#cerrarVentana" prefHeight="43.0" prefWidth="270.0" text="Salir" styleClass="btn-principal" alignment="CENTER" />
    </children>
    <opaqueInsets>
       <Insets />

@@ -54,6 +54,7 @@ public class TurnoController {
     /**
      * Inicia una nueva ronda con la lista de jugadores proporcionada.
      * Habilita el botón para lanzar el dado y renderiza el jugador actual.
+     *
      * @param jugadores Lista de jugadores que participan en la ronda.
      */
     public void iniciarRonda(List<Jugador> jugadores) {
@@ -213,7 +214,7 @@ public class TurnoController {
         lblJugadorAlias.setText(jugadorEnTurno.getAlias());
 
         // 4) Preparamos el dado para este jugador
-        if(indiceJugador == 0) {
+        if (indiceJugador == 0) {
             renderDado();
         }
     }
@@ -222,7 +223,7 @@ public class TurnoController {
      * Renderiza el dado en la interfaz cargando la vista correspondiente y habilita la interacción.
      * Si la imagen del dado existe, la habilita para el turno actual.
      */
-    private void renderDado(){
+    private void renderDado() {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/org/example/juego/DadoView.fxml")
@@ -246,6 +247,7 @@ public class TurnoController {
 
     /**
      * Establece la lista de jugadores en el tablero y comienza la ronda con una copia defensiva.
+     *
      * @param jugadoresTablero Lista de jugadores que estarán en el tablero.
      */
     public void setJugadoresTablero(List<Jugador> jugadoresTablero) {

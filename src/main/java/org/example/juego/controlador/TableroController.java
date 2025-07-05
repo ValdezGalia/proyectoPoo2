@@ -7,6 +7,8 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.example.juego.modelo.Categoria;
@@ -78,7 +80,7 @@ public class TableroController {
         TitledPane paneTurnoActual = null;
         for (int i = 0; i < jugadores.size(); i++) {
             Jugador jugador = jugadores.get(i);
-            if (jugador.getCategorias()==null){
+            if (jugador.getCategorias() == null) {
                 jugador.ponerCategorias();
             }
             String texto = (i + 1) + ". " + jugador.getAlias() + " 🎲 " + jugador.getResultadoDado();
@@ -113,9 +115,6 @@ public class TableroController {
             }
             accordion.getPanes().add(pane);
         }
-        if (paneTurnoActual != null) {
-            accordion.setExpandedPane(paneTurnoActual);
-        }
         vboxJugadores.getChildren().add(accordion);
     }
 
@@ -146,7 +145,7 @@ public class TableroController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/DadoView.fxml"));
             Parent dadoRoot = loader.load();
-            DadoController dadoController = loader.getController();
+            dadoController = loader.getController();
             // Elimina cualquier dado anterior
             Dado.getChildren().clear();
             Dado.getChildren().add(dadoRoot);
@@ -210,5 +209,20 @@ public class TableroController {
             this.setJugadores(jugadoresDisponibles);
 
         }
+    }
+
+    @FXML
+    public void lanzarDado(KeyEvent keyEvent) {
+        System.out.println("lanzarDado: ");
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            System.out.println("lanzarDado: ES ENTER " + keyEvent);
+            dadoController.clickDado(valor -> {
+            // Aquí puedes manejar el valor del dado lanzado
+            System.out.println("Valor del dado: " + valor);
+            // Avanzar al siguiente turno después de lanzar el dado
+            onSiguienteTurno();
+            });
+        }
+
     }
 }

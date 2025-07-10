@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.juego.controlador.EstadisticaController" style="-fx-background-color: linear-gradient(to bottom, #e0eafc, #cfdef3);">
+    <top/>
+    <center>
+        <VBox alignment="CENTER" spacing="15">
+            <Label text="Estadísticas del Juego" style="-fx-font-size: 28px; -fx-font-family: 'Berlin Sans FB'; -fx-text-fill: #2b5876; -fx-padding: 30 0 0 0;" />
+            <Label text="Ranking de Jugadores" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #274046; -fx-padding: 0 0 10 0;" />
+            <TableView fx:id="tablaRanking" prefWidth="1800" prefHeight="400" style="-fx-background-radius: 10; -fx-border-radius: 10;">
+                <columns>
+                    <TableColumn fx:id="colAlias" text="Alias" prefWidth="120" />
+                    <TableColumn fx:id="colPartidasJugadas" text="Partidas Jugadas" prefWidth="120" />
+                    <TableColumn fx:id="colPartidasGanadas" text="Partidas Ganadas" prefWidth="120" />
+                    <TableColumn fx:id="colPartidasPerdidas" text="Partidas Perdidas" prefWidth="120" />
+                    <TableColumn fx:id="colCorrectasGeografia" text="Correctas Geografía" prefWidth="150" />
+                    <TableColumn fx:id="colCorrectasHistoria" text="Correctas Historia" prefWidth="150" />
+                    <TableColumn fx:id="colCorrectasCiencias" text="Correctas Ciencias y Naturaleza" prefWidth="200" />
+                    <TableColumn fx:id="colCorrectasArte" text="Correctas Arte y Literatura" prefWidth="200" />
+                    <TableColumn fx:id="colCorrectasDeportes" text="Correctas Deportes y Pasatiempos" prefWidth="220" />
+                    <TableColumn fx:id="colCorrectasEntretenimiento" text="Correctas Entretenimiento" prefWidth="180" />
+                    <TableColumn fx:id="colTiempoTotal" text="Tiempo Total (s)" prefWidth="120" />
+                </columns>
+            </TableView>
+            <Button text="Volver" onAction="#volverMenu" style="-fx-background-color: #2b5876; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 20; -fx-padding: 8 30 8 30;" alignment="CENTER" />
+        </VBox>
+    </center>
+</BorderPane>

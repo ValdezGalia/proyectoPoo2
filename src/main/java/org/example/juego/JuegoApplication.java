@@ -12,7 +12,7 @@ import java.util.Objects;
 
 /**
  * Clase principal de la aplicación del juego.
- * Inicia la interfaz gráfica utilizando JavaFX y carga la vista principal (IndexView.fxml).
+ * Inicia la interfaz gráfica utilizando JavaFX wy carga la vista principal (IndexView.fxml).
  */
 public class JuegoApplication extends Application {
 
@@ -29,7 +29,6 @@ public class JuegoApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 360, 375);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/icono2.png"))));
-        stage.setTitle("Login");
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
@@ -37,7 +36,6 @@ public class JuegoApplication extends Application {
 
     /**
      * Método principal. Lanza la aplicación JavaFX.
-     *
      * @param args Argumentos de línea de comandos.
      */
     public static void main(String[] args) {

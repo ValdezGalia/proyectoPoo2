@@ -2,53 +2,82 @@ package org.example.juego.controlador;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.example.juego.modelo.Jugador;
-import org.example.juego.modelo.ListaJugador;
+import javafx.stage.StageStyle;
+import org.example.juego.JuegoApplication;
+import org.example.juego.db.ManipuladorPregunta;
+import org.example.juego.modelo.*;
+import org.kordamp.bootstrapfx.BootstrapFX;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
 
 
-public class TableroController {
+public class TableroController implements Initializable {
 
-    @FXML
-    public Pane tableroArea;
-
-    public GridPane casillaprueba;
-    @FXML
-    private VBox vboxJugadores;
-
-    @FXML
-    private AnchorPane Dado;
-
-    @FXML
-    private DadoController dadoController;
-
-    @FXML
-    private ImageView imgDado;
-
-    private ListaJugador jugadoresDisponibles;
+    @FXML private GridPane tablero;
+    @FXML private VBox vboxJugadores;
+    @FXML private AnchorPane Dado;
+    @FXML private DadoController dadoController;
 
     private int turno = 0;
-
+    private ListaJugador jugadoresDisponibles;
     private Jugador jugadorTurno;
-
-    private LinkedList<Jugador> jugadoresPendientes = null;
-
+    private ListaPreguntas preguntasDisponibles;
+    private final List<Pane> highlighted = new ArrayList<>();
+    private boolean preguntaCorrecta;
+    private boolean preguntaCancelada;
+    private Tablero modelo;
     private Stage stage;
+
+
 
     public void setStage(Stage stage) {
         this.stage = stage;
         this.stage.setTitle("Tablero Trivia UCAB");
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (stage != null) {
+            stage.setTitle("");
+        }
+
+        try {
+            ManipuladorPregunta pregunta = new ManipuladorPregunta();
+            preguntasDisponibles = pregunta.getListaPreguntas();
+            modelo = new Tablero();
+            modelo.inicializarTablero(tablero);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/DadoView.fxml"));
+            Parent dadoRoot = loader.load();
+            // Elimina cualquier dado anterior
+            Dado.getChildren().clear();
+            Dado.getChildren().add(dadoRoot);
+
+            // Renderizo el dado
+            renderDado();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onLanzarDado(){
+        dadoController.clickDado(this::onMovimientoJugador);
+
+    }
 
     public void siguienteTurno() {
         turno++;
@@ -58,6 +87,11 @@ public class TableroController {
         jugadorTurno = jugadoresDisponibles.getUsuarios().get(turno);
     }
 
+    @FXML
+    private void onSiguienteTurno() {
+        siguienteTurno();
+        setJugadores(jugadoresDisponibles);
+    }
 
     public void setJugadores(ListaJugador jugadoresDisponibles) {
         this.jugadoresDisponibles = jugadoresDisponibles;
@@ -97,95 +131,122 @@ public class TableroController {
         vboxJugadores.getChildren().add(accordion);
     }
 
-
-    private String getColorPorPosicion(int posicion) {
-        return switch (posicion) {
-            case 0 -> "#28a745";
-            case 1 -> "#007bff";
-            case 2 -> "#ffc107";
-            default -> "#6c757d";
-        };
-
-    }
-
-
-    @FXML
-    private void onSiguienteTurno() {
-        siguienteTurno();
-        setJugadores(jugadoresDisponibles);
-    }
-
-
-
-    @FXML
-    public void initialize() {
-        if (stage != null) {
-            stage.setTitle("Tablero Trivia UCAB");
-        }
+    private void renderDado(){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/DadoView.fxml"));
-            Parent dadoRoot = loader.load();
-            DadoController dadoController = loader.getController();
-            // Elimina cualquier dado anterior
-            Dado.getChildren().clear();
-            Dado.getChildren().add(dadoRoot);
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/juego/DadoView.fxml")
+            );
+            Parent root = loader.load();
+            dadoController = loader.getController();
+
+            Dado.getChildren().setAll(root);
             dadoController.start(1);
-            // Asigna el evento de click al dado para animar y avanzar turno
-            ImageView imgDado = (ImageView) dadoRoot.lookup("#imgDado");
+
+            // Habilitar la imagen del dado al iniciar el turno
+            ImageView imgDado = (ImageView) root.lookup("#imgDado");
             if (imgDado != null) {
-                imgDado.setOnMouseClicked(e -> {
-                    imgDado.setDisable(true); // Evita doble click
-                    dadoController.clickDado(valor -> {
-                        // Aquí puedes guardar el valor si lo necesitas
-                        onSiguienteTurno();
-                        imgDado.setDisable(false); // Permite lanzar de nuevo en el siguiente turno
-                    });
-                });
+                imgDado.setDisable(false);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (jugadoresPendientes != null) {
-            setJugadoresOrdenados(jugadoresPendientes);
-            jugadoresPendientes = null;
-        }
-        // Inyectar una ficha en cada celda del GridPane casilla
-        inyectarFichasEnCasillaPrueba();
     }
 
-    /**
-     * Inyecta una ficha en cada celda del GridPane casilla de prueba.
-     * Si el GridPane existe, recorre todas las filas y columnas, cargando la vista de ficha en cada celda.
-     */
-    private void inyectarFichasEnCasillaPrueba() {
-        if (casillaprueba != null) {
-            casillaprueba.setStyle("-fx-border-color: red; -fx-border-width: 3;");
-            int filas = casillaprueba.getRowCount();
-            int columnas = casillaprueba.getColumnCount();
-            for (int row = 0; row < filas; row++) { // Se puede reemplazar con un for a través de los jugadores para llenar tantas fichas como jugadores haya.
-                for (int col = 0; col < columnas; col++) {
-                    try {
-                        FXMLLoader fichaLoader = new FXMLLoader(getClass().getResource("/org/example/juego/FichaJugadorView.fxml"));
-                        Parent ficha = fichaLoader.load();
-                        casillaprueba.add(ficha, col, row);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+    private void onMovimientoJugador(int valorDado) {
+        // limpiar anteriores…
+        for (Pane p : highlighted) {
+            // restaura opacidad original
+            double original = (double) p.getUserData();
+            p.setOpacity(original);
+            p.setEffect(null);
+            p.setOnMouseClicked(null);
+        }
+        highlighted.clear();
+
+        // nuevo resaltado:
+        List<Casilla> opciones = modelo.getOpcionesMovimiento(valorDado);
+        for (Casilla posicionActual : opciones) {
+            Pane pane = modelo.getPaneDeCasilla(posicionActual);
+            // oscurecer (ej. bajar opacidad al 80%)
+            pane.setOpacity(0.4);
+            // opcional: un efecto de tinte
+            // pane.setEffect(new ColorAdjust(0, 0, -0.5, 0));
+
+            // click para mover
+            pane.setOnMouseClicked(evt -> {
+                modelo.moverFicha(tablero, posicionActual, jugadorTurno);
+                try {
+                    String categoria = obtenerCategoria(posicionActual.getColor());
+                    if(!categoria.equalsIgnoreCase("LIBRE")){
+                        renderVentanaPreguntas(posicionActual.getColor());
                     }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            }
+                onMovimientoJugador(0);
+            });
+            highlighted.add(pane);
         }
     }
 
-    /**
-     * Establece la lista de jugadores ordenados y la asigna al tablero si corresponde.
-     * @param setJugadoresOrdenados Lista enlazada de jugadores ordenados.
-     */
-    public void setJugadoresOrdenados(LinkedList<Jugador> setJugadoresOrdenados) {
-        if (vboxJugadores == null) {
-            System.out.println("setJugadoresOrdenados: " + setJugadoresOrdenados);
-            jugadoresDisponibles = new ListaJugador(setJugadoresOrdenados);
-            this.setJugadores(jugadoresDisponibles);
+    private void renderVentanaPreguntas(String colorCasilla) throws IOException {
+        // Cargar el archivo FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/PreguntasCategoriasView.fxml"));
+        Parent root = loader.load();
+        root.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 
-        }
+        String categoria = obtenerCategoria(colorCasilla);
+
+        // Obtener el controlador asociado
+        PreguntasCategoriasController ctrl = loader.getController();
+
+        ctrl.getPaneColor().setStyle("-fx-background-color: " +  colorCasilla + ";");
+        ctrl.getLblCategoria().setText(categoria);
+        Pregunta preguntaAleatoriaCategoria = preguntaRandom(preguntasDisponibles.buscarPreguntaCategoria(categoria));
+        ctrl.getLblPregunta().setText(preguntaAleatoriaCategoria.getPregunta());
+        ctrl.setRespuesta(preguntaAleatoriaCategoria.getRespuesta());
+
+        Stage nuevoStage = new Stage();
+        nuevoStage.setScene(new Scene(root));
+
+        nuevoStage.initModality(Modality.APPLICATION_MODAL);
+
+        nuevoStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/icono2.png"))));
+
+        ctrl.setStage(nuevoStage);
+        nuevoStage.show();
     }
+
+    public Pregunta preguntaRandom(ListaPreguntas preguntasCategorias){
+        return preguntasCategorias.getPreguntas().get(new Random().nextInt(preguntasCategorias.sizeListaPreguntas()));
+    }
+
+    public String obtenerCategoria(String colorCategoria){
+        String categoriaCorrespondiente = "";
+        switch (colorCategoria){
+            case "yellow":
+                categoriaCorrespondiente = "Historia";
+                break;
+            case "green":
+                categoriaCorrespondiente = "Geografía";
+                break;
+            case "red":
+                categoriaCorrespondiente = "Arte y Literatura";
+                break;
+            case "purple":
+                categoriaCorrespondiente = "Entretenimiento";
+                break;
+            case "orange":
+                categoriaCorrespondiente = "Deportes";
+                break;
+            case "blue":
+                categoriaCorrespondiente = "Ciencia";
+                break;
+            default:
+                categoriaCorrespondiente = "LIBRE";
+            break;
+        }
+        return categoriaCorrespondiente;
+    }
+
 }

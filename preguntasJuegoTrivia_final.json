@@ -1,0 +1,746 @@
+{
+  "Historia": [
+    {
+      "pregunta": "¿Cuál fue el detonante de la Primera Guerra Mundial?",
+      "respuesta": "asesinato del archiduque francisco fernando de habsburgo"
+    },
+    {
+      "pregunta": "¿Quién fue el primer presidente de Estados Unidos?",
+      "respuesta": "george washington"
+    },
+    {
+      "pregunta": "¿Cuánto duró la Guerra de los Cien Años?",
+      "respuesta": "116 anos"
+    },
+    {
+      "pregunta": "¿Qué calavera no regresó tras el primer viaje de Colón a América?",
+      "respuesta": "santa maria"
+    },
+    {
+      "pregunta": "¿Qué exploradores dieron la primera vuelta al mundo?",
+      "respuesta": "magallanes y elcano"
+    },
+    {
+      "pregunta": "¿En qué año se disolvió la Unión Soviética?",
+      "respuesta": "1991"
+    },
+    {
+      "pregunta": "¿En qué isla estuvo preso Napoleón?",
+      "respuesta": "isla de santa elena"
+    },
+    {
+      "pregunta": "¿En qué año se creó la Organización de las Naciones Unidas?",
+      "respuesta": "1945"
+    },
+    {
+      "pregunta": "¿En qué año pisó el hombre la luna por primera vez?",
+      "respuesta": "1969"
+    },
+    {
+      "pregunta": "¿Quién fue el primer presidente de la democracia española tras el franquismo?",
+      "respuesta": "adolfo suarez"
+    },
+    {
+      "pregunta": "¿En qué ciudad tuvieron una reunión Hitler y Franco?",
+      "respuesta": "hendaya"
+    },
+    {
+      "pregunta": "¿Quién fue el presidente de la URSS que instauró la Perestroika?",
+      "respuesta": "mijail gorbachov"
+    },
+    {
+      "pregunta": "¿Cuál es la narración épica más antigua?",
+      "respuesta": "la epopeya de gilgamesh"
+    },
+    {
+      "pregunta": "¿Qué famosa batalla marítima tuvo lugar en 1805?",
+      "respuesta": "la batalla de trafalgar"
+    },
+    {
+      "pregunta": "¿Quién era el emperador de Roma durante la época de Jesús de Nazaret?",
+      "respuesta": "tiberio julio cesar augusto"
+    },
+    {
+      "pregunta": "¿En qué idioma están escritos originalmente los textos más antiguos de la Biblia?",
+      "respuesta": "griego antiguo"
+    },
+    {
+      "pregunta": "¿Cuál era la moneda utilizada en España antes del euro?",
+      "respuesta": "peseta"
+    },
+    {
+      "pregunta": "¿Cómo se conoce popularmente a la crisis económica de 1929?",
+      "respuesta": "la gran depresion"
+    },
+    {
+      "pregunta": "¿Cuánto duró la Segunda República Española?",
+      "respuesta": "8"
+    },
+    {
+      "pregunta": "¿En qué ciudad vivió Marco Polo?",
+      "respuesta": "venecia"
+    },
+    {
+      "pregunta": "¿Quién se considera el gran precursor del existencialismo?",
+      "respuesta": "soren kierkegaard"
+    },
+    {
+      "pregunta": "¿Qué mujer se convirtió en la primera ministra británica en 2016 tras David Cameron?",
+      "respuesta": "theresa may"
+    },
+    {
+      "pregunta": "¿En qué religión es sagrado el río Ganges?",
+      "respuesta": "hinduismo"
+    },
+    {
+      "pregunta": "¿En qué país gobernaron las dinastías Tang, Ming y Song?",
+      "respuesta": "china"
+    },
+    {
+      "pregunta": "¿Quién introdujo el número cero en Europa: griegos o árabes?",
+      "respuesta": "arabes"
+    },
+    {
+      "pregunta": "El dios más importante de los egipcios era una estrella: ¿Cuál?",
+      "respuesta": "el sol"
+    },
+    {
+      "pregunta": "¿Qué coalición lleva a Jordi Pujol a la Generalitat de Catalunya?",
+      "respuesta": "ciu"
+    },
+    {
+      "pregunta": "¿En qué país nació Rasputin?",
+      "respuesta": "rusia"
+    },
+    {
+      "pregunta": "¿Quiénes son los profesionales del derecho que levantan las actas?",
+      "respuesta": "notarios"
+    },
+    {
+      "pregunta": "¿En qué país el Cardenal Mazarino pasó a ser el primer ministro?",
+      "respuesta": "francia"
+    },
+    {
+      "pregunta": "¿En qué monasterio murió Felipe II?",
+      "respuesta": "en el escorial"
+    }
+  ],
+  "Geografía": [
+    {
+      "pregunta": "¿Qué idioma es el más hablado en el planeta?",
+      "respuesta": "mandarin"
+    },
+    {
+      "pregunta": "¿Cuál es la capital actual de Marruecos?",
+      "respuesta": "rabat"
+    },
+    {
+      "pregunta": "¿Qué idioma europeo es una lengua oficial en Sudáfrica?",
+      "respuesta": "africano"
+    },
+    {
+      "pregunta": "¿Cuál es el país en el cual predomina el idioma tagálog?",
+      "respuesta": "filipinas"
+    },
+    {
+      "pregunta": "¿Cuál es la capital de Albania?",
+      "respuesta": "tirana"
+    },
+    {
+      "pregunta": "El río Po se localiza en un país europeo, ¿cuál es?",
+      "respuesta": "italia"
+    },
+    {
+      "pregunta": "¿Qué zona terrestre es la más profunda?",
+      "respuesta": "fosa de las marianas"
+    },
+    {
+      "pregunta": "¿A qué país pertenece la isla de Creta?",
+      "respuesta": "grecia"
+    },
+    {
+      "pregunta": "¿Dónde se encuentra la Casa Rosada?",
+      "respuesta": "argentina"
+    },
+    {
+      "pregunta": "¿Cuál es la montaña más alta de Europa?",
+      "respuesta": "monte elbrus"
+    },
+    {
+      "pregunta": "¿Cuál es el río más caudaloso del mundo?",
+      "respuesta": "amazonas"
+    },
+    {
+      "pregunta": "¿Cuál es la capital de Filipinas?",
+      "respuesta": "manila"
+    },
+    {
+      "pregunta": "¿En qué país de Europa se habla el magyar?",
+      "respuesta": "hungria"
+    },
+    {
+      "pregunta": "¿Cuál es el país del mundo que recibe más turistas?",
+      "respuesta": "francia"
+    },
+    {
+      "pregunta": "¿Qué cordillera separa Europa de Asia?",
+      "respuesta": "los montes urales"
+    },
+    {
+      "pregunta": "¿En qué países se encuentra el Everest?",
+      "respuesta": "china y nepal"
+    },
+    {
+      "pregunta": "¿Cuál es la capital de Letonia?",
+      "respuesta": "riga"
+    },
+    {
+      "pregunta": "¿Cuál es el símbolo nacional montañoso de Armenia?",
+      "respuesta": "monte ararat"
+    },
+    {
+      "pregunta": "¿Dónde se encuentran las ruinas de Angkor?",
+      "respuesta": "camboya"
+    },
+    {
+      "pregunta": "¿En qué países es oficial la lengua quechua?",
+      "respuesta": "bolivia, peru, ecuador"
+    },
+    {
+      "pregunta": "¿Qué festival hindú se llama a menudo 'el festival de las luces'?",
+      "respuesta": "diwali"
+    },
+    {
+      "pregunta": "¿Por qué descubridor se llama así Colombia?",
+      "respuesta": "cristobal colon"
+    },
+    {
+      "pregunta": "¿Cómo se llama el trozo de hielo que se desgaja de un glaciar y va flotando?",
+      "respuesta": "iceberg"
+    },
+    {
+      "pregunta": "¿En qué océano más allá de la costa de Australia está la Gran Barrera de Coral?",
+      "respuesta": "pacifico"
+    },
+    {
+      "pregunta": "¿Qué país europeo es un líder en la producción de tulipanes y queso Edam?",
+      "respuesta": "paises bajos"
+    },
+    {
+      "pregunta": "Las estalagmitas crecen hacia abajo desde el techo de las cuevas. ¿Verdadero o falso?",
+      "respuesta": "falso"
+    },
+    {
+      "pregunta": "¿Cuántos estados hay en Estados Unidos: 30, 40 o 50?",
+      "respuesta": "50"
+    },
+    {
+      "pregunta": "¿En qué país estás si te sientas en un sofá en Sofía?",
+      "respuesta": "bulgaria"
+    },
+    {
+      "pregunta": "¿Qué gran río español aparece y desaparece?",
+      "respuesta": "el guadiana"
+    },
+    {
+      "pregunta": "¿Qué país europeo es conocido como la 'isla esmeralda' por su exuberante paisaje verde?",
+      "respuesta": "irlanda"
+    }
+  ],
+  "Arte y Literatura": [
+    {
+      "pregunta": "¿Con qué nombre firmaba Van Gogh sus obras?",
+      "respuesta": "vincent"
+    },
+    {
+      "pregunta": "¿Quién pintó el 'Guernica'?",
+      "respuesta": "pablo picasso"
+    },
+    {
+      "pregunta": "¿Quién escribió 'Fausto'?",
+      "respuesta": "goethe"
+    },
+    {
+      "pregunta": "¿Qué filósofo creó el mito de la caverna?",
+      "respuesta": "platon"
+    },
+    {
+      "pregunta": "¿Quién es el último premio nobel español de literatura?",
+      "respuesta": "camilo jose cela"
+    },
+    {
+      "pregunta": "¿Quién es el autor de 'Poeta en Nueva York`?",
+      "respuesta": "federico garcia lorca"
+    },
+    {
+      "pregunta": "¿Cuál era el apodo de Miguel de Cervantes?",
+      "respuesta": "manco de lepanto"
+    },
+    {
+      "pregunta": "¿Qué pintor realizó la obra de 'La joven de la perla'?",
+      "respuesta": "johannes vermeer"
+    },
+    {
+      "pregunta": "¿Quién escribió 'La conjura de los necios'?",
+      "respuesta": "john kennedy toole"
+    },
+    {
+      "pregunta": "¿Quién pintó 'El grito'?",
+      "respuesta": "edvard munch"
+    },
+    {
+      "pregunta": "¿Qué novela está considerada como el mayor exponente de la literatura española?",
+      "respuesta": "don quijote de la mancha"
+    },
+    {
+      "pregunta": "¿Cuál es el libro más largo jamás publicado?",
+      "respuesta": "'en busca del tiempo perdido'"
+    },
+    {
+      "pregunta": "¿Quién es el autor de la Ilíada y la Odisea?",
+      "respuesta": "homero"
+    },
+    {
+      "pregunta": "¿Quién era el amor del Quijote?",
+      "respuesta": "dulcinea"
+    },
+    {
+      "pregunta": "¿En qué idioma escribía Rosalía de Castro, además de en castellano?",
+      "respuesta": "gallego"
+    },
+    {
+      "pregunta": "¿Quién es la autora de la obra 'Oda a Afrodita'?",
+      "respuesta": "safo de mitilene"
+    },
+    {
+      "pregunta": "¿Cómo se llama el caballo de Don Quijote de la Mancha?",
+      "respuesta": "rocinante"
+    },
+    {
+      "pregunta": "¿Qué animal mitológico da nombre a un libro de Thomas Hobbe?",
+      "respuesta": "leviatan"
+    },
+    {
+      "pregunta": "¿Quién escribió las aventuras de Sandokán?",
+      "respuesta": "emilio salgari"
+    },
+    {
+      "pregunta": "¿Quién pintó la Capilla Sixtina?",
+      "respuesta": "miguel angel"
+    },
+    {
+      "pregunta": "¿Qué cantante de jazz compuso un álbum titulado 'Glad Rag Doll'?",
+      "respuesta": "diana krall"
+    },
+    {
+      "pregunta": "¿Qué cuento en el que un pájaro pone huevos de oro está basado en una leyenda de la Grecia antigua?",
+      "respuesta": "mama oca o mama ganso"
+    },
+    {
+      "pregunta": "¿A qué huelen los niños en la novela de Roald Dahl Las Brujas?",
+      "respuesta": "caca de perro"
+    },
+    {
+      "pregunta": "¿Qué animal herbívoro se come a los padres de James en James y el melocotón gigante?",
+      "respuesta": "rinoceronte"
+    },
+    {
+      "pregunta": "¿Cuántos brazos tiene la antigua estatua griega conservada en el Louvre de París?",
+      "respuesta": "ninguno"
+    },
+    {
+      "pregunta": "¿Cómo se llama el padre de Zipi y Zape: ¿Alfombro, Pantuflo o Zapatillo?",
+      "respuesta": "pantuflo"
+    },
+    {
+      "pregunta": "¿Cómo se llama el mago en las historias del Rey Arturo?",
+      "respuesta": "merlin"
+    },
+    {
+      "pregunta": "¿Qué flor amarilla pintó muchas veces Vicent Van Gogh en sus cuadros?",
+      "respuesta": "girasoles"
+    },
+    {
+      "pregunta": "¿Cuál es el museo de arte más importante de Francia?",
+      "respuesta": "louvre"
+    },
+    {
+      "pregunta": "¿De qué saga mágica es 'El misterio del Príncipe' el sexto libro?",
+      "respuesta": "harry potter"
+    },
+    {
+      "pregunta": "¿Qué dos hermanos encontraron una casita de chocolate en el bosque?",
+      "respuesta": "hansel y gretel"
+    }
+  ],
+  "Ciencia": [
+    {
+      "pregunta": "¿Con qué nombre se conoce el miedo a las alturas?",
+      "respuesta": "acrofobia"
+    },
+    {
+      "pregunta": "¿Cómo se llama el ave más grande en la actualidad?",
+      "respuesta": "albatros"
+    },
+    {
+      "pregunta": "¿Cuáles son las células más importantes y numerosas del cerebro?",
+      "respuesta": "celulas nerviosas"
+    },
+    {
+      "pregunta": "¿Qué célula se encuentra tanto en humanos como en animales?",
+      "respuesta": "neurona"
+    },
+    {
+      "pregunta": "¿Cuál es la planta principal con la que se hace el tequila?",
+      "respuesta": "agave"
+    },
+    {
+      "pregunta": "¿Cómo se denominan a las bases del ADN?",
+      "respuesta": "guanina, adenina, timina, citosina"
+    },
+    {
+      "pregunta": "¿En qué lado del cuerpo está el hígado?",
+      "respuesta": "en el derecho"
+    },
+    {
+      "pregunta": "¿En qué mes el Sol está más cerca de la Tierra?",
+      "respuesta": "diciembre"
+    },
+    {
+      "pregunta": "¿Cuántos elementos tiene la tabla periódica?",
+      "respuesta": "118"
+    },
+    {
+      "pregunta": "¿Qué gas de la atmósfera nos protege de la radiación ultravioleta?",
+      "respuesta": "ozono"
+    },
+    {
+      "pregunta": "¿Cuál es la velocidad de la luz?",
+      "respuesta": "300.000 kilometros por segundo"
+    },
+    {
+      "pregunta": "¿Cómo se llaman las células con un núcleo diferenciado?",
+      "respuesta": "eucariotas"
+    },
+    {
+      "pregunta": "¿Qué ciencia estudia la sangre?",
+      "respuesta": "hematologia"
+    },
+    {
+      "pregunta": "¿Cuál es el elemento más abundante de la Tierra?",
+      "respuesta": "hidrogeno"
+    },
+    {
+      "pregunta": "¿Qué elemento está presente en absolutamente todas las moléculas orgánicas?",
+      "respuesta": "carbono"
+    },
+    {
+      "pregunta": "¿De qué parte del cuerpo se ocupa un podólogo?",
+      "respuesta": "de los pies"
+    },
+    {
+      "pregunta": "¿Qué es mayor: un átomo o una molécula?",
+      "respuesta": "una molecula"
+    },
+    {
+      "pregunta": "¿Qué ave son las clases barbijo, emperador o humboldt?",
+      "respuesta": "pinguinos"
+    },
+    {
+      "pregunta": "¿Qué par de órganos de tu cuerpo hacen la orina?",
+      "respuesta": "los rinones"
+    },
+    {
+      "pregunta": "¿Cómo se llama el número que está encima en una fracción?",
+      "respuesta": "numerador"
+    },
+    {
+      "pregunta": "¿Cuántos cuernos tenía el dinosaurio llamado tricerátops?",
+      "respuesta": "tres"
+    },
+    {
+      "pregunta": "¿Qué planeta, llamado así por la diosa romana del amor, es el segundo más cercano al sol?",
+      "respuesta": "venus"
+    },
+    {
+      "pregunta": "¿De qué pescado es la espina que a veces se les da a los dos periquitos como una fuente de calcio?",
+      "respuesta": "sepia"
+    },
+    {
+      "pregunta": "Un kilómetro es más largo que una milla. ¿Verdadero o falso?",
+      "respuesta": "falso"
+    },
+    {
+      "pregunta": "¿Qué tipo de energía se mueve por cables sujetos por torres de alta tensión?",
+      "respuesta": "electricidad"
+    },
+    {
+      "pregunta": "¿De qué gas está compuesto principalmente el aire: ¿nitrógeno, oxígeno o dióxido de carbono?",
+      "respuesta": "nitrogeno"
+    },
+    {
+      "pregunta": "¿Cuántas patas tiene un decápodo, como el cangrejo?",
+      "respuesta": "diez"
+    },
+    {
+      "pregunta": "¿De qué color son las flores de la planta del café?",
+      "respuesta": "blancas"
+    }
+  ],
+  "Entretenimiento": [
+    {
+      "pregunta": "¿En qué ciudad vive el mago de Oz?",
+      "respuesta": "ciudad esmeralda"
+    },
+    {
+      "pregunta": "¿En qué calle ficticia vivía Sherlock Holmes?",
+      "respuesta": "baker street"
+    },
+    {
+      "pregunta": "¿Qué famoso youtuber español tiene su propia serie de animación?",
+      "respuesta": "rubius"
+    },
+    {
+      "pregunta": "¿Cuál es el nombre del perro de Tintín?",
+      "respuesta": "milu"
+    },
+    {
+      "pregunta": "¿Cuál es la actriz protagonista de 'Desayuno con diamantes'?",
+      "respuesta": "audrey hepburn"
+    },
+    {
+      "pregunta": "¿Cómo se llamaba el cantante de Queen?",
+      "respuesta": "freddie mercury"
+    },
+    {
+      "pregunta": "¿Cuál es la película más taquillera de la historia?",
+      "respuesta": "endgame"
+    },
+    {
+      "pregunta": "¿Qué director español ganó un Óscar en 1973?",
+      "respuesta": "luis bunuel"
+    },
+    {
+      "pregunta": "¿En qué película se originó la expresión 'supercalifragilisticoespialidoso'?",
+      "respuesta": "mary poppins"
+    },
+    {
+      "pregunta": "¿En qué festival hay desfiles cuyos directores son escuelas de samba?",
+      "respuesta": "carnaval de brasil"
+    },
+    {
+      "pregunta": "¿Cuál es la compañía más popular en los últimos años del mundo del circo?",
+      "respuesta": "cirque du soleil"
+    },
+    {
+      "pregunta": "¿Quién es el actor protagonista de 'Ciudadano Kane'?",
+      "respuesta": "orson welles"
+    },
+    {
+      "pregunta": "¿A qué grupo musical pertenece la canción 'Master of Puppets'?",
+      "respuesta": "metallica"
+    },
+    {
+      "pregunta": "¿Qué artista ha ganado más premios Grammy?",
+      "respuesta": "georg solti"
+    },
+    {
+      "pregunta": "¿Cuál fue la primera película de Disney?",
+      "respuesta": "blancanieves"
+    },
+    {
+      "pregunta": "¿Cómo se llama el autor de 'Watchmen'?",
+      "respuesta": "alan moore"
+    },
+    {
+      "pregunta": "¿Quién interpretó a Hitler en 'El gran dictador'?",
+      "respuesta": "charles chaplin"
+    },
+    {
+      "pregunta": "¿Cómo se llama la ardilla en Ice Age?",
+      "respuesta": "scrat"
+    },
+    {
+      "pregunta": "¿Cómo se llama la dueña de Maz y Duke en la película Mascotas?",
+      "respuesta": "katie"
+    },
+    {
+      "pregunta": "¿Cuál de estos personajes NO pertenece a la pandilla de Scooby Doo: Velmabrad o Daphne?",
+      "respuesta": "brad"
+    },
+    {
+      "pregunta": "¿Con qué número se conoce a la chica con poderes especiales de la serie Stranger things?",
+      "respuesta": "once"
+    },
+    {
+      "pregunta": "¿Cómo se llaman los padres de Harry Potter?",
+      "respuesta": "lily y james potter"
+    },
+    {
+      "pregunta": "¿Qué montañas están cerca de la casa del abuelo de Heidi?",
+      "respuesta": "los alpes suizos"
+    },
+    {
+      "pregunta": "¿Quién es el mejor amigo de Doraemon?",
+      "respuesta": "nobita"
+    },
+    {
+      "pregunta": "¿Cómo se llama el equipo de Naruto?",
+      "respuesta": "equipo 7"
+    },
+    {
+      "pregunta": "¿Qué dibujos animados tienen a un equipo de rescatadores perrunos, un alcalde muy propenso a los accidentes y su pollo mascota?",
+      "respuesta": "la patrulla canina"
+    },
+    {
+      "pregunta": "¿Qué vende el padre de Matilda?",
+      "respuesta": "coches usados"
+    },
+    {
+      "pregunta": "¿De qué es un diminutivo 'Ed' en el nombre del cantante pelirrojo Ed Sheeran?",
+      "respuesta": "edward"
+    },
+    {
+      "pregunta": "¿De qué programa televisivo han sido coaches David Bisbal y Rosario Flores?",
+      "respuesta": "la voz kids"
+    },
+    {
+      "pregunta": "En Charlie y Lola, ¿cómo se llama el mejor amigo de Charlie?",
+      "respuesta": "marv"
+    },
+    {
+      "pregunta": "¿Nombra dos de las cuatro naciones del mundo de Avatar, la leyenda de Aang?",
+      "respuesta": "agua, tierra, fuego y aire"
+    },
+    {
+      "pregunta": "¿Qué animales son Ellie y Manny, de La edad de hielo?",
+      "respuesta": "mamuts"
+    },
+    {
+      "pregunta": "¿A dónde se dirige el Polar Express?",
+      "respuesta": "al polo norte"
+    },
+    {
+      "pregunta": "¿Doraemon es un gato robot o un gato normal?",
+      "respuesta": "un gato robot"
+    },
+    {
+      "pregunta": "¿Cuál es el símbolo de Batman?",
+      "respuesta": "murcielago"
+    }
+  ],
+  "Deportes": [
+    {
+      "pregunta": "¿Quién se proclamó como campeón del mundo en 2017 en la categoría de MotoGP?",
+      "respuesta": "marc marquez"
+    },
+    {
+      "pregunta": "¿Qué mote recibe el esquiador Michael Thomas Edwards?",
+      "respuesta": "aguila"
+    },
+    {
+      "pregunta": "¿En qué equipo de la NBA estuvo Manu Ginobili entre 2002 y 2018?",
+      "respuesta": "san antonio spurs"
+    },
+    {
+      "pregunta": "¿En qué ciudad nació Leo Messi?",
+      "respuesta": "rosario"
+    },
+    {
+      "pregunta": "¿En qué año se celebró el primer Mundial de fútbol?",
+      "respuesta": "1930"
+    },
+    {
+      "pregunta": "¿Qué selección ha ganado más mundiales de fútbol?",
+      "respuesta": "brasil"
+    },
+    {
+      "pregunta": "¿Cuándo ganó España su primer Mundial de fútbol?",
+      "respuesta": "2010"
+    },
+    {
+      "pregunta": "¿En qué deporte destacó Carl Lewis?",
+      "respuesta": "atletismo"
+    },
+    {
+      "pregunta": "¿Qué atleta ostenta el récord de los 100 metros lisos?",
+      "respuesta": "usain bolt"
+    },
+    {
+      "pregunta": "¿Quién es el máximo goleador histórico de los mundiales de fútbol?",
+      "respuesta": "miroslav klose"
+    },
+    {
+      "pregunta": "¿Cuántos jugadores hay en un equipo de voleibol?",
+      "respuesta": "6"
+    },
+    {
+      "pregunta": "¿Quién es el mejor jugador de ajedrez actualmente?",
+      "respuesta": "magnus carlsen"
+    },
+    {
+      "pregunta": "¿Cuál es el equipo de la NBA con más títulos?",
+      "respuesta": "boston celtics"
+    },
+    {
+      "pregunta": "¿Qué deporte se inventó James Naismith colocando una cesta de melocotones a cada lado de un gimnasio?",
+      "respuesta": "baloncesto"
+    },
+    {
+      "pregunta": "¿Qué deporte se puede practicar al estilo mariposa?",
+      "respuesta": "la natacion"
+    },
+    {
+      "pregunta": "¿Sobre qué se juega al curling?",
+      "respuesta": "hielo"
+    },
+    {
+      "pregunta": "¿En qué deporte se puede tirar al estilo Panenka?",
+      "respuesta": "futbol"
+    },
+    {
+      "pregunta": "¿De qué deporte fue precursor el snurfer, inventado en los sesenta por Sherman Poppen?",
+      "respuesta": "snowboard"
+    },
+    {
+      "pregunta": "¿Qué juego de raqueta se juega por parejas, entre cuatro paredes, usando una pala de mango corto para golpear la pelota?",
+      "respuesta": "el padel"
+    },
+    {
+      "pregunta": "¿Qué nombre de niño se usa para denominar el truco del monopatín en el que la cola se empuja al suelo, haciendo que tabla y piloto salten?",
+      "respuesta": "ollie"
+    },
+    {
+      "pregunta": "David Bechkam llevaba el número 7 cuando jugaba en el Manchester United. ¿A qué otro jugador, ahora en el Manchester United, pasó después ese número?",
+      "respuesta": "cristiano ronaldo"
+    },
+    {
+      "pregunta": "¿Cómo se llama el juego matemático que consiste en rellenar una cuadrícula con números del 1 al 9?",
+      "respuesta": "sudoku"
+    },
+    {
+      "pregunta": "¿Cuál de estas artes arciales viene de Corea: ¿el kárate, el taekwondo o el judo?",
+      "respuesta": "el taekwondo"
+    },
+    {
+      "pregunta": "¿En qué deporte se podría hacer un \"grito paralelo\": hípica, ciclismo o esquí?",
+      "respuesta": "esqui"
+    },
+    {
+      "pregunta": "¿Cuántas fichas tiene un jugador de bacgammón al inicio de la partida: 5, 10 o 15?",
+      "respuesta": "15"
+    },
+    {
+      "pregunta": "¿Cuál de estos deportes tiene la red más alta: ¿voleibol, bádminton o tenis?",
+      "respuesta": "voleibol"
+    },
+    {
+      "pregunta": "¿De qué juego de raqueta es campeona Carolina Marín?",
+      "respuesta": "badminton"
+    },
+    {
+      "pregunta": "¿En qué deporte hay un jugador que hace de \"boya\"?",
+      "respuesta": "waterpolo"
+    }
+  ]
+}

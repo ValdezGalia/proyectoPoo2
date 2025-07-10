@@ -29,39 +29,19 @@ public class SeleccionJugadorController {
 
     private final ListaJugador jugadoresDisponiblesJson = new ManipuladorUsuario().extraerDatoUsuario();
 
+    @FXML private Button btnAgregar;
 
-    @FXML
-    private Button btnAgregar;
+    @FXML private Button btnJugar;
 
-    @FXML
-    private Button btnJugar;
+    @FXML private Button btnQuitar;
 
-    @FXML
-    private Button btnQuitar;
+    @FXML private Button btnVolver;
 
-    @FXML
-    private Button btnVolver;
+    @FXML private Label lblStatus;
 
-    @FXML
-    private Label lblStatus;
+    @FXML private ListView<String> listaJugadoresDisponibles;
 
-    @FXML
-    private ListView<String> listaJugadoresDisponibles;
-
-    @FXML
-    private ListView<String> listaJugadoresTablero;
-
-    @FXML
-    private Label lbldatosdeljugador;
-
-    @FXML
-    private Label lblaliasjugador;
-
-    @FXML
-    private Button btndado;
-
-
-    private ListaJugador jugadoresDisponibles;
+    @FXML private ListView<String> listaJugadoresTablero;
 
 
     @FXML

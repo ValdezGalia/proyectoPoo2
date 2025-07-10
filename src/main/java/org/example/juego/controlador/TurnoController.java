@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -46,7 +45,7 @@ public class TurnoController {
 
     private DadoController dadoController;
 
-    private List<Jugador> rondaActual;
+    private List<Jugador> jugadoresRondaActual;
 
     private final List<Jugador> ordenFinal = new ArrayList<>();
 
@@ -59,7 +58,7 @@ public class TurnoController {
      */
     public void iniciarRonda(List<Jugador> jugadores) {
         this.jugadoresTablero = jugadores;
-        this.rondaActual = new ArrayList<>(jugadores);
+        this.jugadoresRondaActual = new ArrayList<>(jugadores);
         indiceJugador = 0;
         btnLanzarDado.setDisable(false);
         renderJugador();  // prepara UI para el primer de esta ronda
@@ -74,12 +73,12 @@ public class TurnoController {
     public void lanzarDado() {
 
         // Si aún no hemos inicializado la ronda, la iniciamos con todos los jugadores
-        if (rondaActual == null) {
+        if (jugadoresRondaActual == null) {
             iniciarRonda(jugadoresTablero);
         }
 
         // Ahora ya podemos usar rondaActual sin NPE
-        if (indiceJugador >= rondaActual.size()) {
+        if (indiceJugador >= jugadoresRondaActual.size()) {
             btnLanzarDado.setDisable(true);
             manejarFinDeRonda();
             return;
@@ -87,13 +86,13 @@ public class TurnoController {
 
         // igual que antes, lanzas el dado y en el callback:
         dadoController.clickDado(valor -> Platform.runLater(() -> {
-            if (indiceJugador < rondaActual.size()) {
-                Jugador j = rondaActual.get(indiceJugador);
+            if (indiceJugador < jugadoresRondaActual.size()) {
+                Jugador j = jugadoresRondaActual.get(indiceJugador);
                 j.setResultadoDado(valor);
                 System.out.println(j.getAlias() + " sacó: " + valor);
                 HelperLogin.mostrarStado(lblInfo, j.getAlias() + " saco: " + j.getResultadoDado(), true, true, "alert-success");
                 indiceJugador++;
-                if (indiceJugador < rondaActual.size()) {
+                if (indiceJugador < jugadoresRondaActual.size()) {
                     renderJugador();
                 } else {
                     btnLanzarDado.setDisable(true);
@@ -105,7 +104,7 @@ public class TurnoController {
 
     private void manejarFinDeRonda() {
         // Agrupar jugadores por puntuación
-        Map<Integer, List<Jugador>> agrupados = rondaActual.stream()
+        Map<Integer, List<Jugador>> agrupados = jugadoresRondaActual.stream()
                 .collect(Collectors.groupingBy(Jugador::getResultadoDado));
 
         // Buscar el valor mayor con más de un jugador (empate)
@@ -117,7 +116,7 @@ public class TurnoController {
         if (tieValueOpt.isPresent()) {
             int tieValue = tieValueOpt.get();
 
-            rondaActual.stream()
+            jugadoresRondaActual.stream()
                     .filter(j -> j.getResultadoDado() > tieValue)
                     .sorted(Comparator.comparingInt(Jugador::getResultadoDado).reversed()) // Orden correcto
                     .forEach(j -> {
@@ -133,7 +132,7 @@ public class TurnoController {
             iniciarRonda(new ArrayList<>(empatados));
         } else {
             // 1. Ordenamos los que quedan en esta ronda final (no hubo empate)
-            List<Jugador> restantesOrdenados = rondaActual.stream()
+            List<Jugador> restantesOrdenados = jugadoresRondaActual.stream()
                     .sorted(Comparator.comparingInt(Jugador::getResultadoDado).reversed())
                     .toList();
 
@@ -168,17 +167,21 @@ public class TurnoController {
             // Pasamos la lista al nuevo controlador
             TableroController ctrl = loader.getController();
             ListaJugador listaJugador = new ListaJugador(jugadoresOrdenados);
+
+            // ¡Se Settean los jugadores ya ordenados a la ventana del tablero final!
             ctrl.setJugadores(listaJugador);
+
             // Abrimos el nuevo tablero en un modal nuevo
-            Stage nuevoStage = new Stage();
-            nuevoStage.setScene(new Scene(root));
-            nuevoStage.initModality(Modality.APPLICATION_MODAL);
-            nuevoStage.setMaximized(true);
+            Stage viewPregunta = new Stage();
+            viewPregunta.setScene(new Scene(root));
+            viewPregunta.initModality(Modality.APPLICATION_MODAL);
+            viewPregunta.setMaximized(true);
+            viewPregunta.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/icono2.png"))));
             // Establecer el título de la ventana del tablero
-            nuevoStage.setTitle("Tablero Trivia UCAB");
+            viewPregunta.setTitle("");
             // Inyectar el stage al controlador para futuras referencias
-            ctrl.setStage(nuevoStage);
-            nuevoStage.show();
+            ctrl.setStage(viewPregunta);
+            viewPregunta.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -189,11 +192,11 @@ public class TurnoController {
      * Si es el primer jugador, también se encarga de renderizar el dado.
      */
     public void renderJugador() {
-        if (rondaActual == null || rondaActual.isEmpty()) {
+        if (jugadoresRondaActual == null || jugadoresRondaActual.isEmpty()) {
             return;
         }
 
-        Jugador jugadorEnTurno = rondaActual.get(indiceJugador);
+        Jugador jugadorEnTurno = jugadoresRondaActual.get(indiceJugador);
 
         String[] imgs = {"j1.jpg", "j2.jpg", "j3.jpg", "j4.jpg", "j5.jpg", "j6.jpg"};
         int avatarIndex = indiceJugador % imgs.length;

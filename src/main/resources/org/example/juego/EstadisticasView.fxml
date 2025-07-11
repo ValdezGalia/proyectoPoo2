@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.juego.controlador.EstadisticasController" spacing="15" alignment="CENTER" style="-fx-padding: 25;">
+    <children>
+        <Label text="Ranking de Jugadores" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+        <TableView fx:id="tablaEstadisticas" prefWidth="700" prefHeight="350">
+            <columns>
+                <TableColumn fx:id="colAlias" text="Alias" prefWidth="100" />
+                <TableColumn fx:id="colPartidasJugadas" text="Partidas Jugadas" prefWidth="100" />
+                <TableColumn fx:id="colPartidasGanadas" text="Ganadas" prefWidth="80" />
+                <TableColumn fx:id="colPartidasPerdidas" text="Perdidas" prefWidth="80" />
+                <TableColumn fx:id="colPreguntasPorCategoria" text="Correctas por Categoría" prefWidth="200" />
+                <TableColumn fx:id="colTiempoTotal" text="Tiempo Total Correctas (s)" prefWidth="140" />
+            </columns>
+        </TableView>
+        <Button text="Volver" onAction="#volver" style="-fx-font-size: 15px; -fx-padding: 8 30 8 30; -fx-background-radius: 10;" />
+    </children>
+</VBox>
+

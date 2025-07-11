@@ -11,6 +11,7 @@ public class Jugador {
     private int resultadoDado;
     private int filaActual;
     private int columnaActual;
+    private boolean rendido = false; // Agregado para soportar la lógica de rendición
 
     // Mapa para contar categorías respondidas correctamente
     private final Map<String, Integer> categoriasRespondidas = new HashMap<>();
@@ -82,5 +83,27 @@ public class Jugador {
 
     public Set<String> getQuesitosRellenos() {
         return quesitosRellenos;
+    }
+
+    public boolean isRendido() {
+        return rendido;
+    }
+
+    public void setRendido(boolean rendido) {
+        this.rendido = rendido;
+    }
+
+    // Devuelve la cantidad de categorías acertadas (quesitos rellenados)
+    public int getCategoriasAcertadas() {
+        return quesitosRellenos.size();
+    }
+
+    // Simulación de tiempo total de juego (puedes ajustar la lógica real)
+    private long tiempoTotal = 0L;
+    public long getTiempoTotal() {
+        return tiempoTotal;
+    }
+    public void setTiempoTotal(long tiempoTotal) {
+        this.tiempoTotal = tiempoTotal;
     }
 }

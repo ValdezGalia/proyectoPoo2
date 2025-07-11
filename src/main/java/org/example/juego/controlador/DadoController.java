@@ -69,3 +69,4 @@ public class DadoController {
         imgDado.setImage(new Image(Objects.requireNonNull(getClass().getResource("/img/cara" + valor + ".png")).toExternalForm()));
     }
 }
+

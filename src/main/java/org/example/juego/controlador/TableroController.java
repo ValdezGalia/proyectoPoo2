@@ -6,16 +6,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import org.example.juego.JuegoApplication;
 import org.example.juego.db.ManipuladorPregunta;
 import org.example.juego.modelo.*;
 import org.kordamp.bootstrapfx.BootstrapFX;
@@ -23,6 +21,7 @@ import org.kordamp.bootstrapfx.BootstrapFX;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import javafx.scene.input.KeyCode;
 
 
 public class TableroController implements Initializable {
@@ -31,6 +30,13 @@ public class TableroController implements Initializable {
     @FXML private VBox vboxJugadores;
     @FXML private AnchorPane Dado;
     @FXML private DadoController dadoController;
+
+    @FXML
+    private Button btnRendirse;
+    @FXML
+    private Button btnRegresar;
+    @FXML
+    private Button btnSalir;
 
     private int turno = 0;
     private ListaJugador jugadoresDisponibles;
@@ -42,7 +48,7 @@ public class TableroController implements Initializable {
     private Tablero modelo;
     private Stage stage;
     private Casilla casillaSeleccionada = null;
-
+    private boolean dadoLanzado = false;
 
 
     public void setStage(Stage stage) {
@@ -59,7 +65,6 @@ public class TableroController implements Initializable {
             ManipuladorPregunta pregunta = new ManipuladorPregunta();
             preguntasDisponibles = pregunta.getListaPreguntas();
             modelo = new Tablero();
-            // No inicializar el tablero aquí, se hará en setJugadores
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/DadoView.fxml"));
             Parent dadoRoot = loader.load();
             Dado.getChildren().clear();
@@ -68,11 +73,30 @@ public class TableroController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // Agregar listener para activar el dado con Enter
+        agregarListenerEnter();
+    }
+
+    private void agregarListenerEnter() {
+        // Esperar a que la escena esté lista
+        Dado.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                newScene.setOnKeyPressed(event -> {
+                    if (event.getCode() == KeyCode.ENTER) {
+                        onLanzarDado();
+                    }
+                });
+            }
+        });
     }
 
     @FXML
     public void onLanzarDado(){
-        dadoController.clickDado(this::onMovimientoJugador);
+        dadoLanzado = true;
+        dadoController.clickDado(valor -> {
+            onMovimientoJugador(valor);
+            dadoLanzado = false;
+        });
 
     }
 
@@ -82,12 +106,6 @@ public class TableroController implements Initializable {
             turno = 0;
         }
         jugadorTurno = jugadoresDisponibles.getUsuarios().get(turno);
-    }
-
-    @FXML
-    private void onSiguienteTurno() {
-        siguienteTurno();
-        setJugadores(jugadoresDisponibles);
     }
 
     public void setJugadores(ListaJugador jugadoresDisponibles) {
@@ -100,7 +118,7 @@ public class TableroController implements Initializable {
         if (modelo != null) {
             modelo.inicializarTablero(tablero, jugadores);
         }
-        // Limpiar el VBox antes de añadir jugadores
+        // Limpiar el VBox antes de a��adir jugadores
         vboxJugadores.getChildren().clear();
 
         // Crear un Accordion para los jugadores
@@ -178,9 +196,27 @@ public class TableroController implements Initializable {
             pane.setOnMouseClicked(evt -> {
                 casillaSeleccionada = posicionActual;
                 try {
-                    String categoria = obtenerCategoria(posicionActual.getColor());
-                    if(!categoria.equalsIgnoreCase("LIBRE")){
-                        renderVentanaPreguntas(posicionActual.getColor());
+                    String colorCasilla = posicionActual.getColor();
+                    String categoria = obtenerCategoria(colorCasilla);
+                    // Detectar si es el centro
+                    if ("CENTRO".equalsIgnoreCase(posicionActual.getTipo())) {
+                        modelo.moverFicha(tablero, casillaSeleccionada, jugadorTurno);
+                        if (jugadorTurno.getQuesitosRellenos().size() >= 6) {
+                            mostrarVentanaVictoria(jugadorTurno.getAlias());
+                            deshabilitarTablero();
+                        } else {
+                            siguienteTurno();
+                            setJugadores(jugadoresDisponibles);
+                        }
+                        casillaSeleccionada = null;
+                    } else if (colorCasilla != null && colorCasilla.equalsIgnoreCase("gray")) {
+                        // Solo mover la ficha, no abrir modal
+                        modelo.moverFicha(tablero, casillaSeleccionada, jugadorTurno);
+                        siguienteTurno();
+                        setJugadores(jugadoresDisponibles);
+                        casillaSeleccionada = null;
+                    } else if(!categoria.equalsIgnoreCase("LIBRE")){
+                        renderVentanaPreguntas(colorCasilla);
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -231,10 +267,20 @@ public class TableroController implements Initializable {
         nuevoStage.show();
     }
 
+    /**
+     * Método para obtener la lista de preguntas disponibles por categoria filtrada.
+     * @param preguntasCategorias Lista de preguntas por categoría.
+     * @return Una pregunta aleatoria de la lista de preguntas filtrada por categoría.
+     * */
     public Pregunta preguntaRandom(ListaPreguntas preguntasCategorias){
         return preguntasCategorias.getPreguntas().get(new Random().nextInt(preguntasCategorias.sizeListaPreguntas()));
     }
 
+    /**
+     * Método para obtener la categoría correspondiente a un color de categoría segun la casilla actual.
+     * @param colorCategoria El color de la categoría (ej. "yellow", "green", etc.)
+     * @return La categoría correspondiente como String.
+     * */
     public String obtenerCategoria(String colorCategoria){
         String categoriaCorrespondiente = "";
         switch (colorCategoria){
@@ -261,6 +307,182 @@ public class TableroController implements Initializable {
             break;
         }
         return categoriaCorrespondiente;
+    }
+
+    private void mostrarVentanaVictoria(String aliasGanador) {
+        Stage stageVictoria = new Stage();
+        VBox root = new VBox();
+        root.setSpacing(20);
+        root.setStyle("-fx-padding: 40; -fx-alignment: center; -fx-background-color: #eaffea;");
+        Label label = new Label("¡" + aliasGanador + " ha ganado la partida!\n¡Felicidades!");
+        label.setStyle("-fx-font-size: 22px; -fx-text-fill: #28a745; -fx-font-weight: bold;");
+        Button btnSalir = new Button("Salir");
+        Button btnReiniciar = new Button("Reiniciar partida");
+        btnSalir.setStyle("-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-size: 16px;");
+        btnReiniciar.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 16px;");
+        btnSalir.setOnAction(e -> System.exit(0));
+        btnReiniciar.setOnAction(e -> {
+            stageVictoria.close();
+            reiniciarPartida();
+        });
+        root.getChildren().addAll(label, btnReiniciar, btnSalir);
+        stageVictoria.setScene(new Scene(root));
+        stageVictoria.setTitle("¡Victoria!");
+        stageVictoria.initModality(Modality.APPLICATION_MODAL);
+        stageVictoria.setOnCloseRequest(e -> e.consume()); // Evita cerrar con la X
+        stageVictoria.show();
+    }
+
+    private void reiniciarPartida() {
+        // Reiniciar posiciones y quesitos de los jugadores
+        for (Jugador jugador : jugadoresDisponibles.getUsuarios()) {
+            jugador.setFilaActual(10); // Centro
+            jugador.setColumnaActual(10);
+            jugador.getQuesitosRellenos().clear();
+            if (jugador.getCategoriasRespondidas() != null) {
+                jugador.getCategoriasRespondidas().clear();
+            }
+        }
+        turno = 0;
+        jugadorTurno = jugadoresDisponibles.getUsuarios().get(turno);
+        tablero.setDisable(false);
+        setJugadores(jugadoresDisponibles);
+    }
+
+    private void deshabilitarTablero() {
+        for (Pane p : highlighted) {
+            p.setOnMouseClicked(null);
+        }
+        tablero.setDisable(true);
+    }
+
+    @FXML
+    private void onRendirse() {
+        if (dadoLanzado) return; // No permitir rendirse después de lanzar el dado
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle("¿Seguro que deseas rendirte?");
+        Label label = new Label("¿Estás seguro que deseas rendirte? Perderás la partida.");
+        label.setStyle("-fx-font-size: 16px; -fx-text-fill: #c0392b; -fx-font-weight: bold; -fx-padding: 10 0 20 0;");
+        Button btnSi = new Button("Sí, rendirse");
+        Button btnNo = new Button("No");
+        btnSi.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 8 20 8 20; -fx-background-radius: 8;");
+        btnNo.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 8 20 8 20; -fx-background-radius: 8;");
+        HBox hBox = new HBox(20, btnSi, btnNo);
+        hBox.setStyle("-fx-alignment: center;");
+        VBox vbox = new VBox(20, label, hBox);
+        vbox.setStyle("-fx-padding: 30; -fx-background-color: #f9ebea; -fx-alignment: center; -fx-border-color: #e74c3c; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;");
+        Scene scene = new Scene(vbox);
+        dialog.setScene(scene);
+        btnSi.setOnAction(e -> {
+            dialog.close();
+            ejecutarRendicion();
+        });
+        btnNo.setOnAction(e -> {
+            dialog.close();
+            // No hacer nada más, solo cerrar la ventana
+        });
+        dialog.showAndWait();
+    }
+
+    private void ejecutarRendicion() {
+        // Marcar como rendido
+        jugadorTurno.setRendido(true);
+        // Eliminar ficha visual del tablero
+        if (modelo != null && tablero != null) {
+            javafx.scene.Node ficha = modelo.getFichaVisual(jugadorTurno);
+            if (ficha != null) {
+                tablero.getChildren().remove(ficha);
+            }
+        }
+        // Quitar de la lista de jugadores activos
+        jugadoresDisponibles.eliminarUsuario(jugadorTurno);
+        int jugadoresActivos = (int) jugadoresDisponibles.getUsuarios().stream().filter(j -> !j.isRendido()).count();
+        if (jugadoresActivos == 0) {
+            List<Jugador> ganadores = obtenerGanadoresPorCategorias();
+            if (ganadores.size() == 1) {
+                mostrarMensaje("Fin de la partida", "El ganador es: " + ganadores.get(0).getAlias());
+            } else {
+                Jugador ganadorPorTiempo = obtenerGanadorPorTiempo(ganadores);
+                mostrarMensaje("Fin de la partida", "Empate en categorías. El ganador por menor tiempo es: " + ganadorPorTiempo.getAlias());
+            }
+            regresarAlMenu();
+        } else if (jugadoresActivos == 1 && jugadoresDisponibles.getUsuarios().size() == 1) {
+            Jugador otro = jugadoresDisponibles.getUsuarios().stream().filter(j -> !j.isRendido()).findFirst().get();
+            mostrarMensaje("Fin de la partida", "El ganador es: " + otro.getAlias());
+            regresarAlMenu();
+        } else if (jugadoresActivos == 1 && jugadoresDisponibles.getUsuarios().size() == 2) {
+            Jugador otro = jugadoresDisponibles.getUsuarios().stream().filter(j -> !j.isRendido()).findFirst().get();
+            if (otro.getCategoriasAcertadas() > jugadorTurno.getCategoriasAcertadas()) {
+                mostrarMensaje("Fin de la partida", "El ganador es: " + otro.getAlias());
+                regresarAlMenu();
+            } else {
+                mostrarMensaje("Continúa", "El otro jugador puede seguir jugando en solitario.");
+                siguienteTurno();
+                setJugadores(jugadoresDisponibles);
+            }
+        } else {
+            mostrarMensaje("Rendición", jugadorTurno.getAlias() + " se ha rendido. Continúan los demás jugadores.");
+            // Ajustar turno para que no apunte a un jugador eliminado
+            if (turno >= jugadoresDisponibles.getUsuarios().size()) {
+                turno = 0;
+            }
+            jugadorTurno = jugadoresDisponibles.getUsuarios().get(turno);
+            setJugadores(jugadoresDisponibles);
+        }
+    }
+
+    @FXML
+    private void onRegresar() {
+        regresarAlMenu();
+    }
+
+    @FXML
+    private void onSalir() {
+        // Cierra completamente la aplicación
+        javafx.application.Platform.exit();
+        System.exit(0);
+    }
+
+    private void regresarAlMenu() {
+        // Solo cerrar la ventana del tablero para volver a la selección de jugadores
+        Stage stage = (Stage) btnRegresar.getScene().getWindow();
+        stage.close();
+    }
+
+    private void mostrarMensaje(String titulo, String mensaje) {
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle(titulo);
+        VBox vbox = new VBox();
+        vbox.setSpacing(20);
+        vbox.setStyle("-fx-padding: 35; -fx-background-color: #f8f9fa; -fx-background-radius: 18; -fx-border-radius: 18; -fx-border-width: 3; -fx-border-color: #1a5276; -fx-alignment: center;");
+        Label label = new Label(mensaje);
+        label.setStyle("-fx-font-size: 17px; -fx-text-fill: #1a5276; -fx-font-family: 'Consolas Bold'; -fx-font-weight: bold; -fx-padding: 10 0 10 0;");
+        Button btnContinuar = new Button("Continuar");
+        btnContinuar.setStyle("-fx-background-color: #1a5276; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 8 30 8 30; -fx-cursor: hand;");
+        btnContinuar.setOnAction(e -> dialog.close());
+        vbox.getChildren().addAll(label, btnContinuar);
+        Scene scene = new Scene(vbox);
+        scene.getStylesheets().add(org.kordamp.bootstrapfx.BootstrapFX.bootstrapFXStylesheet());
+        dialog.setScene(scene);
+        dialog.setResizable(false);
+        dialog.showAndWait();
+    }
+
+    private List<Jugador> obtenerGanadoresPorCategorias() {
+        int max = jugadoresDisponibles.getUsuarios().stream().mapToInt(Jugador::getCategoriasAcertadas).max().orElse(0);
+        List<Jugador> ganadores = new ArrayList<>();
+        for (Jugador j : jugadoresDisponibles.getUsuarios()) {
+            if (j.getCategoriasAcertadas() == max) {
+                ganadores.add(j);
+            }
+        }
+        return ganadores;
+    }
+
+    private Jugador obtenerGanadorPorTiempo(List<Jugador> empatados) {
+        return empatados.stream().min(Comparator.comparingLong(Jugador::getTiempoTotal)).get();
     }
 
 }

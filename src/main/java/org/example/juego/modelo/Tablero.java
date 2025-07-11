@@ -31,8 +31,8 @@ public class Tablero {
     public void inicializarTablero(GridPane tablero, List<Jugador> jugadores) {
         // Solo crear casillas y colores si el tablero está vacío
         if (paneMap.isEmpty()) {
-            int filas = tablero.getRowCount();
-            int cols  = tablero.getColumnCount();
+            int filas = casillas.length;
+            int cols  = casillas[0].length;
             int filaCentral = filas / 2;
             int radio = filaCentral;
             for (int fila = 0; fila < filas; fila++) {

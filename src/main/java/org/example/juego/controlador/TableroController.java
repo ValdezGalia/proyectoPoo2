@@ -15,6 +15,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.juego.db.ManipuladorPregunta;
+import org.example.juego.helpers.SaveGameUtil;
 import org.example.juego.modelo.*;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
@@ -50,10 +51,36 @@ public class TableroController implements Initializable {
     private Casilla casillaSeleccionada = null;
     private boolean dadoLanzado = false;
 
+    // Nueva variable para guardar el máximo de quesitos del jugador rendido cuando quedan dos
+    private int maxQuesitosRivalRendido = -1;
+    private boolean jugandoContraRendido = false;
+    private Jugador ultimoRendido = null;
+
+    // Singleton para acceso global al estado de la partida
+    private static TableroController instanciaActiva;
+
+    public TableroController() {
+        instanciaActiva = this;
+    }
+
+    public static TableroController getInstanciaActiva() {
+        return instanciaActiva;
+    }
+
+    public ListaJugador getJugadoresDisponibles() {
+        return jugadoresDisponibles;
+    }
+
+    public int getTurno() {
+        return turno;
+    }
 
     public void setStage(Stage stage) {
         this.stage = stage;
         this.stage.setTitle("Tablero Trivia UCAB");
+        this.stage.setOnCloseRequest(event -> {
+            guardarPartida();
+        });
     }
 
     @Override
@@ -106,6 +133,7 @@ public class TableroController implements Initializable {
             turno = 0;
         }
         jugadorTurno = jugadoresDisponibles.getUsuarios().get(turno);
+        guardarPartida(); // Guardar después de cada cambio de turno
     }
 
     public void setJugadores(ListaJugador jugadoresDisponibles) {
@@ -118,24 +146,33 @@ public class TableroController implements Initializable {
         if (modelo != null) {
             modelo.inicializarTablero(tablero, jugadores);
         }
-        // Limpiar el VBox antes de a��adir jugadores
+        // Limpiar el VBox antes de añadir jugadores
         vboxJugadores.getChildren().clear();
 
         // Crear un Accordion para los jugadores
         Accordion accordion = new Accordion();
+        List<String> categorias = Tablero.getInstancia().getCategorias();
         for (int i = 0; i < jugadores.size(); i++) {
             Jugador jugador = jugadores.get(i);
             String texto = (i + 1) + ". " + jugador.getAlias() + " 🎲 " + jugador.getResultadoDado();
-            String infoTexto = "Información del jugador: Categoría respondida";
-            Label infoLabel = new Label(infoTexto);
-            VBox infoBox = new VBox(infoLabel);
+            // Mostrar categorías respondidas
+            VBox infoBox = new VBox();
+            infoBox.setSpacing(4);
+            Label infoLabel = new Label("Categorías respondidas:");
+            infoBox.getChildren().add(infoLabel);
+            for (String cat : categorias) {
+                boolean respondida = jugador.getCategoriasRespondidas() != null && jugador.getCategoriasRespondidas().containsKey(cat);
+                Label catLabel = new Label((respondida ? "✔️ " : "❌ ") + cat);
+                catLabel.setStyle(respondida ? "-fx-text-fill: green;" : "-fx-text-fill: #b2bec3;");
+                infoBox.getChildren().add(catLabel);
+            }
             infoBox.setStyle("-fx-background-color: #f1f1f1; -fx-padding: 8px 16px; -fx-background-radius: 0 0 10px 10px;");
             TitledPane pane = new TitledPane(texto, infoBox);
             // Si es el turno actual, poner en verde el TitledPane completo
             if (jugador == jugadorTurno) {
                 pane.setStyle("-fx-background-color: #28a745; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-text-fill: #145a23;");
                 // El gráfico será el nombre en verde oscuro y la flecha
-                Label turnoLabel = new Label(jugador.getAlias() + " ⬅ TURNO");
+                Label turnoLabel = new Label(jugador.getAlias() + " ��� TURNO");
                 turnoLabel.setStyle("-fx-text-fill: #145a23; -fx-font-weight: bold; -fx-font-size: 16px;");
                 pane.setText((i + 1) + ". 🎲 " + jugador.getResultadoDado());
                 pane.setGraphic(turnoLabel);
@@ -201,22 +238,26 @@ public class TableroController implements Initializable {
                     // Detectar si es el centro
                     if ("CENTRO".equalsIgnoreCase(posicionActual.getTipo())) {
                         modelo.moverFicha(tablero, casillaSeleccionada, jugadorTurno);
+                        guardarPartida();
                         if (jugadorTurno.getQuesitosRellenos().size() >= 6) {
                             mostrarVentanaVictoria(jugadorTurno.getAlias());
                             deshabilitarTablero();
                         } else {
+                            verificarVictoriaPorSuperarRival();
                             siguienteTurno();
                             setJugadores(jugadoresDisponibles);
                         }
                         casillaSeleccionada = null;
                     } else if (colorCasilla != null && colorCasilla.equalsIgnoreCase("gray")) {
-                        // Solo mover la ficha, no abrir modal
                         modelo.moverFicha(tablero, casillaSeleccionada, jugadorTurno);
+                        guardarPartida();
+                        verificarVictoriaPorSuperarRival();
                         siguienteTurno();
                         setJugadores(jugadoresDisponibles);
                         casillaSeleccionada = null;
                     } else if(!categoria.equalsIgnoreCase("LIBRE")){
                         renderVentanaPreguntas(colorCasilla);
+                        guardarPartida();
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -224,6 +265,20 @@ public class TableroController implements Initializable {
                 onMovimientoJugador(0);
             });
             highlighted.add(pane);
+        }
+    }
+
+    // Método para verificar si el jugador supera al rival rendido o si ya no puede ganar
+    private void verificarVictoriaPorSuperarRival() {
+        if (jugandoContraRendido && maxQuesitosRivalRendido >= 0 && jugadoresDisponibles.getUsuarios().size() == 1) {
+            if (jugadorTurno.getCategoriasAcertadas() > maxQuesitosRivalRendido) {
+                mostrarVentanaVictoria(jugadorTurno.getAlias());
+                deshabilitarTablero();
+            } else if (jugadorTurno.getQuesitosRellenos().size() + (6 - jugadorTurno.getQuesitosRellenos().size()) < maxQuesitosRivalRendido) {
+                // Si ya no puede alcanzar al rival rendido, termina la partida
+                mostrarMensaje("Fin de la partida", "No puedes superar la cantidad de quesitos del rival rendido. El juego termina.");
+                regresarAlMenu();
+            }
         }
     }
 
@@ -260,6 +315,7 @@ public class TableroController implements Initializable {
                     }
                 }
             }
+            guardarPartida(); // Guardar después de responder pregunta
             siguienteTurno();
             setJugadores(jugadoresDisponibles);
             casillaSeleccionada = null;
@@ -310,6 +366,7 @@ public class TableroController implements Initializable {
     }
 
     private void mostrarVentanaVictoria(String aliasGanador) {
+        guardarPartida(); // Guardar al ganar
         Stage stageVictoria = new Stage();
         VBox root = new VBox();
         root.setSpacing(20);
@@ -347,6 +404,7 @@ public class TableroController implements Initializable {
         jugadorTurno = jugadoresDisponibles.getUsuarios().get(turno);
         tablero.setDisable(false);
         setJugadores(jugadoresDisponibles);
+        guardarPartida(); // Guardar al reiniciar
     }
 
     private void deshabilitarTablero() {
@@ -359,6 +417,12 @@ public class TableroController implements Initializable {
     @FXML
     private void onRendirse() {
         if (dadoLanzado) return; // No permitir rendirse después de lanzar el dado
+        // Si está jugando solo tras rendición y tiene la misma cantidad de quesitos que el rival rendido, es empate
+        if (jugandoContraRendido && maxQuesitosRivalRendido >= 0 && jugadorTurno.getCategoriasAcertadas() == maxQuesitosRivalRendido) {
+            mostrarMensaje("Empate", "Ambos jugadores tienen la misma cantidad de categorías. El juego termina en empate.");
+            regresarAlMenu();
+            return;
+        }
         Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.setTitle("¿Seguro que deseas rendirte?");
@@ -388,6 +452,7 @@ public class TableroController implements Initializable {
     private void ejecutarRendicion() {
         // Marcar como rendido
         jugadorTurno.setRendido(true);
+        ultimoRendido = jugadorTurno;
         // Eliminar ficha visual del tablero
         if (modelo != null && tablero != null) {
             javafx.scene.Node ficha = modelo.getFichaVisual(jugadorTurno);
@@ -399,12 +464,17 @@ public class TableroController implements Initializable {
         jugadoresDisponibles.eliminarUsuario(jugadorTurno);
         int jugadoresActivos = (int) jugadoresDisponibles.getUsuarios().stream().filter(j -> !j.isRendido()).count();
         if (jugadoresActivos == 0) {
-            List<Jugador> ganadores = obtenerGanadoresPorCategorias();
-            if (ganadores.size() == 1) {
-                mostrarMensaje("Fin de la partida", "El ganador es: " + ganadores.get(0).getAlias());
+            // Si el último jugador abandona, el penúltimo rendido es el ganador
+            if (ultimoRendido != null) {
+                mostrarMensaje("Fin de la partida", "El ganador es: " + ultimoRendido.getAlias());
             } else {
-                Jugador ganadorPorTiempo = obtenerGanadorPorTiempo(ganadores);
-                mostrarMensaje("Fin de la partida", "Empate en categorías. El ganador por menor tiempo es: " + ganadorPorTiempo.getAlias());
+                List<Jugador> ganadores = obtenerGanadoresPorCategorias();
+                if (ganadores.size() == 1) {
+                    mostrarMensaje("Fin de la partida", "El ganador es: " + ganadores.get(0).getAlias());
+                } else {
+                    Jugador ganadorPorTiempo = obtenerGanadorPorTiempo(ganadores);
+                    mostrarMensaje("Fin de la partida", "Empate en categorías. El ganador por menor tiempo es: " + ganadorPorTiempo.getAlias());
+                }
             }
             regresarAlMenu();
         } else if (jugadoresActivos == 1 && jugadoresDisponibles.getUsuarios().size() == 1) {
@@ -413,12 +483,21 @@ public class TableroController implements Initializable {
             regresarAlMenu();
         } else if (jugadoresActivos == 1 && jugadoresDisponibles.getUsuarios().size() == 2) {
             Jugador otro = jugadoresDisponibles.getUsuarios().stream().filter(j -> !j.isRendido()).findFirst().get();
-            if (otro.getCategoriasAcertadas() > jugadorTurno.getCategoriasAcertadas()) {
+            maxQuesitosRivalRendido = jugadorTurno.getCategoriasAcertadas();
+            jugandoContraRendido = true;
+            // Permitir que el jugador restante siga jugando aunque tenga igual o menos quesitos
+            if (otro.getCategoriasAcertadas() > maxQuesitosRivalRendido) {
                 mostrarMensaje("Fin de la partida", "El ganador es: " + otro.getAlias());
                 regresarAlMenu();
+            } else if (otro.getCategoriasAcertadas() == maxQuesitosRivalRendido) {
+                mostrarMensaje("Continúa", "Puedes seguir jugando en solitario. Si te rindes ahora, será empate. Si superas la cantidad de categorías del rival rendido, ganas.");
+                turno = jugadoresDisponibles.getUsuarios().indexOf(otro);
+                jugadorTurno = otro;
+                setJugadores(jugadoresDisponibles);
             } else {
-                mostrarMensaje("Continúa", "El otro jugador puede seguir jugando en solitario.");
-                siguienteTurno();
+                mostrarMensaje("Continúa", "Puedes seguir jugando en solitario hasta superar la cantidad de categorías del rival rendido o completar todos los quesitos y llegar al centro.");
+                turno = jugadoresDisponibles.getUsuarios().indexOf(otro);
+                jugadorTurno = otro;
                 setJugadores(jugadoresDisponibles);
             }
         } else {
@@ -430,15 +509,32 @@ public class TableroController implements Initializable {
             jugadorTurno = jugadoresDisponibles.getUsuarios().get(turno);
             setJugadores(jugadoresDisponibles);
         }
+        guardarPartida(); // Guardar después de rendición
+    }
+
+    private void guardarPartida() {
+        try {
+            // Guardar siempre que haya al menos 1 jugador (incluyendo rendidos)
+            if (jugadoresDisponibles != null && jugadoresDisponibles.getUsuarios() != null && !jugadoresDisponibles.getUsuarios().isEmpty()) {
+                SaveGameUtil.guardarPartida(jugadoresDisponibles, turno);
+            } else {
+                // Si no hay jugadores, elimina el archivo de guardado
+                SaveGameUtil.guardarPartida(null, 0);
+            }
+        } catch (Exception e) {
+            System.err.println("Error al guardar la partida: " + e.getMessage());
+        }
     }
 
     @FXML
     private void onRegresar() {
+        guardarPartida(); // Guardar al regresar
         regresarAlMenu();
     }
 
     @FXML
     private void onSalir() {
+        guardarPartida(); // Guardar al salir
         // Cierra completamente la aplicación
         javafx.application.Platform.exit();
         System.exit(0);
@@ -483,6 +579,13 @@ public class TableroController implements Initializable {
 
     private Jugador obtenerGanadorPorTiempo(List<Jugador> empatados) {
         return empatados.stream().min(Comparator.comparingLong(Jugador::getTiempoTotal)).get();
+    }
+
+    public void setTurno(int turno) {
+        this.turno = turno;
+        if (jugadoresDisponibles != null && !jugadoresDisponibles.getUsuarios().isEmpty()) {
+            jugadorTurno = jugadoresDisponibles.getUsuarios().get(turno);
+        }
     }
 
 }

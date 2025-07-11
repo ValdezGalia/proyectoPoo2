@@ -35,12 +35,12 @@
             <String fx:value="btn" />
             <String fx:value="btn-default" />
          </styleClass></Button>
-    <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="270.0" text="Cargar partida">
+    <Button fx:id="btnCargarPartida" mnemonicParsing="false" prefHeight="43.0" prefWidth="270.0" text="Cargar partida" onAction="#cargarPartida">
          <styleClass>
             <String fx:value="btn" />
             <String fx:value="btn-primary" />
          </styleClass></Button>
-      <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="270.0" text="Estadisticas">
+      <Button fx:id="btnEstadisticas" mnemonicParsing="false" prefHeight="43.0" prefWidth="270.0" text="Estadisticas" onAction="#mostrarEstadisticas">
          <styleClass>
             <String fx:value="btn" />
             <String fx:value="btn-info" />

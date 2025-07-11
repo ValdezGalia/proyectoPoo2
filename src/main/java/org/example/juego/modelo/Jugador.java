@@ -19,6 +19,12 @@ public class Jugador {
     // Estado de quesitos rellenados por categoría
     private final Set<String> quesitosRellenos = new HashSet<>();
 
+    // Nuevos atributos para estadísticas
+    private int partidasJugadas = 0;
+    private int partidasGanadas = 0;
+    private int partidasPerdidas = 0;
+    private double tiempoTotalCorrectas = 0.0;
+
     public Jugador(String correo, String alias) {
         this.correo = correo;
         this.alias = alias;
@@ -105,5 +111,34 @@ public class Jugador {
     }
     public void setTiempoTotal(long tiempoTotal) {
         this.tiempoTotal = tiempoTotal;
+    }
+
+    // Métodos para estadísticas
+    public int getPartidasJugadas() {
+        return partidasJugadas;
+    }
+    public void setPartidasJugadas(int partidasJugadas) {
+        this.partidasJugadas = partidasJugadas;
+    }
+    public int getPartidasGanadas() {
+        return partidasGanadas;
+    }
+    public void setPartidasGanadas(int partidasGanadas) {
+        this.partidasGanadas = partidasGanadas;
+    }
+    public int getPartidasPerdidas() {
+        return partidasPerdidas;
+    }
+    public void setPartidasPerdidas(int partidasPerdidas) {
+        this.partidasPerdidas = partidasPerdidas;
+    }
+    public double getTiempoTotalCorrectas() {
+        return tiempoTotalCorrectas;
+    }
+    public void setTiempoTotalCorrectas(double tiempoTotalCorrectas) {
+        this.tiempoTotalCorrectas = tiempoTotalCorrectas;
+    }
+    public int getCorrectasPorCategoria(String categoria) {
+        return categoriasRespondidas.getOrDefault(categoria, 0);
     }
 }

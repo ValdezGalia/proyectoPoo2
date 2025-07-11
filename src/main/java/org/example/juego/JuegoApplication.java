@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
+import org.example.juego.controlador.TableroController;
+import org.example.juego.helpers.SaveGameUtil;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -31,6 +33,22 @@ public class JuegoApplication extends Application {
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/icono2.png"))));
         stage.setResizable(false);
         stage.setScene(scene);
+        // Hook global para guardar partida al cerrar la app
+        stage.setOnCloseRequest(event -> {
+            TableroController ctrl = TableroController.getInstanciaActiva();
+            if (ctrl != null && ctrl.getJugadoresDisponibles() != null) {
+                long activos = ctrl.getJugadoresDisponibles().getUsuarios().stream().filter(j -> !j.isRendido()).count();
+                try {
+                    if (activos > 1) {
+                        SaveGameUtil.guardarPartida(ctrl.getJugadoresDisponibles(), ctrl.getTurno());
+                    } else {
+                        SaveGameUtil.guardarPartida(null, 0);
+                    }
+                } catch (Exception e) {
+                    System.err.println("Error guardando partida al cerrar la app: " + e.getMessage());
+                }
+            }
+        });
         stage.show();
     }
 

@@ -24,6 +24,19 @@ public class Tablero {
     private final Map<Casilla, Pane> paneMap = new HashMap<>();
     private final Map<Jugador, Node> fichaPorJugador = new HashMap<>();
 
+    private static Tablero instancia;
+    private List<String> categorias = Arrays.asList("Historia", "Ciencia", "Arte", "Deportes", "Geografía", "Entretenimiento"); // Ajusta según tus categorías reales
+
+    public static Tablero getInstancia() {
+        if (instancia == null) {
+            instancia = new Tablero();
+        }
+        return instancia;
+    }
+    public List<String> getCategorias() {
+        return categorias;
+    }
+
     public Tablero() {
     }
 

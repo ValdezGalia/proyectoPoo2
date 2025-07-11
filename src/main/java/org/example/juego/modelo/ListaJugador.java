@@ -5,6 +5,7 @@ import java.util.LinkedList;
 public class ListaJugador {
 
     private LinkedList<Jugador> jugador;
+    private static ListaJugador instancia;
 
     public ListaJugador(LinkedList<Jugador> jugador) {
         this.jugador = jugador;
@@ -36,5 +37,12 @@ public class ListaJugador {
 
     public void eliminarUsuario(Jugador jugador){
         this.jugador.remove(jugador);
+    }
+
+    public static ListaJugador getInstancia() {
+        if (instancia == null) {
+            instancia = new ListaJugador();
+        }
+        return instancia;
     }
 }

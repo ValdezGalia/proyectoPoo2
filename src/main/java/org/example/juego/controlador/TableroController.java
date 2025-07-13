@@ -240,8 +240,7 @@ public class TableroController implements Initializable {
                         modelo.moverFicha(tablero, casillaSeleccionada, jugadorTurno);
                         guardarPartida();
                         if (jugadorTurno.getQuesitosRellenos().size() >= 6) {
-                            mostrarVentanaVictoria(jugadorTurno.getAlias());
-                            deshabilitarTablero();
+                            renderVentanaPreguntaFinal();
                         } else {
                             verificarVictoriaPorSuperarRival();
                             siguienteTurno();
@@ -282,6 +281,39 @@ public class TableroController implements Initializable {
         }
     }
 
+    private void renderVentanaPreguntaFinal() throws IOException {
+        // Selecciona una categoría aleatoria
+        List<String> categorias = Tablero.getInstancia().getCategorias();
+        String categoria = categorias.get(new Random().nextInt(categorias.size()));
+        Pregunta preguntaFinal = preguntaRandomPorCategoria(preguntasDisponibles.buscarPreguntaCategoria(categoria));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/PreguntasCategoriasView.fxml"));
+        Parent root = loader.load();
+        root.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+        PreguntasCategoriasController ctrl = loader.getController();
+        ctrl.getPaneColor().setStyle(""); // Puedes poner un color especial si quieres
+        ctrl.getLblCategoria().setText(categoria);
+        ctrl.getLblPregunta().setText(preguntaFinal.getPregunta());
+        ctrl.setRespuesta(preguntaFinal.getRespuesta());
+        Stage nuevoStage = new Stage();
+        nuevoStage.setScene(new Scene(root));
+        nuevoStage.initModality(Modality.APPLICATION_MODAL);
+        nuevoStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/img/icono2.png"))));
+        ctrl.setStage(nuevoStage);
+        ctrl.setOnAnswerComplete(correcto -> {
+            if (correcto) {
+                mostrarVentanaVictoria(jugadorTurno.getAlias());
+                deshabilitarTablero();
+            } else {
+                mostrarMensaje("¡Incorrecto!", "Debes volver a caer en el centro para intentar ganar.");
+                siguienteTurno();
+                setJugadores(jugadoresDisponibles);
+            }
+            casillaSeleccionada = null;
+        });
+        nuevoStage.show();
+    }
+
     private void renderVentanaPreguntas(String colorCasilla) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/juego/PreguntasCategoriasView.fxml"));
         Parent root = loader.load();
@@ -290,7 +322,7 @@ public class TableroController implements Initializable {
         PreguntasCategoriasController ctrl = loader.getController();
         ctrl.getPaneColor().setStyle("-fx-background-color: " +  colorCasilla + ";");
         ctrl.getLblCategoria().setText(categoria);
-        Pregunta preguntaAleatoriaCategoria = preguntaRandom(preguntasDisponibles.buscarPreguntaCategoria(categoria));
+        Pregunta preguntaAleatoriaCategoria = preguntaRandomPorCategoria(preguntasDisponibles.buscarPreguntaCategoria(categoria));
         ctrl.getLblPregunta().setText(preguntaAleatoriaCategoria.getPregunta());
         ctrl.setRespuesta(preguntaAleatoriaCategoria.getRespuesta());
         Stage nuevoStage = new Stage();
@@ -316,7 +348,9 @@ public class TableroController implements Initializable {
                 }
             }
             guardarPartida(); // Guardar después de responder pregunta
-            siguienteTurno();
+            if(!correcto){
+                siguienteTurno();
+            }
             setJugadores(jugadoresDisponibles);
             casillaSeleccionada = null;
         });
@@ -328,7 +362,7 @@ public class TableroController implements Initializable {
      * @param preguntasCategorias Lista de preguntas por categoría.
      * @return Una pregunta aleatoria de la lista de preguntas filtrada por categoría.
      * */
-    public Pregunta preguntaRandom(ListaPreguntas preguntasCategorias){
+    public Pregunta preguntaRandomPorCategoria(ListaPreguntas preguntasCategorias){
         return preguntasCategorias.getPreguntas().get(new Random().nextInt(preguntasCategorias.sizeListaPreguntas()));
     }
 

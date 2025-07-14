@@ -119,10 +119,11 @@ public class TableroController implements Initializable {
 
     @FXML
     public void onLanzarDado(){
+        if (dadoLanzado) return; // Evita lanzar el dado más de una vez por turno
         dadoLanzado = true;
         dadoController.clickDado(valor -> {
             onMovimientoJugador(valor);
-            dadoLanzado = false;
+            // dadoLanzado se reiniciará al cambiar de turno, no aquí
         });
 
     }
@@ -133,6 +134,7 @@ public class TableroController implements Initializable {
             turno = 0;
         }
         jugadorTurno = jugadoresDisponibles.getUsuarios().get(turno);
+        dadoLanzado = false; // Reinicia el estado del dado al cambiar de turno
         guardarPartida(); // Guardar después de cada cambio de turno
     }
 
